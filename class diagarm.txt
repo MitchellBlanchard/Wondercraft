@@ -1,0 +1,22 @@
+main.cpp
+
+game
+controller
+view
+model
+
+ Updateable      Transformable      Drawable
+        |                    \        /
+        |                DrawableGameEntity
+		|				        |
+		|				    EntityGroup
+		|                          - vector<DrawableGameEntity>
+	    | 				   /
+	   UpdateableEntityGroup
+	              - vector<DrawableGameEntity> drawList
+				  - vector<Updateable>         updateList
+				  
+Group layers
+  -  Group BGLayer
+  -  Group Main Layer
+  -  Group Foreground layer
