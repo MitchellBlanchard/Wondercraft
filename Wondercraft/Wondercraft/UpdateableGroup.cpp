@@ -1,8 +1,8 @@
 #include "UpdateableGroup.hpp"
 
-bool UpdateableGroup::contains(Updateable* u) {
+bool UpdateableGroup::contains(const Updateable& u) {
 	for (std::vector<Updateable*>::iterator it = updateList.begin(); it < updateList.end(); it++) {
-		if (*it == u) {
+		if (*it == &u) {
 			return true;
 			break;
 		}
@@ -10,13 +10,13 @@ bool UpdateableGroup::contains(Updateable* u) {
 	return false;
 }
 
-void UpdateableGroup::add(Updateable* u) {
-	updateList.push_back(u);
+void UpdateableGroup::add(Updateable& u) {
+	updateList.push_back(&u);
 }
 
-void UpdateableGroup::remove(Updateable* u) {
+void UpdateableGroup::remove(const Updateable& u) {
 	for (std::vector<Updateable*>::iterator it = updateList.begin(); it < updateList.end(); it++) {
-		if (*it == u) {
+		if (*it == &u) {
 			updateList.erase(it);
 			break;
 		}
@@ -24,7 +24,7 @@ void UpdateableGroup::remove(Updateable* u) {
 }
 
 void UpdateableGroup::update(float dt) {
-	for (std::vector<Updateable*>::iterator it = updateList.begin(); it < updateList.end(); it++) {
-		(*it)->update(dt);
+	for (int i = 0; i < updateList.size(); i++) {
+		updateList[i]->update(dt);
 	}
 }

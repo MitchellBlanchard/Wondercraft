@@ -5,9 +5,9 @@
 
 class UpdateableGroup : public Updateable {
 public:
-	bool contains(Updateable*);
-	void add(Updateable*);
-	void remove(Updateable*);
+	bool contains(const Updateable&);
+	void add(Updateable&);
+	void remove(const Updateable&);
 
 	void update(float deltaTime);
 
