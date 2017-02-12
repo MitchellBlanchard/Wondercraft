@@ -15,7 +15,7 @@ model
    
 Updateable                   sf::Transformable                                 sf::Drawable
      -update()                 -x, y, rotation, scale                              -draw()        (Updateable)
-        |                          |                            \              /           \     /
+        |                          |v                           \v             /           \     /
    UpdateableGroup               Entity                           DrawableGroup            Animated
 	- vector<Updateable>          - vector<Vector2f> vertices      - vector<Drawable>         - state
 		    			          - getTransformedVertices()                                  - frame
