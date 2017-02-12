@@ -6,22 +6,24 @@ controller
    - model
 
 view
-   - RenderableEntityGroup
+   - DrawableGroup
    - model
 
 model
-   - UpdateableEntityGroup
+   - UpdateableGroup
 
    
- Updateable           Transformable               Drawable
-        \       /                         \        /
-  UpdateableGameEntity                DrawableGameEntity
-		|				                      |
-UpdateableEntityGroup	              RenderableEntityGroup
-	- vector<UpdateableGameEntity>          - vector<DrawableGameEntity>
-
-
-				  
+Updateable                   sf::Transformable                                 sf::Drawable
+     -update()                 -x, y, rotation, scale                              -draw()        (Updateable)
+        |                          |                            \              /           \     /
+   UpdateableGroup               Entity                           DrawableGroup            Animated
+	- vector<Updateable>          - vector<Vector2f> vertices      - vector<Drawable>         - state
+		    			          - getTransformedVertices()                                  - frame
+		    			          - contains(x, y)                                            - numFrames
+		        		          - collidesWith(Entity)                                      - stateDuration
+						                                    								  - nextFrame()
+																							  
+																							  
 Group layers
   -  Group BGLayer
   -  Group Main Layer
