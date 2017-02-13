@@ -8,6 +8,7 @@ public:
 	Controller(Model*, View*);
 
 	void inputs();
+	bool isRunning() const;
 
 private:
 	Model* model;

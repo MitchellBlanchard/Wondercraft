@@ -3,7 +3,3 @@
 Model::Model() {
 	
 }
-
-void Model::update(float dt) {
-
-}
