@@ -1,9 +1,10 @@
 #include "View.hpp"
 
 View::View(const Model* model) {
+	window.create(sf::VideoMode(960, 540), "Wondercraft");
 	this->model = model;
 
-	window.create(sf::VideoMode(960, 540), "Wondercraft");
+
 }
 
 sf::RenderWindow& View::getWindow() {
@@ -12,6 +13,6 @@ sf::RenderWindow& View::getWindow() {
 
 void View::render() {
 	window.clear();
-	window.draw(*model);
+	
 	window.display();
 }

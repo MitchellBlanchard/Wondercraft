@@ -3,7 +3,7 @@
 #include "UpdateableGroup.hpp"
 #include "DrawableGroup.hpp"
 
-class Model : public UpdateableGroup, public DrawableGroup {
+class Model : public UpdateableGroup {
 public:
 	Model();
 
