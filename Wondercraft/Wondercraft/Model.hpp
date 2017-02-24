@@ -9,14 +9,22 @@ class Model : public UpdateableGroup {
 public:
 	Model();
 
-	void readTerrain(std::string);
-	
-	int level_Height, level_Width;
-
-	Tile_Type** mapTiles;
+	/*
+		Initializes the level's 2D tile array (mapTiles) from a given image file.
+	*/
+	void readMapTiles(std::string filepath);
 
 private:
-	std::map<sf::Color, Tile_Type> tile_Conversion;
-	void init_Tyle_Type_Map();
+	std::map<sf::Color, Tile_Type> tileConversion;
+
+	/*
+		Maps sf::Color objects to Tile_Type enums. (Stored in the tileConversion member.)
+		These hardcoded colors will represent different types of tiles
+		when read from an image file.
+	*/
+	void initTyleTypeMap();
+
+	int levelHeight, levelWidth;
+	Tile_Type** mapTiles;
 	
 };

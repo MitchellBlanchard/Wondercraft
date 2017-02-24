@@ -4,33 +4,33 @@
 #include <fstream>
 
 Model::Model() {
-	init_Tyle_Type_Map();
+	initTyleTypeMap();
 }
 
-void Model::readTerrain(std::string filename) {
+void Model::readMapTiles(std::string filepath) {
 
 	sf::Image terrainImage;
-	terrainImage.loadFromFile(filename);
+	terrainImage.loadFromFile(filepath);
 
-	level_Height = terrainImage.getSize().y;
-	level_Width = terrainImage.getSize().x;
+	levelHeight = terrainImage.getSize().y;
+	levelWidth = terrainImage.getSize().x;
 
 	//initialize the array of tile types
-	mapTiles = new Tile_Type*[level_Height];
-	for (int i = 0; i < level_Height; i++) {
-		mapTiles[i] = new Tile_Type[level_Width];
+	mapTiles = new Tile_Type*[levelHeight];
+	for (int i = 0; i < levelHeight; i++) {
+		mapTiles[i] = new Tile_Type[levelWidth];
 	}
 	
 	sf::Color pixelColor;
 
-	for (int i = 0; i < level_Height; i++) {
-		for (int j = 0; j < level_Width; j++) {
+	for (int i = 0; i < levelHeight; i++) {
+		for (int j = 0; j < levelWidth; j++) {
 			pixelColor = terrainImage.getPixel(j, i);
-			mapTiles[i][j] = tile_Conversion[pixelColor];
+			mapTiles[i][j] = tileConversion[pixelColor];
 		}
 	}
 }
 
-void Model::init_Tyle_Type_Map() {
-	tile_Conversion[sf::Color::Black] = Stone;
+void Model::initTyleTypeMap() {
+	tileConversion[sf::Color::Black] = Stone;
 }
