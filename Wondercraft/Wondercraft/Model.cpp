@@ -4,7 +4,7 @@
 #include <fstream>
 
 Model::Model() {
-	
+	init_Tyle_Type_Map();
 }
 
 void Model::readTerrain(std::string filename) {
@@ -29,4 +29,8 @@ void Model::readTerrain(std::string filename) {
 			mapTiles[i][j] = tile_Conversion[pixelColor];
 		}
 	}
+}
+
+void Model::init_Tyle_Type_Map() {
+	tile_Conversion[sf::Color::Black] = Stone;
 }

@@ -16,7 +16,7 @@ public:
 	Tile_Type** mapTiles;
 
 private:
-
 	std::map<sf::Color, Tile_Type> tile_Conversion;
+	void init_Tyle_Type_Map();
 	
 };

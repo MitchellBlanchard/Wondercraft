@@ -1,5 +1,5 @@
 #pragma once
 
-enum Tile_Type { Stone, Grass, Dirt, Brick };
+enum Tile_Type { Stone };
 
 
