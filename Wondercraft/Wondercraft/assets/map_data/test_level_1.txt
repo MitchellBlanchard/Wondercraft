@@ -4,8 +4,6 @@ tile_set   : mountains
 
 left_wall   : false
 right_wall  : true
-bottom_wall : true
-top_wall    : false
 
 player_spawn : 2.25, 13.75
 

@@ -14,7 +14,14 @@ public:
 	*/
 	void readMapTiles(std::string filepath);
 
+	/*
+		Initializes the level's entities and other properties from a given text file.
+	*/
+	void readMapData(std::string filepath);
+
 private:
+	static std::string trim(std::string&);
+
 	/*
 		Returns the tile type associated with a color in the map_tiles image.
 		These associations are hard-coded into this function.
