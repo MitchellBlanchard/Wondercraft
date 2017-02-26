@@ -1,9 +1,9 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
 #include "UpdateableGroup.hpp"
 #include "DrawableGroup.hpp"
-
-#include "TileTypes.hpp"
+#include "TileType.hpp"
 
 class Model : public UpdateableGroup {
 public:
@@ -15,16 +15,12 @@ public:
 	void readMapTiles(std::string filepath);
 
 private:
-	std::map<sf::Color, Tile_Type> tileConversion;
-
 	/*
-		Maps sf::Color objects to Tile_Type enums. (Stored in the tileConversion member.)
-		These hardcoded colors will represent different types of tiles
-		when read from an image file.
+		Returns the tile type associated with a color in the map_tiles image.
+		These associations are hard-coded into this function.
 	*/
-	void initTyleTypeMap();
+	static TileType parseColor(const sf::Color&);
 
 	int levelHeight, levelWidth;
-	Tile_Type** mapTiles;
-	
+	TileType** mapTiles;
 };

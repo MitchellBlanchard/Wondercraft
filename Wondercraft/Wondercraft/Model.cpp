@@ -4,7 +4,7 @@
 #include <fstream>
 
 Model::Model() {
-	initTyleTypeMap();
+	
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -16,21 +16,20 @@ void Model::readMapTiles(std::string filepath) {
 	levelWidth = terrainImage.getSize().x;
 
 	//initialize the array of tile types
-	mapTiles = new Tile_Type*[levelHeight];
+	mapTiles = new TileType*[levelHeight];
 	for (int i = 0; i < levelHeight; i++) {
-		mapTiles[i] = new Tile_Type[levelWidth];
+		mapTiles[i] = new TileType[levelWidth];
 	}
 	
-	sf::Color pixelColor;
-
 	for (int i = 0; i < levelHeight; i++) {
 		for (int j = 0; j < levelWidth; j++) {
-			pixelColor = terrainImage.getPixel(j, i);
-			mapTiles[i][j] = tileConversion[pixelColor];
+			sf::Color pixelColor = terrainImage.getPixel(j, i);
+			mapTiles[i][j] = parseColor(pixelColor);
 		}
 	}
 }
 
-void Model::initTyleTypeMap() {
-	tileConversion[sf::Color::Black] = Stone;
+TileType Model::parseColor(const sf::Color& c) {
+	if (c == sf::Color::Black) return TileType::STONE;
+	else return TileType::NONE;
 }

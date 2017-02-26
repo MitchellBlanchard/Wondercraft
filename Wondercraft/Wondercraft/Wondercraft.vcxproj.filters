@@ -62,7 +62,7 @@
     <ClInclude Include="View.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TileTypes.hpp">
+    <ClInclude Include="TileType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

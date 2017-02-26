@@ -33,7 +33,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Model.hpp" />
-    <ClInclude Include="TileTypes.hpp" />
+    <ClInclude Include="TileType.hpp" />
     <ClInclude Include="Updateable.hpp" />
     <ClInclude Include="UpdateableGroup.hpp" />
     <ClInclude Include="View.hpp" />
