@@ -65,6 +65,7 @@ void Model::readMapData(std::string filepath) {
 
 		////////////////////////////////////////////// here we should check the key with a switch or if-else-if statements
 		////////////////////////////////////////////// then we should call functions etc. accordingly, using our arguments list
+		int rc = mapInitFunctions(key, args);
 
 		delete[] args;
 	}
@@ -73,4 +74,41 @@ void Model::readMapData(std::string filepath) {
 
 std::string Model::trim(std::string& str) {
 	return str.substr(str.find_first_not_of(' '), str.find_last_not_of(' ') - str.find_first_not_of(' '));
+}
+
+int Model::mapInitFunctions(std::string key, std::string* args) {
+	//check the key with hardcoded values
+
+	if (key == "level_name") {
+		//set the level name
+		this->level_name = args[0];
+	}
+
+	else if (key == "background") {
+		//set the background
+		this->background = args[0];
+	}
+
+	else if (key == "tile_set ") {
+		//set the tile set
+		this->tile_set = args[0];
+	}
+
+	else if (key == "left_wall") {
+		//call wall function
+	}
+
+	else if (key == "right_wall") {
+		//call wall function
+	}
+
+	else if (key == "player_spawn") {
+		//set the player spawn
+		this->playerSpawn.x = atoi(args[0].c_str()); //the x spawn value form the map data file
+		this->playerSpawn.y = atoi(args[1].c_str()); //the y spawn value from the map data file
+	}
+
+	else if (key == "entity") {
+		//call entity function
+	}
 }
