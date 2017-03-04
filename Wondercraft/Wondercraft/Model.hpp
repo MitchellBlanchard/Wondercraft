@@ -54,7 +54,7 @@ private:
 	sf::Vector2f playerSpawn;
 
 	Player* player;
-
+	std::vector<Entity*> entities;
 
 	//Map tile data read in from the map_tiles file
 	TileType** mapTiles;

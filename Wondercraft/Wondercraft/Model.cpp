@@ -9,6 +9,7 @@ Model::Model() {
 	readMapData("assets/map_data/test_level_1.txt");
 
 	player = new Player(playerSpawn);
+	entities.push_back(player);
 }
 
 void Model::readMapTiles(std::string filepath) {

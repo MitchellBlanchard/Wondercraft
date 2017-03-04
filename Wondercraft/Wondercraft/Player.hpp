@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 
-class Player : public Entity {
+class Player : public RectangleEntity {
 public:
 	Player(sf::Vector2f spawn);
 
