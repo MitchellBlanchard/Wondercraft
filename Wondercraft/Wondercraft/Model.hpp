@@ -10,6 +10,8 @@ class Model : public UpdateableGroup {
 public:
 	Model();
 
+	sf::Transformable camera;
+
 	/*
 		Initializes the level's 2D tile array (mapTiles) from a given image file.
 	*/
