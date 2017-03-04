@@ -54,18 +54,17 @@ void Model::readMapData(std::string filepath) {
 			if (value[i] == ',') numArgs++;
 
 		//split the value on the commas into an array of arguments
-		int argStart = 0;
+		std::string valCopy = value;
 		std::string* args = new std::string[numArgs];
 		for (int i = 0; i < numArgs-1; i++) {
-			int commaPos = value.find(',');
-			args[i] = trim(value.substr(argStart, commaPos - argStart));
-			argStart = commaPos + 1;
+			int commaPos = valCopy.find(',');
+			args[i] = trim(valCopy.substr(0, commaPos));
+			valCopy = valCopy.substr(commaPos + 1);
 		}
-		args[numArgs - 1] = trim(value.substr(argStart));
+		args[numArgs - 1] = trim(valCopy);
 
-		////////////////////////////////////////////// here we should check the key with a switch or if-else-if statements
-		////////////////////////////////////////////// then we should call functions etc. accordingly, using our arguments list
-		int rc = mapInitFunctions(key, args);
+		//initialize values based on the key and arguments
+		bool rc = mapInitFunctions(key, args, numArgs);
 
 		delete[] args;
 	}
@@ -73,42 +72,70 @@ void Model::readMapData(std::string filepath) {
 }
 
 std::string Model::trim(std::string& str) {
-	return str.substr(str.find_first_not_of(' '), str.find_last_not_of(' ') - str.find_first_not_of(' '));
+	return str.substr(str.find_first_not_of(' '), str.find_last_not_of(' ') + 1 - str.find_first_not_of(' '));
 }
 
-int Model::mapInitFunctions(std::string key, std::string* args) {
+bool Model::mapInitFunctions(std::string key, std::string* args, int numArgs) {
 	//check the key with hardcoded values
 
 	if (key == "level_name") {
 		//set the level name
 		this->level_name = args[0];
+
+		return true;
 	}
 
 	else if (key == "background") {
 		//set the background
 		this->background = args[0];
+
+		return true;
 	}
 
 	else if (key == "tile_set ") {
 		//set the tile set
 		this->tile_set = args[0];
+
+		return true;
 	}
 
 	else if (key == "left_wall") {
 		//call wall function
+
+		return true;
 	}
 
 	else if (key == "right_wall") {
 		//call wall function
+
+		return true;
 	}
 
 	else if (key == "player_spawn") {
 		//set the player spawn
-		this->playerSpawn.x = atoi(args[0].c_str()); //the x spawn value form the map data file
-		this->playerSpawn.y = atoi(args[1].c_str()); //the y spawn value from the map data file
+		this->playerSpawn.x = atof(args[0].c_str());
+		this->playerSpawn.y = atof(args[1].c_str());
+
+		return true;
 	}
 
 	else if (key == "entity") {
 		//call entity function
+		entityInitFunctions(args[0], args+1, numArgs-1);
+		return true;
 	}
+
+	else return false;
+}
+
+bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs) {
+	//check the key with hardcoded values
+
+	if (key == "fdnsjofdsnajkofdsnfad") {
+		//do something
+
+		return true;
+	}
+
+	else return false;
 }
