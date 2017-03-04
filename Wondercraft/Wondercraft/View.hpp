@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Model.hpp"
+#include "TextureLoader.hpp"
+
 #include <math.h>
 
 class View {
@@ -10,6 +12,9 @@ public:
 	const float TILE_SIZE = 64;
 
 	sf::RenderWindow& getWindow();
+	sf::Texture* getTexture(int, int);
+
+	TextureLoader levelTextures;
 
 	void render();
 

@@ -1,6 +1,6 @@
 level_name : Nathan's Test Level
 background : mountains
-tile_set   : mountains
+tile_set   : meadowTiles
 
 player_spawn : 2.25, 13.75
 

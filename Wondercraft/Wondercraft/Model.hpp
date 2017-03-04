@@ -22,6 +22,9 @@ public:
 	*/
 	void readMapData(std::string filepath);
 
+	//Map tile data read in from the map_tiles file
+	TileType** mapTiles;
+
 private:
 	static std::string trim(std::string&);
 
@@ -58,6 +61,5 @@ private:
 	Player* player;
 	std::vector<Entity*> entities;
 
-	//Map tile data read in from the map_tiles file
-	TileType** mapTiles;
+	
 };
