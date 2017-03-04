@@ -2,6 +2,7 @@
 
 #include "Model.hpp"
 #include "TextureLoader.hpp"
+#include "DrawableGroup.hpp"
 
 #include <math.h>
 
@@ -17,8 +18,10 @@ public:
 	sf::Texture* getTexture(int, int);
 
 	sf::Sprite background;
+	sf::Sprite player;
 
-	TextureLoader levelTextures;
+	TextureLoader* levelTextures;
+	TextureLoader* spriteTextures;
 
 	void render();
 	void updateTiles();

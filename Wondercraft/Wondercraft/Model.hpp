@@ -27,7 +27,13 @@ public:
 	//Map tile data read in from the map_tiles file
 	TileType** mapTiles;
 
+	Player* player;
+	//std::vector<Enemy*> enemies;
+	//std::vector<Projectile*> playerProjectiles;
+	//std::vector<Projectile*> enemyProjectiles;
+
 	int levelHeight, levelWidth;
+
 private:
 	static std::string trim(std::string&);
 
@@ -57,11 +63,6 @@ private:
 	std::string tile_set;
 
 	sf::Vector2f playerSpawn;
-
-	Player* player;
-	//std::vector<Enemy*> enemies;
-	//std::vector<Projectile*> playerProjectiles;
-	//std::vector<Projectile*> enemyProjectiles;
 
 	
 };

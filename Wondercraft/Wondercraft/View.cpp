@@ -3,7 +3,6 @@
 #include <cmath>
 
 View::View(Model* model) {
-
 	windowSize = sf::Vector2f(960, 540);
 
 	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Wondercraft");
@@ -13,11 +12,15 @@ View::View(Model* model) {
 	model->camera.x = windowSize.x / 2;
 	model->camera.y = windowSize.y / 2;
 
-	levelTextures = TextureLoader("assets/tilesets/meadowTiles/");
+	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
+	spriteTextures = new TextureLoader("assets/sprites/");
 
 	initSpriteArray();
 
-	background.setTexture(*(levelTextures.get("bg.png")));
+	background.setTexture(*(levelTextures->get("bg.png")));
+	
+	player.setTexture(*(spriteTextures->get("player.png")));
+	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2);
 }
 
 void View::initSpriteArray() {
@@ -43,12 +46,12 @@ sf::Texture* View::getTexture(int r, int c) {
 	switch (model->mapTiles[r][c]) {
 
 		case STONE:
-			return levelTextures.get("stone.png");
+			return levelTextures->get("stone.png");
 			std::cout << "Stone" << std::endl;
 			break;
 
 		default:
-			return levelTextures.get("nullTile.png");
+			return levelTextures->get("nullTile.png");
 			break;
 	}
 }
@@ -87,8 +90,10 @@ void View::render() {
 	window.clear();
 	
 	updateTiles();
+
 	//create a new render state
-	//sf::RenderStates cameraState = model->camera.getInverseTransform();
+	sf::RenderStates cameraState;
+	cameraState.transform.translate(windowSize.x/2 - model->camera.x, windowSize.y/2 - model->camera.y);
 
 	//draw the map sprites
 	
@@ -99,6 +104,9 @@ void View::render() {
 			window.draw(displaySprites[i][j]);
 		}
 	}
+
+	player.setPosition(model->player->getPosition().x * TILE_SIZE, model->player->getPosition().y * TILE_SIZE);
+	window.draw(player, cameraState);
     
 	window.display();
 }
