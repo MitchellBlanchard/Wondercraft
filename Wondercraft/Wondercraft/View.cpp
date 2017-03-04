@@ -59,11 +59,16 @@ sf::RenderWindow& View::getWindow() {
 
 void View::updateTiles() {
 	sf::Vector2f startingCoord;
-	startingCoord.x = model->camera.x - windowSize.x/2;
-	startingCoord.y = model->camera.y - windowSize.y/2;
+	startingCoord.x = model->camera.x - (windowSize.x/2 - TILE_SIZE/2);
+	startingCoord.y = model->camera.y - (windowSize.y/2 - fmod(windowSize.y, TILE_SIZE)/2);
 
-	int currentTileX = int(startingCoord.x / TILE_SIZE);
-	int currentTileY = int(startingCoord.y / TILE_SIZE);
+	int currentTileX = int(floor(startingCoord.x / TILE_SIZE));
+	//std::cout << currentTileX << std::endl;
+	int currentTileY = int(floor(startingCoord.y / TILE_SIZE));
+
+	//initialize the sprites
+	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
+	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	
 	float xOffset, yOffset;
 	xOffset = fmod(model->camera.x, TILE_SIZE);
@@ -73,7 +78,7 @@ void View::updateTiles() {
 		for (int col = 0; col < displaySprites[row].size(); col++) {
 			displaySprites[row][col].setPosition(TILE_SIZE * (col), TILE_SIZE * (row));
 			displaySprites[row][col].move(xOffset, -yOffset);
-			displaySprites[row][col].setTexture(*(getTexture(row + currentTileY, col + currentTileX)));
+			displaySprites[row][col].setTexture(*(getTexture(row + currentTileY, col - currentTileX)));
 		}
 	}
 }

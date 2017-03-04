@@ -135,5 +135,5 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 }
 
 void Model::update(float dt) {
-	//player.updatePosition()
+
 }

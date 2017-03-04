@@ -26,8 +26,8 @@ public:
 	std::vector<std::vector<sf::Sprite>> displaySprites;
 
 	sf::Vector2f windowSize;
-
 private:
+
 	void initSpriteArray();
 
 	sf::RenderWindow window;
