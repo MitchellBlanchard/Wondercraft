@@ -6,7 +6,7 @@
 #include "TileType.hpp"
 #include "Player.hpp"
 
-class Model : public UpdateableGroup {
+class Model : Updateable {
 public:
 	Model();
 
@@ -59,7 +59,9 @@ private:
 	sf::Vector2f playerSpawn;
 
 	Player* player;
-	std::vector<Entity*> entities;
+	std::vector<Enemy*> enemies;
+	std::vector<Projectile*> playerProjectiles;
+	std::vector<Projectile*> enemyProjectiles;
 
 	
 };
