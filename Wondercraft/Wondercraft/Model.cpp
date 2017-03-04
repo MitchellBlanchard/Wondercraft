@@ -8,8 +8,11 @@ Model::Model() {
 	readMapTiles("assets/map_tiles/test_level_1.png");
 	readMapData("assets/map_data/test_level_1.txt");
 
-	player = new Player(playerSpawn);
-	entities.push_back(player);
+	//player = new Player(playerSpawn);
+	//entities.push_back(player);
+
+	camera.x = 0;
+	camera.y = 0;
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -129,4 +132,8 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	}
 
 	else return false;
+}
+
+void Model::update(float dt) {
+
 }

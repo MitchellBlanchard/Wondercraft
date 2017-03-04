@@ -10,6 +10,7 @@ public:
 	~TextureLoader();
 
 	sf::Texture* get(std::string key);
+
 	bool isLoaded(std::string key);
 	bool unload(std::string key);
 	

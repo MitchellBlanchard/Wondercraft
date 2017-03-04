@@ -14,6 +14,7 @@ sf::Texture* TextureLoader::get(std::string key) {
 	if (isLoaded(key)) {
 		texture = map[key];
 	}
+
 	else {
 		sf::Image img;
 		if (img.loadFromFile(dir + key)) {

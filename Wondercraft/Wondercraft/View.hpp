@@ -1,27 +1,36 @@
 #pragma once
 
 #include "Model.hpp"
+#include "TextureLoader.hpp"
+
 #include <math.h>
 
 class View {
 public:
-	View(const Model*);
+	View(Model*);
+
+	Model* model;
 
 	const float TILE_SIZE = 64;
 
 	sf::RenderWindow& getWindow();
+	sf::Texture* getTexture(int, int);
+
+	sf::Sprite background;
+
+	TextureLoader levelTextures;
 
 	void render();
+	void updateTiles();
 
 	std::vector<std::vector<sf::Sprite>> displaySprites;
 
+	sf::Vector2f windowSize;
 private:
-
-	const Model* model;
 
 	void initSpriteArray();
 
 	sf::RenderWindow window;
 
-	sf::Vector2f windowSize;
+	
 };
