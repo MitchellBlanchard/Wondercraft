@@ -30,7 +30,7 @@ void Controller::inputs() {
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (model->camera.x - 0.1 + (view->windowSize.x / 2) > -((model->levelWidth - 1) * view->TILE_SIZE)) {
+		if (model->camera.x - 0.1 - (view->windowSize.x / 2) > -((model->levelWidth - 1) * view->TILE_SIZE - view->windowSize.x)) {
 			model->camera.x -= 0.1;
 		}
 	}

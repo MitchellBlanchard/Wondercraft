@@ -26,7 +26,7 @@ void View::initSpriteArray() {
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 
 	displaySprites.resize(numRows);
-
+	//std::cout << numCols << std::endl;
 	for (int i = 0; i < displaySprites.size(); i++) {
 		displaySprites[i].resize(numCols);
 	}

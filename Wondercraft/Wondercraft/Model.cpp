@@ -23,6 +23,7 @@ void Model::readMapTiles(std::string filepath) {
 	levelHeight = terrainImage.getSize().y;
 	levelWidth = terrainImage.getSize().x;
 
+	std::cout << levelWidth << std::endl;
 	//initialize the array of tile types
 	mapTiles = new TileType*[levelHeight];
 	for (int i = 0; i < levelHeight; i++) {
