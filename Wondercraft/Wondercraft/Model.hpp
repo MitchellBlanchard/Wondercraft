@@ -4,6 +4,7 @@
 #include "UpdateableGroup.hpp"
 #include "DrawableGroup.hpp"
 #include "TileType.hpp"
+#include "Player.hpp"
 
 class Model : public UpdateableGroup {
 public:
@@ -52,10 +53,9 @@ private:
 
 	sf::Vector2f playerSpawn;
 
+	Player* player;
 
-	/*
-		Map tile data read in from the map tile file
-	*/
 
+	//Map tile data read in from the map_tiles file
 	TileType** mapTiles;
 };

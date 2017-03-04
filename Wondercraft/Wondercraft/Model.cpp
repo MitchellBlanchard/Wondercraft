@@ -7,6 +7,8 @@
 Model::Model() {
 	readMapTiles("assets/map_tiles/test_level_1.png");
 	readMapData("assets/map_data/test_level_1.txt");
+
+	player = new Player(playerSpawn);
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -95,18 +97,6 @@ bool Model::mapInitFunctions(std::string key, std::string* args, int numArgs) {
 	else if (key == "tile_set ") {
 		//set the tile set
 		this->tile_set = args[0];
-
-		return true;
-	}
-
-	else if (key == "left_wall") {
-		//call wall function
-
-		return true;
-	}
-
-	else if (key == "right_wall") {
-		//call wall function
 
 		return true;
 	}

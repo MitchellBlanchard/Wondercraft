@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableGroup.cpp" />
+    <ClCompile Include="RectangleEntity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -30,9 +31,10 @@
   <ItemGroup>
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
-    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="RectangleEntity.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Model.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="TileType.hpp" />
     <ClInclude Include="Updateable.hpp" />
     <ClInclude Include="UpdateableGroup.hpp" />
