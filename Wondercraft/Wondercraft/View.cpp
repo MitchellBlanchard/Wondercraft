@@ -76,7 +76,7 @@ void View::updateTiles() {
 
 	for (int row = 0; row < displaySprites.size(); row++) {
 		for (int col = 0; col < displaySprites[row].size(); col++) {
-			displaySprites[row][col].setPosition(TILE_SIZE * (col), TILE_SIZE * (row));
+			displaySprites[row][col].setPosition(TILE_SIZE * (col) - TILE_SIZE/2, TILE_SIZE * (row));
 			displaySprites[row][col].move(xOffset, -yOffset);
 			displaySprites[row][col].setTexture(*(getTexture(row + currentTileY, col - currentTileX)));
 		}
