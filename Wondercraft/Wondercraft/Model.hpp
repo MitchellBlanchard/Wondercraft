@@ -6,11 +6,13 @@
 #include "TileType.hpp"
 #include "Player.hpp"
 
-class Model : Updateable {
+class Model : public Updateable {
 public:
 	Model();
 
-	sf::Transformable camera;
+	void update(float);
+
+	sf::Vector2f camera;
 
 	/*
 		Initializes the level's 2D tile array (mapTiles) from a given image file.
@@ -25,6 +27,7 @@ public:
 	//Map tile data read in from the map_tiles file
 	TileType** mapTiles;
 
+	int levelHeight, levelWidth;
 private:
 	static std::string trim(std::string&);
 
@@ -46,9 +49,6 @@ private:
 	*/
 	bool entityInitFunctions(std::string, std::string*, int numArgs);
 
-
-	int levelHeight, levelWidth;
-
 	/*
 		Values used for initalizing and mainting the level data
 	*/
@@ -59,9 +59,9 @@ private:
 	sf::Vector2f playerSpawn;
 
 	Player* player;
-	std::vector<Enemy*> enemies;
-	std::vector<Projectile*> playerProjectiles;
-	std::vector<Projectile*> enemyProjectiles;
+	//std::vector<Enemy*> enemies;
+	//std::vector<Projectile*> playerProjectiles;
+	//std::vector<Projectile*> enemyProjectiles;
 
 	
 };

@@ -10,6 +10,9 @@ Model::Model() {
 
 	//player = new Player(playerSpawn);
 	//entities.push_back(player);
+
+	camera.x = 0;
+	camera.y = 0;
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -129,4 +132,8 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	}
 
 	else return false;
+}
+
+void Model::update(float dt) {
+
 }
