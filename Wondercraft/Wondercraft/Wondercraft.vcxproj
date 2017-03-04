@@ -26,6 +26,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="UpdateableGroup.cpp" />
     <ClCompile Include="View.cpp" />
@@ -33,7 +34,7 @@
   <ItemGroup>
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
-    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="FontLoader.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Model.hpp" />
