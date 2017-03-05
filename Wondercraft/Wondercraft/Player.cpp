@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include <cmath>
+#include <iostream>
 
 Player::Player(sf::Vector2f spawn){
 	float width = 1.5;
@@ -8,9 +9,12 @@ Player::Player(sf::Vector2f spawn){
 	ry = height / 2;
 
 	setPosition(spawn);
+
+	projectileCooldown = 0;
 }
 
-void Player::updatePosition(float dt, TileType** tiles) {
+void Player::updatePosition(float dt, TileType** tiles, int tilesWidth, int tilesHeight) {
+	/*
 	float dtRemaining = dt;
 
 	while (dtRemaining > 0) {
@@ -157,5 +161,22 @@ void Player::updatePosition(float dt, TileType** tiles) {
 		}
 
 		dtRemaining -= dtElapsed;
+	}
+	*/
+
+	//std::cout << "position: " << getPosition().x << " " << getPosition().y << std::endl;
+
+	move(velocity * dt);
+	for (int i = 0; i < 2 * rx; i++) {
+		for (int j = 0; j < 2 * ry; j++) {
+			sf::Vector2f checkPoint = getPosition() - sf::Vector2f(rx, ry) + sf::Vector2f(i, j);
+			if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < tilesWidth && checkPoint.y < tilesHeight) {
+				TileType& tile = tiles[int(checkPoint.y)][int(checkPoint.x)];
+				if (tile != TileType::NONE) {
+					move(-velocity * dt);
+					break;
+				}
+			}
+		}
 	}
 }

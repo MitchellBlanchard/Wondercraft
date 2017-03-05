@@ -5,6 +5,8 @@
 #include "DrawableGroup.hpp"
 #include "TileType.hpp"
 #include "Player.hpp"
+#include "Projectile.hpp"
+#include "Enemy.hpp"
 
 class Model : public Updateable {
 public:
@@ -26,13 +28,15 @@ public:
 
 	//Map tile data read in from the map_tiles file
 	TileType** mapTiles;
+	int levelHeight, levelWidth;
 
 	Player* player;
-	//std::vector<Enemy*> enemies;
-	//std::vector<Projectile*> playerProjectiles;
+	std::vector<Enemy*> enemies;
+	std::vector<Projectile*> playerProjectiles;
 	//std::vector<Projectile*> enemyProjectiles;
 
-	int levelHeight, levelWidth;
+	bool playerIsGrounded();
+	void playerShoot();
 
 private:
 	static std::string trim(std::string&);
@@ -63,6 +67,4 @@ private:
 	std::string tile_set;
 
 	sf::Vector2f playerSpawn;
-
-	
 };

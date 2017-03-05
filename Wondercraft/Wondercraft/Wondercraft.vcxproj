@@ -21,12 +21,13 @@
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableGroup.cpp" />
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FontLoader.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="UpdateableGroup.cpp" />
     <ClCompile Include="View.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Projectile.hpp" />
     <ClInclude Include="TextureLoader.hpp" />
     <ClInclude Include="TileType.hpp" />
     <ClInclude Include="Updateable.hpp" />

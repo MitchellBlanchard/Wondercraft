@@ -125,8 +125,8 @@ bool Model::mapInitFunctions(std::string key, std::string* args, int numArgs) {
 bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs) {
 	//check the key with hardcoded values
 
-	if (key == "fdnsjofdsnajkofdsnfad") {
-		//do something
+	if (key == "goober") {
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str()))));
 
 		return true;
 	}
@@ -135,5 +135,40 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 }
 
 void Model::update(float dt) {
+	//reduce shooting cooldown
+	if (player->projectileCooldown > 0)
+		player->projectileCooldown -= dt;
+	if (player->projectileCooldown < 0)
+		player->projectileCooldown = 0;
 
+	if (!playerIsGrounded())
+		player->velocity.y += 0.6;
+	else if (player->velocity.y > 0)
+		player->velocity.y = 0;
+	player->updatePosition(dt, mapTiles, levelWidth, levelHeight);
+
+	for (int i = 0; i < playerProjectiles.size(); i++) {
+		if (!playerProjectiles[i]->updatePosition(dt, mapTiles, levelWidth, levelHeight, enemies)) {
+			playerProjectiles.erase(playerProjectiles.begin() + i);
+		}
+	}
+
+	camera.x = player->getPosition().x * 64;
+	camera.y = player->getPosition().y * 64;
+}
+
+bool Model::playerIsGrounded() {
+	sf::Vector2f checkPoint = player->getPosition() + sf::Vector2f(0, player->ry + 0.05);
+	if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < levelWidth && checkPoint.y < levelHeight) {
+		TileType& tile = mapTiles[int(checkPoint.y)][int(checkPoint.x)];
+		return tile != TileType::NONE;
+	}
+	else return false;
+}
+
+void Model::playerShoot() {
+	if (player->projectileCooldown == 0) {
+		playerProjectiles.push_back(new Projectile(player->getPosition()));
+		player->projectileCooldown = player->PROJECTILE_MAX_COOLDOWN;
+	}
 }

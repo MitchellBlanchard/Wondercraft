@@ -5,12 +5,12 @@
 
 class Enemy : public sf::Transformable {
 public:
-	Enemy(sf::Vector2f pos, sf::Vector2f dim);
+	Enemy(sf::Vector2f spawn);
 	void updatePosition(float dt, Player* p);
-	void collision();
+
+	float rx, ry;
 
 protected:
-	float rx, ry;
 	sf::Vector2f velocity;
 
 private:
