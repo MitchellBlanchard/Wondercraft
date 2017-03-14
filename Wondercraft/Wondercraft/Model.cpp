@@ -153,8 +153,8 @@ void Model::update(float dt) {
 		}
 	}
 
-	camera.x = player->getPosition().x * 64;
-	camera.y = player->getPosition().y * 64;
+	camera.x = player->getPosition().x;
+	camera.y = player->getPosition().y;
 }
 
 bool Model::playerIsGrounded() {

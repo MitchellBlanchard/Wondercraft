@@ -26,6 +26,8 @@ public:
 	void render();
 	void updateTiles();
 
+	sf::Vector2f getStartingPos();
+
 	std::vector<std::vector<sf::Sprite>> displaySprites;
 
 	sf::Vector2f windowSize;
