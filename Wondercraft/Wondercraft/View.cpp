@@ -14,7 +14,7 @@ View::View(Model* model) {
 
 	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
 	spriteTextures = new TextureLoader("assets/sprites/");
-
+	 
 	initSpriteArray();
 
 	background.setTexture(*(levelTextures->get("bg.png")));
