@@ -85,7 +85,7 @@ void View::updateTiles() {
 	}
 
 	//std::cout << currentTileX << " : " << currentTileY << std::endl;
-	std::cout << "Starting Coord: " << startingCoord.x << " : " << startingCoord.y << " : "  << ", Current Tile: " << currentTileX << " : " << currentTileY  << ", Offset: " << xOffset << " : " << yOffset<< std::endl;
+	//std::cout << "Starting Coord: " << startingCoord.x << " : " << startingCoord.y << " : "  << ", Current Tile: " << currentTileX << " : " << currentTileY  << ", Offset: " << xOffset << " : " << yOffset<< std::endl;
 	for (int row = 0; row < displaySprites.size(); row++) {
 		for (int col = 0; col < displaySprites[row].size(); col++) {
 			displaySprites[row][col].setPosition(TILE_SIZE * (col), TILE_SIZE * (row));
@@ -126,7 +126,7 @@ void View::render() {
 	sf::Vector2f startingCoord = getStartingPos();
 
 	player.setPosition((model->player->getPosition().x - startingCoord.x) * TILE_SIZE, (model->player->getPosition().y - startingCoord.y)* TILE_SIZE);
-	std::cout << player.getPosition().x << " : " << player.getPosition().y << std::endl;
+	//std::cout << player.getPosition().x << " : " << player.getPosition().y << std::endl;
 	window.draw(player, cameraState);
 
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
