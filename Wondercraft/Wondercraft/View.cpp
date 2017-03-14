@@ -138,7 +138,7 @@ void View::render() {
 
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
-		enemy.setTexture(*spriteTextures->get("goober.png"));
+		enemy.setTexture(*spriteTextures->get("goober1.png"));
 		enemy.setPosition(( model->enemies[i]->getPosition() - startingCoord) * TILE_SIZE);
 		window.draw(enemy/*, cameraState*/);
 	}
