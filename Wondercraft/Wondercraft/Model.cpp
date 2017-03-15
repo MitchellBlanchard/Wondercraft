@@ -142,9 +142,9 @@ void Model::update(float dt) {
 		player->projectileCooldown = 0;
 
 	if (!playerIsGrounded())
-		player->velocity.y += 0.6;
-	else if (player->velocity.y > 0)
-		player->velocity.y = 0;
+		player->setVelocity(sf::Vector2f(player->getVelocity().x, player->getVelocity().y + 0.6));
+	else if (player->getVelocity().y > 0)
+		player->setVelocity(sf::Vector2f(player->getVelocity().x,0));
 	player->updatePosition(dt, mapTiles, levelWidth, levelHeight);
 
 	for (int i = 0; i < playerProjectiles.size(); i++) {
@@ -153,12 +153,12 @@ void Model::update(float dt) {
 		}
 	}
 
-	camera.x = player->getPosition().x;
-	camera.y = player->getPosition().y;
+	camera.x = player->position.x;
+	camera.y = player->position.y;
 }
 
 bool Model::playerIsGrounded() {
-	sf::Vector2f checkPoint = player->getPosition() + sf::Vector2f(0, player->ry + 0.05);
+	sf::Vector2f checkPoint = player->position + sf::Vector2f(0, (player->size.y)/2 + 0.05);
 	if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < levelWidth && checkPoint.y < levelHeight) {
 		TileType& tile = mapTiles[int(checkPoint.y)][int(checkPoint.x)];
 		return tile != TileType::NONE;
@@ -168,7 +168,7 @@ bool Model::playerIsGrounded() {
 
 void Model::playerShoot() {
 	if (player->projectileCooldown == 0) {
-		playerProjectiles.push_back(new Projectile(player->getPosition()));
+		playerProjectiles.push_back(new Projectile(player->position));
 		player->projectileCooldown = player->PROJECTILE_MAX_COOLDOWN;
 	}
 }

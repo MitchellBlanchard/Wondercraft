@@ -125,8 +125,7 @@ void View::render() {
 
 	sf::Vector2f startingCoord = getStartingPos();
 
-	player.setPosition((model->player->getPosition().x - startingCoord.x) * TILE_SIZE, (model->player->getPosition().y - startingCoord.y)* TILE_SIZE);
-	//std::cout << player.getPosition().x << " : " << player.getPosition().y << std::endl;
+	player.setPosition((model->player->position.x - startingCoord.x) * TILE_SIZE, (model->player->position.y - startingCoord.y)* TILE_SIZE);
 	window.draw(player, cameraState);
 
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
