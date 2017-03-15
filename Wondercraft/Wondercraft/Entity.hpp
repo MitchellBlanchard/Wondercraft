@@ -7,7 +7,6 @@ public:
 	Entity(sf::Vector2f& spawn);
 
 	sf::Vector2f position;
-	sf::Vector2f size;
 
 	sf::Vector2f getVelocity();
 	virtual void setVelocity(sf::Vector2f&);
