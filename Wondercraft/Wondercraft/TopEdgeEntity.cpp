@@ -1,5 +1,8 @@
 #include "TopEdgeEntity.hpp"
 
+#include "LeftEdgeEntity.hpp"
+#include "RightEdgeEntity.hpp"
+
 TopEdgeEntity::TopEdgeEntity(sf::Vector2f& position, float width)
 	: Entity(position), width(width) {}
 
@@ -8,8 +11,22 @@ float TopEdgeEntity::getRight() { return position.x + width / 2; }
 
 float TopEdgeEntity::collisionCalc(float deltaTime, Entity& e) {
 	//only colliding with bottom edges
-	if (velocity.y >= 0)
-		return -1;
+	{
+		if (velocity.y >= 0)
+			return -1;
+
+		LeftEdgeEntity* leftCast = dynamic_cast<LeftEdgeEntity*>(&e);
+		if (leftCast != NULL)
+			return -1;
+
+		RightEdgeEntity* rightCast = dynamic_cast<RightEdgeEntity*>(&e);
+		if (rightCast != NULL)
+			return -1;
+
+		TopEdgeEntity* topCast = dynamic_cast<TopEdgeEntity*>(&e);
+		if (topCast != NULL)
+			return -1;
+	}
 
 	if (!checkMovingAABB(deltaTime, e))
 		return -1;
@@ -24,7 +41,7 @@ float TopEdgeEntity::collisionCalc(float deltaTime, Entity& e) {
 	float xDisplacement = v.x / v.y * yDisplacement;
 
 	if (e.getRight() > getLeft() + xDisplacement
-		&& e.getLeft() < getRight() + xDisplacement) {
+			&& e.getLeft() < getRight() + xDisplacement) {
 		return yDisplacement / v.y;
 	}
 	else return -1;
