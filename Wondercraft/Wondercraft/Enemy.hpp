@@ -2,13 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
+#include "RectangleEntity.hpp"
 
-class Enemy : public sf::Transformable {
+class Enemy : public RectangleEntity {
 public:
 	Enemy(sf::Vector2f spawn);
 	void updatePosition(float dt, Player* p);
-
-	float rx, ry;
 
 protected:
 	sf::Vector2f velocity;

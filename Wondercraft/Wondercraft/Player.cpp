@@ -2,14 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-Player::Player(sf::Vector2f spawn){
-	float width = 1.5;
-	float height = 2.5;
-	rx = width / 2;
-	ry = height / 2;
-
-	setPosition(spawn);
-
+Player::Player(sf::Vector2f spawn): RectangleEntity(spawn, sf::Vector2f(1.5,2.5)){
 	projectileCooldown = 0;
 }
 
@@ -166,14 +159,14 @@ void Player::updatePosition(float dt, TileType** tiles, int tilesWidth, int tile
 
 	//std::cout << "position: " << getPosition().x << " " << getPosition().y << std::endl;
 
-	move(velocity * dt);
-	for (int i = 0; i < 2 * rx; i++) {
-		for (int j = 0; j < 2 * ry; j++) {
-			sf::Vector2f checkPoint = getPosition() - sf::Vector2f(rx, ry) + sf::Vector2f(i, j);
+	position += (velocity * dt);
+	for (int i = 0; i < 2 * (getSize().x / 2); i++) {
+		for (int j = 0; j < 2 * (getSize().y / 2); j++) {
+			sf::Vector2f checkPoint = position - sf::Vector2f((getSize().x / 2), (getSize().y / 2)) + sf::Vector2f(i, j);
 			if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < tilesWidth && checkPoint.y < tilesHeight) {
 				TileType& tile = tiles[int(checkPoint.y)][int(checkPoint.x)];
 				if (tile != TileType::NONE) {
-					move(-velocity * dt);
+					position += (-velocity * dt);
 					break;
 				}
 			}

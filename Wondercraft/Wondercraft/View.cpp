@@ -125,21 +125,21 @@ void View::render() {
 
 	sf::Vector2f startingCoord = getStartingPos();
 
-	player.setPosition((model->player->getPosition().x - startingCoord.x) * TILE_SIZE, (model->player->getPosition().y - startingCoord.y)* TILE_SIZE);
+	player.setPosition((model->player->position.x - startingCoord.x) * TILE_SIZE, (model->player->position.y - startingCoord.y)* TILE_SIZE);
 	//std::cout << player.getPosition().x << " : " << player.getPosition().y << std::endl;
 	window.draw(player, cameraState);
 
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition((model->playerProjectiles[i]->getPosition() - startingCoord) * TILE_SIZE);
+		projectile.setPosition((model->playerProjectiles[i]->position - startingCoord) * TILE_SIZE);
 		window.draw(projectile/*, cameraState*/);
 	}
 
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
 		enemy.setTexture(*spriteTextures->get("goober1.png"));
-		enemy.setPosition(( model->enemies[i]->getPosition() - startingCoord) * TILE_SIZE);
+		enemy.setPosition(( model->enemies[i]->position - startingCoord) * TILE_SIZE);
 		window.draw(enemy/*, cameraState*/);
 	}
     
