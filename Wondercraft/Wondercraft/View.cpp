@@ -131,7 +131,7 @@ void View::render() {
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition((model->playerProjectiles[i]->getPosition() - startingCoord) * TILE_SIZE);
+		projectile.setPosition((model->playerProjectiles[i]->position - startingCoord) * TILE_SIZE);
 		window.draw(projectile/*, cameraState*/);
 	}
 
