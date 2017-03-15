@@ -2,14 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
-#include "Entity.hpp"
 
-class Enemy : public Entity {
+class Enemy : public sf::Transformable {
 public:
 	Enemy(sf::Vector2f spawn);
 	void updatePosition(float dt, Player* p);
-
-	float collisionCalc(float deltaTime, Entity&);
 
 	float rx, ry;
 

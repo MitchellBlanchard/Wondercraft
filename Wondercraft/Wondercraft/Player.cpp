@@ -10,7 +10,6 @@ Player::Player(sf::Vector2f spawn) : Entity(spawn){
 }
 
 float Player::collisionCalc(float deltaTime, Entity&) {
-	//placeholder for the actual collision calc function
 	return -1.0f;
 }
 
