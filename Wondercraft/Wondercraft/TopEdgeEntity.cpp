@@ -3,10 +3,29 @@
 TopEdgeEntity::TopEdgeEntity(sf::Vector2f& position, float width)
 	: Entity(position), width(width) {}
 
-sf::Vector2f TopEdgeEntity::getSize() { return sf::Vector2f(width, 0); }
 float TopEdgeEntity::getLeft() { return position.x - width / 2; }
 float TopEdgeEntity::getRight() { return position.x + width / 2; }
 
 float TopEdgeEntity::collisionCalc(float deltaTime, Entity& e) {
-	return -1;
+	//only colliding with bottom edges
+	if (velocity.y >= 0)
+		return -1;
+
+	if (!checkMovingAABB(deltaTime, e))
+		return -1;
+
+
+	sf::Vector2f v = velocity * deltaTime;
+
+	//potential collision, do more advanced checks
+
+	//relative displacement at the potential time of collision
+	float yDisplacement = e.getBottom() - getTop();
+	float xDisplacement = v.x / v.y * yDisplacement;
+
+	if (e.getRight() > getLeft() + xDisplacement
+		&& e.getLeft() < getRight() + xDisplacement) {
+		return yDisplacement / v.y;
+	}
+	else return -1;
 }
