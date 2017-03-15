@@ -10,6 +10,7 @@ public:
 
 	virtual float collisionCalc(float deltaTime, Entity&);
 
+	virtual sf::Vector2f getSize();
 	virtual float getTop();
 	virtual float getBottom();
 

@@ -4,23 +4,11 @@
 Entity::Entity(sf::Vector2f& position)
 		: position(position) {}
 
+sf::Vector2f Entity::getSize() { return sf::Vector2f(0, 0); }
 float Entity::getLeft() { return position.x; }
 float Entity::getRight() { return position.x; }
 float Entity::getTop() { return position.y; }
 float Entity::getBottom() { return position.y; }
-sf::Vector2f Entity::getSize() {
-	return sf::Vector2f(getRight() - getLeft(), getBottom() - getTop());
-}
-
-sf::Vector2f Entity::getVelocity() {
-	return velocity;
-}
-
-void Entity::setVelocity(sf::Vector2f& v) {
-	velocity = v;
-}
-
-
 
 bool Entity::checkAABB(Entity& e) {
 	//check if e is too far left

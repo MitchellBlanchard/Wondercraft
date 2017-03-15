@@ -1,27 +1,20 @@
 #include "Game.hpp"
 
-/*
-#include <SFML/Graphics.hpp>
+/*#include <SFML/Graphics.hpp>
 #include "LeftEdgeEntity.hpp"
 #include "RightEdgeEntity.hpp"
-#include "TopEdgeEntity.hpp"
-#include "BottomEdgeEntity.hpp"
-#include "RectangleEntity.hpp"
 #include <iostream>
 using namespace std;*/
 
 int main() {
-	/*RectangleEntity a(sf::Vector2f(0, 0), sf::Vector2f(20, 10));
-	a.setVelocity(sf::Vector2f(10, 30));
-	RectangleEntity b(sf::Vector2f(20, 17.5), sf::Vector2f(5, 2));
-	b.setVelocity(sf::Vector2f(-10, -30));
-
-	cout << "a (l,t,r,b):(" << a.getLeft() << ", " << a.getTop() << ", " << a.getRight() << ", " << a.getBottom() << ")" << endl;
-	cout << "a size: " << a.getSize().x << ", " << a.getSize().y << endl;
-	cout << "b (l,t,r,b):(" << b.getLeft() << ", " << b.getTop() << ", " << b.getRight() << ", " << b.getBottom() << ")" << endl;
-	cout << "b size: " << b.getSize().x << ", " << b.getSize().y << endl;
+	/*LeftEdgeEntity a(sf::Vector2f(10, 0), 10);
+	a.velocity = sf::Vector2f(-11, 11);
+	RightEdgeEntity b(sf::Vector2f(0, 0), 10);
 	cout << a.checkAABB(b) << " " << a.checkMovingAABB(1, b) << " " << a.collisionCalc(1, b) << endl;
-	cout << b.checkAABB(a) << " " << b.checkMovingAABB(1, a) << " " << b.collisionCalc(1, a) << endl;
+
+	a.position = sf::Vector2f(10, 10);
+	a.velocity = sf::Vector2f(-10, 1);
+	cout << a.checkAABB(b) << " " << a.checkMovingAABB(1, b) << " " << a.collisionCalc(1, b) << endl;
 
 	while (true);*/
 
