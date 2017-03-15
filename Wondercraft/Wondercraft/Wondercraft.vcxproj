@@ -19,32 +19,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BottomEdgeEntity.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableGroup.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Entity.hpp" />
     <ClCompile Include="FontLoader.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LeftEdgeEntity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RectangleEntity.cpp" />
+    <ClCompile Include="RightEdgeEntity.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="TopEdgeEntity.cpp" />
     <ClCompile Include="UpdateableGroup.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BottomEdgeEntity.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Enemy.hpp" />
+    <ClInclude Include="Entity.hpp" />
     <ClInclude Include="FontLoader.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="LeftEdgeEntity.hpp" />
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Projectile.hpp" />
+    <ClInclude Include="RectangleEntity.hpp" />
+    <ClInclude Include="RightEdgeEntity.hpp" />
     <ClInclude Include="TextureLoader.hpp" />
     <ClInclude Include="TileType.hpp" />
+    <ClInclude Include="TopEdgeEntity.hpp" />
     <ClInclude Include="Updateable.hpp" />
     <ClInclude Include="UpdateableGroup.hpp" />
     <ClInclude Include="View.hpp" />

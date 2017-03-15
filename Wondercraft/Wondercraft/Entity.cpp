@@ -1,53 +1,65 @@
 #include "Entity.hpp"
 
-Entity::Entity(sf::Vector2f& spawn) {
-	position = spawn;
+//Entity
+Entity::Entity(sf::Vector2f& position)
+		: position(position) {}
+
+sf::Vector2f Entity::getSize() { return sf::Vector2f(0, 0); }
+float Entity::getLeft() { return position.x; }
+float Entity::getRight() { return position.x; }
+float Entity::getTop() { return position.y; }
+float Entity::getBottom() { return position.y; }
+
+bool Entity::checkAABB(Entity& e) {
+	//check if e is too far left
+	if (e.getRight() < getLeft())
+		return false;
+
+	//check if e is too far right
+	if (e.getLeft() > getRight())
+		return false;
+
+	//check if e is too high
+	if (e.getBottom() < getTop())
+		return false;
+
+	//check if e is too low
+	if (e.getTop() > getBottom())
+		return false;
+
+	return true;
 }
 
-float Entity::collisionCalc(float dt, Entity& e) {
+bool Entity::checkMovingAABB(float deltaTime, Entity& e) {
+	sf::Vector2f v = velocity * deltaTime;
+
 	//check if e is too far left
 	float leftBound = getLeft();
-	if (velocity.x < 0) leftBound += velocity.x;
+	if (v.x < 0) leftBound += v.x;
 
 	if (e.getRight() < leftBound)
-		return -1;
+		return false;
 
 	//check if e is too far right
 	float rightBound = getRight();
-	if (velocity.x > 0) rightBound += velocity.x;
+	if (v.x > 0) rightBound += v.x;
 
 	if (e.getLeft() > rightBound)
-		return -1;
+		return false;
 
 	//check if e is too high
 	float topBound = getTop();
-	if (velocity.y < 0) topBound += velocity.y;
+	if (v.y < 0) topBound += v.y;
 
 	if (e.getBottom() < topBound)
-		return -1;
+		return false;
 
 	//check if e is too low
 	float bottomBound = getBottom();
-	if (velocity.y > 0) bottomBound += velocity.y;
+	if (v.y > 0) bottomBound += v.y;
 
 	if (e.getTop() > bottomBound)
-		return -1;
+		return false;
 
-
-	//potential collision, do more advanced checks depending on velocity direction
-
-	if (velocity.x < 0) {
-
-	}
-	else if (velocity.x > 0) {
-
-	}
-	else {
-
-	}
+	return true;
 }
-
-float Entity::getLeft() { return position.x - size.x; }
-float Entity::getRight() { return position.x + size.x; }
-float Entity::getTop() { return position.y - size.y; }
-float Entity::getBottom() { return position.y + size.y; }
