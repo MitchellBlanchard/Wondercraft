@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicTile.cpp" />
     <ClCompile Include="BottomEdgeEntity.cpp" />
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Controller.cpp" />
@@ -35,6 +36,8 @@
     <ClCompile Include="RectangleEntity.cpp" />
     <ClCompile Include="RightEdgeEntity.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="ThinPlatform.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TopEdgeEntity.cpp" />
     <ClCompile Include="UpdateableGroup.cpp" />
     <ClCompile Include="View.cpp" />
@@ -55,6 +58,9 @@
     <ClInclude Include="RectangleEntity.hpp" />
     <ClInclude Include="RightEdgeEntity.hpp" />
     <ClInclude Include="TextureLoader.hpp" />
+    <ClInclude Include="BasicTile.hpp" />
+    <ClInclude Include="ThinPlatform.hpp" />
+    <ClInclude Include="Tile.hpp" />
     <ClInclude Include="TileType.hpp" />
     <ClInclude Include="TopEdgeEntity.hpp" />
     <ClInclude Include="Updateable.hpp" />

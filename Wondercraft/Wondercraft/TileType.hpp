@@ -2,7 +2,6 @@
 
 enum TileType {
 	NONE,
-	STONE
+	STONE,
+	THIN
 };
-
-
