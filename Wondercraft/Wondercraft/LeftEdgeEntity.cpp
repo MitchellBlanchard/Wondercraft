@@ -3,7 +3,6 @@
 LeftEdgeEntity::LeftEdgeEntity(sf::Vector2f& position, float height)
 	: Entity(position), height(height) {}
 
-sf::Vector2f LeftEdgeEntity::getSize() { return sf::Vector2f(0, height); }
 float LeftEdgeEntity::getTop() { return position.y - height / 2; }
 float LeftEdgeEntity::getBottom() { return position.y + height / 2; }
 
