@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BottomEdgeEntity.cpp" />
+    <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawableGroup.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BottomEdgeEntity.hpp" />
+    <ClInclude Include="Collisions.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Enemy.hpp" />
