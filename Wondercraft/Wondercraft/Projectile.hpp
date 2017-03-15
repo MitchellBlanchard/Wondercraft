@@ -4,15 +4,14 @@
 #include <vector>
 #include "TileType.hpp"
 #include "Enemy.hpp"
-#include "Entity.hpp"
 
-class Projectile : public Entity {
+
+class Projectile : public sf::Transformable {
 public:
 	Projectile(sf::Vector2f spawn);
 	bool updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies);
 
-	float collisionCalc(float deltaTime, Entity&);
-
+	sf::Vector2f velocity;
 	float rx, ry;
 
 private:

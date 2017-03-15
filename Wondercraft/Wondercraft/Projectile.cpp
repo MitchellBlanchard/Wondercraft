@@ -2,23 +2,21 @@
 #include <cmath>
 #include <iostream>
 
-Projectile::Projectile(sf::Vector2f spawn) :Entity(spawn) {
-	size.x = 1.5;
-	size.y = 2.5;
+Projectile::Projectile(sf::Vector2f spawn) {
+	float width = 1.5;
+	float height = 2.5;
+	rx = width / 2;
+	ry = height / 2;
 
+	setPosition(spawn);
 	velocity.x = 5;
 }
 
-float Projectile::collisionCalc(float deltaTime, Entity&) {
-	return -1.0f;
-}
-
-
 bool Projectile::updatePosition(float dt, TileType** tiles, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies) {
-	position += (velocity * dt);
-	sf::Vector2f checkPoint = position;
+	move(velocity * dt);
+	sf::Vector2f checkPoint = getPosition();
 	for (int i = 0; i < enemies.size(); i++) {
-		if (checkPoint.x > enemies[i]->position.x - (enemies[i]->size.x / 2) 
+		if (checkPoint.x > enemies[i]->position.x - (enemies[i]->size.x / 2)
 			&& checkPoint.y > enemies[i]->position.y - (enemies[i]->size.y / 2)
 			&& checkPoint.x < enemies[i]->position.x + (enemies[i]->size.x / 2)
 			&& checkPoint.y < enemies[i]->position.y + (enemies[i]->size.y / 2)) {
