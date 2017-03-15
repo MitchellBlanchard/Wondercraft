@@ -16,10 +16,10 @@ bool Projectile::updatePosition(float dt, TileType** tiles, int tilesWidth, int 
 	move(velocity * dt);
 	sf::Vector2f checkPoint = getPosition();
 	for (int i = 0; i < enemies.size(); i++) {
-		if (checkPoint.x > enemies[i]->getPosition().x - enemies[i]->rx
-			&& checkPoint.y > enemies[i]->getPosition().y - enemies[i]->ry
-			&& checkPoint.x < enemies[i]->getPosition().x + enemies[i]->rx
-			&& checkPoint.y < enemies[i]->getPosition().y + enemies[i]->ry) {
+		if (checkPoint.x > enemies[i]->position.x - (enemies[i]->size.x / 2)
+			&& checkPoint.y > enemies[i]->position.y - (enemies[i]->size.y / 2)
+			&& checkPoint.x < enemies[i]->position.x + (enemies[i]->size.x / 2)
+			&& checkPoint.y < enemies[i]->position.y + (enemies[i]->size.y / 2)) {
 			enemies.erase(enemies.begin() + i);
 			return false;
 		}
