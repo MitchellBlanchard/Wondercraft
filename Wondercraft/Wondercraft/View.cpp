@@ -9,12 +9,12 @@ View::View(Model* model) {
 	
 	this->model = model;
 
-	model->camera.x = windowSize.x / 2;
-	model->camera.y = windowSize.y / 2;
+	//model->camera.x = (windowSize.x / 2)/TILE_SIZE;
+	//model->camera.y = (windowSize.y / 2)/TILE_SIZE;
 
 	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
 	spriteTextures = new TextureLoader("assets/sprites/");
-
+	 
 	initSpriteArray();
 
 	background.setTexture(*(levelTextures->get("bg.png")));
@@ -64,24 +64,43 @@ sf::RenderWindow& View::getWindow() {
 }
 
 void View::updateTiles() {
-	sf::Vector2f startingCoord;
-	startingCoord.x = -model->camera.x + (windowSize.x/2 - TILE_SIZE/2);
-	startingCoord.y = model->camera.y - (windowSize.y/2 - fmod(windowSize.y, TILE_SIZE)/2);
+	sf::Vector2f startingCoord = getStartingPos();
+	//startingCoord.x = model->camera.x - ((windowSize.x/2)/TILE_SIZE);
+	//startingCoord.y = model->camera.y - ((windowSize.y/2)/TILE_SIZE);
 
-	int currentTileX = int(floor(startingCoord.x / TILE_SIZE));
-	int currentTileY = int(floor(startingCoord.y / TILE_SIZE));
+	int currentTileX = int(floor(startingCoord.x));
+	int currentTileY = int(floor(startingCoord.y));
 	
 	float xOffset, yOffset;
-	xOffset = -fmod(model->camera.x, TILE_SIZE);
-	yOffset = fmod(model->camera.y, TILE_SIZE);
+	//xOffset = yOffset = 0;
+	
+	xOffset = -fmod(startingCoord.x, 1);
+	if (xOffset > 0) {
+		xOffset--;
+	}
 
+	yOffset = -fmod(startingCoord.y, 1);
+	if (yOffset > 0) {
+		yOffset--;
+	}
+
+	//std::cout << currentTileX << " : " << currentTileY << std::endl;
+	//std::cout << "Starting Coord: " << startingCoord.x << " : " << startingCoord.y << " : "  << ", Current Tile: " << currentTileX << " : " << currentTileY  << ", Offset: " << xOffset << " : " << yOffset<< std::endl;
 	for (int row = 0; row < displaySprites.size(); row++) {
 		for (int col = 0; col < displaySprites[row].size(); col++) {
-			displaySprites[row][col].setPosition(TILE_SIZE * (col), TILE_SIZE * (row) + 14);
-			displaySprites[row][col].move(xOffset, -yOffset);
-			displaySprites[row][col].setTexture(*(getTexture(row + currentTileY, col - currentTileX - 2)));
+			displaySprites[row][col].setPosition(TILE_SIZE * (col), TILE_SIZE * (row));
+			displaySprites[row][col].move(xOffset*TILE_SIZE, yOffset*TILE_SIZE);
+			displaySprites[row][col].setTexture(*(getTexture(row + currentTileY, col + currentTileX )));
 		}
 	}
+}
+
+sf::Vector2f View::getStartingPos() {
+	sf::Vector2f startingCoord;
+	startingCoord.x = model->camera.x - ((windowSize.x / 2) / TILE_SIZE);
+	startingCoord.y = model->camera.y - ((windowSize.y / 2) / TILE_SIZE);
+
+	return startingCoord;
 }
 
 void View::render() {
@@ -92,7 +111,7 @@ void View::render() {
 
 	//create a new render state
 	sf::RenderStates cameraState;
-	cameraState.transform.translate(windowSize.x/2 - model->camera.x + TILE_SIZE / 2, windowSize.y/2 - model->camera.y);
+	//cameraState.transform.translate(/*windowSize.x/2*/  -model->camera.x, /*windowSize.y/2*/  -model->camera.y);
 
 	//draw the map sprites
 	
@@ -104,21 +123,24 @@ void View::render() {
 		}
 	}
 
-	player.setPosition(model->player->getPosition().x * TILE_SIZE, model->player->getPosition().y * TILE_SIZE);
+	sf::Vector2f startingCoord = getStartingPos();
+
+	player.setPosition((model->player->getPosition().x - startingCoord.x) * TILE_SIZE, (model->player->getPosition().y - startingCoord.y)* TILE_SIZE);
+	//std::cout << player.getPosition().x << " : " << player.getPosition().y << std::endl;
 	window.draw(player, cameraState);
 
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
-		window.draw(projectile, cameraState);
+		projectile.setPosition((model->playerProjectiles[i]->getPosition() - startingCoord) * TILE_SIZE);
+		window.draw(projectile/*, cameraState*/);
 	}
 
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
-		enemy.setTexture(*spriteTextures->get("goober.png"));
-		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
-		window.draw(enemy, cameraState);
+		enemy.setTexture(*spriteTextures->get("goober1.png"));
+		enemy.setPosition(( model->enemies[i]->getPosition() - startingCoord) * TILE_SIZE);
+		window.draw(enemy/*, cameraState*/);
 	}
     
 	window.display();
