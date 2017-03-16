@@ -1,5 +1,8 @@
 #include "Controller.hpp"
+
+#include <SFML/Graphics.hpp>
 #include <iostream>
+
 Controller::Controller(Model* model, View* view) {
 	this->model = model;
 	this->view = view;
@@ -43,7 +46,7 @@ void Controller::inputs() {
 	float speed = 5;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		if (model->playerIsGrounded()) {
-			model->player->velocity.y = -20;
+			model->player->setVelocity(sf::Vector2f(model->player->getVelocity().x, -20));
 		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
@@ -51,17 +54,13 @@ void Controller::inputs() {
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		model->player->velocity.x = -speed;
+		model->player->setVelocity(sf::Vector2f(-speed, model->player->getVelocity().y));
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		model->player->velocity.x = speed;
+		model->player->setVelocity(sf::Vector2f(speed, model->player->getVelocity().y));
 	}
 	else {
-		model->player->velocity.x = 0;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		model->playerShoot();
+		model->player->setVelocity(sf::Vector2f(0, model->player->getVelocity().y));
 	}
 }
 

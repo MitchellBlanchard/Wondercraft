@@ -4,7 +4,7 @@
 
 class Entity {
 public:
-	Entity(sf::Vector2f& spawn);
+	Entity(sf::Vector2f& spawn = sf::Vector2f());
 
 	sf::Vector2f position;
 

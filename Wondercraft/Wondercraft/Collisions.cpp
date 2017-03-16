@@ -7,8 +7,8 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, std::vect
 	
 	float nearestCollision = -1;
 	for (int i = 0; i < stillEntities.size(); i++) {
-		Entity& e = *stillEntities[i];
-		float collision = movingEntity.collisionCalc(deltaTime, e);
+		Entity* e = stillEntities[i];
+		float collision = movingEntity.collisionCalc(deltaTime, *e);
 
 		if (collision < 0)
 			continue;
@@ -16,10 +16,10 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, std::vect
 		if (collision < nearestCollision) {
 			nearestCollision = collision;
 			collidedEntities.clear();
-			collidedEntities.push_back(&e);
+			collidedEntities.push_back(e);
 		}
 		else if (collision == nearestCollision) {
-			collidedEntities.push_back(&e);
+			collidedEntities.push_back(e);
 		}
 	}
 
@@ -31,7 +31,7 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, std::vect
 	return collisionCalc(deltaTime, movingEntity, stillEntities, dummy);
 }
 
-float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity** stillEntities, int cols, int rows, std::vector<Entity*>& collidedEntities) {
+float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows, std::vector<Entity*>& collidedEntities) {
 	collidedEntities.clear();
 
 	//determine the bounding box that contains the movingEntity at both its starting and ending positions
@@ -59,8 +59,11 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity** 
 	float nearestCollision = -1;
 	for (int x = leftCol; x <= rightCol; x++) {
 		for (int y = topRow; y <= bottomRow; y++) {
-			Entity& e = stillEntities[x][y];
-			float collision = movingEntity.collisionCalc(deltaTime, e);
+			Entity* e = stillEntities[x][y];
+			if (e == NULL)
+				continue;
+
+			float collision = movingEntity.collisionCalc(deltaTime, *e);
 
 			if (collision < 0)
 				continue;
@@ -68,10 +71,10 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity** 
 			if (collision < nearestCollision) {
 				nearestCollision = collision;
 				collidedEntities.clear();
-				collidedEntities.push_back(&e);
+				collidedEntities.push_back(e);
 			}
 			else if (collision == nearestCollision) {
-				collidedEntities.push_back(&e);
+				collidedEntities.push_back(e);
 			}
 		}
 	}
@@ -79,7 +82,7 @@ float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity** 
 	return nearestCollision;
 }
 
-float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity** stillEntities, int cols, int rows) {
+float Collisions::collisionCalc(float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows) {
 	std::vector<Entity*> dummy;
 	return collisionCalc(deltaTime, movingEntity, stillEntities, cols, rows, dummy);
 }

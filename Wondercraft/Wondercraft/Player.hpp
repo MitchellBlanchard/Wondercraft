@@ -1,18 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "TileType.hpp"
+
 #include "RectangleEntity.hpp"
 
-class Player : public RectangleEntity{
+class Model;
+
+class Player : public RectangleEntity {
 public:
-	Player(sf::Vector2f spawn);
-	void updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight);
+	Player(sf::Vector2f position);
 
-	sf::Vector2f velocity;
+	void update(float deltaTime, Model*);
 
-	const float PROJECTILE_MAX_COOLDOWN = 1;
-	float projectileCooldown;
 private:
 	
 };

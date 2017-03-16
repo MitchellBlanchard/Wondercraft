@@ -1,174 +1,52 @@
 #include "Player.hpp"
-#include <cmath>
-#include <iostream>
 
-Player::Player(sf::Vector2f spawn): RectangleEntity(spawn, sf::Vector2f(1.5,2.5)){
-	projectileCooldown = 0;
-}
+#include "Collisions.hpp"
+#include "Model.hpp"
 
-void Player::updatePosition(float dt, TileType** tiles, int tilesWidth, int tilesHeight) {
-	/*
-	float dtRemaining = dt;
+Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {}
 
-	while (dtRemaining > 0) {
+void Player::update(float deltaTime, Model* model) {
+	//initial step in the direction of the velocity
+	float initialStep = Collisions::collisionCalc(deltaTime, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+	
+	if (initialStep < 0) {
+		//no collision, take full step
+		position += velocity * deltaTime;
+	}
+	else {
+		position += velocity * deltaTime * initialStep;
 
-		float xPortionExpended = 1;
-		if (velocity.x < 0) {
-			//check for all possible tile collisions along the left edge
-			for (int xWall = floor(getPosition().x - rx); xWall > getPosition().x - rx + velocity.x; xWall--) {
-				float xDiff = xWall - (getPosition().x - rx);
-				float yDiff = velocity.y / velocity.x * xDiff;
+		float remainder = 1 - initialStep;
 
-				//check points along left edge
-				int yPoint;
-				for (yPoint = getPosition().y - ry + yDiff; yPoint <= getPosition().y + ry; yPoint++) {
-					TileType& tile = tiles[int(yPoint)][xWall - 1];
-					if (tile != TileType::NONE) {
-						xPortionExpended = xDiff / velocity.x;
-						break;
-					}
-				}
-				//check bottom left corner if needed
-				if (int(getPosition().y + ry) > int(yPoint)) {
-					yPoint = getPosition().y + ry;
+		//the collisions are limited to axis-aligned edges,
+		//so try to take a second step in both the horizontal and vertical directions
+		//and pick whichever one goes the furthest (at least one of them should always be 0)
 
-					TileType& tile = tiles[int(yPoint)][xWall - 1];
-					if (tile != TileType::NONE) {
-						xPortionExpended = xDiff / velocity.x;
-						break;
-					}
-				}
-			}
-		}
-		else if (velocity.x > 0) {
-			//check for all possible tile collisions along the right edge
-			for (int xWall = ceil(getPosition().x + rx); xWall < getPosition().x + rx + velocity.x; xWall++) {
-				float xDiff = xWall - (getPosition().x + rx);
-				float yDiff = velocity.y / velocity.x * xDiff;
+		sf::Vector2f savedVelocity = velocity; // save velocity's current value for later
 
-				//check points along right edge
-				int yPoint;
-				for (yPoint = getPosition().y - ry + yDiff; yPoint <= getPosition().y + ry; yPoint++) {
-					TileType& tile = tiles[int(yPoint)][xWall + 1];
-					if (tile != TileType::NONE) {
-						xPortionExpended = xDiff / velocity.x;
-						break;
-					}
-				}
-				//check bottom right corner if needed
-				if (int(getPosition().y + ry) > int(yPoint)) {
-					yPoint = getPosition().y + ry;
+		velocity.y = 0;
+		float hStep = Collisions::collisionCalc(deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
 
-					TileType& tile = tiles[int(yPoint)][xWall + 1];
-					if (tile != TileType::NONE) {
-						xPortionExpended = xDiff / velocity.x;
-						break;
-					}
-				}
-			}
-		}
-
-		float yPortionExpended = 1;
-		if (velocity.y < 0) {
-			//check for all possible tile collisions along the top edge
-			for (int yWall = floor(getPosition().y - ry); yWall > getPosition().x - rx + velocity.x; yWall--) {
-				float yDiff = yWall - (getPosition().y - ry);
-				float xDiff = velocity.x / velocity.y * yDiff;
-
-				//check points along top edge
-				int xPoint;
-				for (xPoint = getPosition().x - rx + xDiff; xPoint <= getPosition().x + rx; xPoint++) {
-					TileType& tile = tiles[yWall - 1][int(xPoint)];
-					if (tile != TileType::NONE) {
-						yPortionExpended = yDiff / velocity.y;
-						break;
-					}
-				}
-				//check top right corner if needed
-				if (int(getPosition().x + rx) > int(xPoint)) {
-					xPoint = getPosition().x + rx;
-
-					TileType& tile = tiles[yWall - 1][int(xPoint)];
-					if (tile != TileType::NONE) {
-						yPortionExpended = yDiff / velocity.y;
-						break;
-					}
-				}
-			}
-		}
-		else if (velocity.y > 0) {
-			//check for all possible tile collisions along the bottom edge
-			for (int yWall = ceil(getPosition().y + ry); yWall < getPosition().y + ry + velocity.y; yWall++) {
-				float yDiff = yWall - (getPosition().y + ry);
-				float xDiff = velocity.x / velocity.y * yDiff;
-
-				//check points along bottom edge
-				int xPoint;
-				for (xPoint = getPosition().x - rx + xDiff; xPoint <= getPosition().x + rx; xPoint++) {
-					TileType& tile = tiles[yWall + 1][int(xPoint)];
-					if (tile != TileType::NONE) {
-						yPortionExpended = yDiff / velocity.y;
-						break;
-					}
-				}
-				//check bottom right corner if needed
-				if (int(getPosition().x + rx) > int(xPoint)) {
-					xPoint = getPosition().x + rx;
-
-					TileType& tile = tiles[yWall + 1][int(xPoint)];
-					if (tile != TileType::NONE) {
-						yPortionExpended = yDiff / velocity.y;
-						break;
-					}
-				}
-			}
-		}
-
-		float dtElapsed;
-		if (xPortionExpended == 1 && yPortionExpended == 1) {
-			dtElapsed = dtRemaining;
-
-			move(velocity.x * dtElapsed, velocity.y * dtElapsed);
-		}
-		else if (xPortionExpended == yPortionExpended) {
-			dtElapsed = xPortionExpended * dtRemaining;
-
-			move(velocity.x * dtElapsed, velocity.y * dtElapsed);
-			velocity.x = 0;
-			velocity.y = 0;
-		}
-		else if (xPortionExpended < yPortionExpended) {
-			dtElapsed = xPortionExpended * dtRemaining;
-
-			move(velocity.x * dtElapsed, velocity.y * dtElapsed);
-			velocity.x = 0;
-		}
-		else if (yPortionExpended < xPortionExpended) {
-			dtElapsed = yPortionExpended * dtRemaining;
-
-			move(velocity.x * dtElapsed, velocity.y * dtElapsed);
-			velocity.y = 0;
+		if (hStep < 0) {
+			//no collision, assuming we collided with a top or bottom surface,
+			//take horizontal step and keep velocity.y set to 0
+			position += velocity * deltaTime * remainder;
 		}
 		else {
-			dtElapsed = dtRemaining;
-		}
-
-		dtRemaining -= dtElapsed;
-	}
-	*/
-
-	//std::cout << "position: " << getPosition().x << " " << getPosition().y << std::endl;
-
-	position += (velocity * dt);
-	for (int i = 0; i < 2 * (getSize().x / 2); i++) {
-		for (int j = 0; j < 2 * (getSize().y / 2); j++) {
-			sf::Vector2f checkPoint = position - sf::Vector2f((getSize().x / 2), (getSize().y / 2)) + sf::Vector2f(i, j);
-			if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < tilesWidth && checkPoint.y < tilesHeight) {
-				TileType& tile = tiles[int(checkPoint.y)][int(checkPoint.x)];
-				if (tile != TileType::NONE) {
-					position += (-velocity * dt);
-					break;
-				}
+			velocity.y = savedVelocity.y; // reset velocity.y
+			velocity.x = 0;
+			float vStep = Collisions::collisionCalc(deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+			
+			if (vStep < 0) {
+				//no collision, assuming we collided with a left or right surface,
+				//take vertical step and keep velocity.x set to 0
+				position += velocity * deltaTime * remainder;
+			}
+			else {
+				//this should only happen if you are moving directly into an inside corner
+				//(and possibly an outside corner, I'm not sure)
+				//set velocity to (0, 0) and don't move
+				velocity = sf::Vector2f(0, 0);
 			}
 		}
 	}
