@@ -1,5 +1,8 @@
 #include "Controller.hpp"
+
+#include <SFML/Graphics.hpp>
 #include <iostream>
+
 Controller::Controller(Model* model, View* view) {
 	this->model = model;
 	this->view = view;
@@ -40,53 +43,25 @@ void Controller::inputs() {
 		}
 	}
 	*/
-	if (model->gameState == 1) {
-		float speed = 5;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (model->playerIsGrounded()) {
-				model->player->velocity.y = -20;
-			}
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			//do nothing on Down right now
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			model->player->velocity.x = -speed;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			model->player->velocity.x = speed;
-		}
-		else {
-			model->player->velocity.x = 0;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			model->playerShoot();
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			model->gameState = 2;
+	float speed = 5;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		if (model->playerIsGrounded()) {
+			model->player->setVelocity(sf::Vector2f(model->player->getVelocity().x, -20));
 		}
 	}
-	else if (model->gameState == 2)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-			model->gameState = 1;
-		}
-	/* lol this shit doesnt work right now :B
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			view->selected.setPosition(view->selected.getPosition().x, view->selected.getPosition().y - view->SQUARE_SIZE_Y);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			view->selected.setPosition(view->selected.getPosition().x, view->selected.getPosition().y + view->SQUARE_SIZE_Y);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			view->selected.setPosition(view->selected.getPosition().x + view->SQUARE_SIZE_X, view->selected.getPosition().y);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			view->selected.setPosition(view->selected.getPosition().x + view->SQUARE_SIZE_X, view->selected.getPosition().y);
-		}
-		*/
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		//do nothing on Down right now
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		model->player->setVelocity(sf::Vector2f(-speed, model->player->getVelocity().y));
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		model->player->setVelocity(sf::Vector2f(speed, model->player->getVelocity().y));
+	}
+	else {
+		model->player->setVelocity(sf::Vector2f(0, model->player->getVelocity().y));
+	}
 }
 
 bool Controller::isRunning() const {

@@ -1,6 +1,6 @@
 #include "ThinPlatform.hpp"
 
-ThinPlatform::ThinPlatform(sf::Vector2f position, TileType t)
+ThinPlatform::ThinPlatform(TileType t, sf::Vector2f position)
 	: TopEdgeEntity(position, 1), Tile(t) {}
 
 float ThinPlatform::getTop() { return position.y - 0.5; }

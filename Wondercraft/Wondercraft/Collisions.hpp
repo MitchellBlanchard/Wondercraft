@@ -15,8 +15,8 @@ namespace Collisions {
 	float collisionCalc(float deltaTime, Entity& movingEntity, std::vector<Entity*>& stillEntities);
 
 	//stillEntities is a 2D array rather than a vector
-	float collisionCalc(float deltaTime, Entity& movingEntity, Entity** stillEntities, int cols, int rows, std::vector<Entity*>& collidedEntities);
+	float collisionCalc(float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows, std::vector<Entity*>& collidedEntities);
 
 	//return value only, does not output list of collided entities
-	float collisionCalc(float deltaTime, Entity& movingEntity, Entity** stillEntities, int cols, int rows);
+	float collisionCalc(float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows);
 }

@@ -8,5 +8,5 @@
 
 class BasicTile : public RectangleEntity, public Tile {
 public:
-	BasicTile(sf::Vector2f position, TileType);
+	BasicTile(TileType, sf::Vector2f position = sf::Vector2f());
 };

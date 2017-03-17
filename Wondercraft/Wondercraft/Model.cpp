@@ -4,44 +4,74 @@
 #include <iostream>
 #include <fstream>
 
+#include "BasicTile.hpp"
+
 Model::Model() {
 	readMapTiles("assets/map_tiles/test_level_1.png");
 	readMapData("assets/map_data/test_level_1.txt");
 
 	player = new Player(playerSpawn);
+}
 
-	camera.x = 0;
-	camera.y = 0;
+Model::~Model() {
+	//delete player
+	delete player;
+	player = NULL;
 
-	gameState = 1;
+	//delete enemies
+	for (int i = 0; i < enemies.size(); i++)
+		delete enemies[i];
+	enemies.clear();
+
+	//delete player projectiles
+	for (int i = 0; i < playerProjectiles.size(); i++)
+		delete playerProjectiles[i];
+	playerProjectiles.clear();
+
+	//delete enemy projectiles
+	for (int i = 0; i < enemyProjectiles.size(); i++)
+		delete enemyProjectiles[i];
+	enemyProjectiles.clear();
+
+	//delete tiles
+	for (int x = 0; x < levelWidth; x++) {
+		for (int y = 0; y < levelHeight; y++) {
+			delete mapTiles[x][y];
+		}
+		delete[] mapTiles[x];
+	}
+	delete[] mapTiles;
+	mapTiles = NULL;
 }
 
 void Model::readMapTiles(std::string filepath) {
-
 	sf::Image terrainImage;
 	terrainImage.loadFromFile(filepath);
 
 	levelHeight = terrainImage.getSize().y;
 	levelWidth = terrainImage.getSize().x;
 
-	std::cout << levelWidth << std::endl;
-	//initialize the array of tile types
-	mapTiles = new TileType*[levelHeight];
-	for (int i = 0; i < levelHeight; i++) {
-		mapTiles[i] = new TileType[levelWidth];
+	//initialize the array of Entity pointers
+	mapTiles = new Entity**[levelWidth];
+	for (int x = 0; x < levelWidth; x++) {
+		mapTiles[x] = new Entity*[levelHeight];
 	}
 	
-	for (int i = 0; i < levelHeight; i++) {
-		for (int j = 0; j < levelWidth; j++) {
-			sf::Color pixelColor = terrainImage.getPixel(j, i);
-			mapTiles[i][j] = parseColor(pixelColor);
+	//fill the array with new tile entities
+	for (int x = 0; x < levelWidth; x++) {
+		for (int y = 0; y < levelHeight; y++) {
+			sf::Color pixelColor = terrainImage.getPixel(x, y);
+			mapTiles[x][y] = parseColor(pixelColor);
+			if (mapTiles[x][y] != NULL) {
+				mapTiles[x][y]->position = sf::Vector2f(x, y);
+			}
 		}
 	}
 }
 
-TileType Model::parseColor(const sf::Color& c) {
-	if (c == sf::Color::Black) return TileType::STONE;
-	else return TileType::NONE;
+Entity* Model::parseColor(const sf::Color& c) {
+	if (c == sf::Color::Black) return new BasicTile(TileType::STONE);
+	else return NULL;
 }
 
 void Model::readMapData(std::string filepath) {
@@ -136,41 +166,27 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	else return false;
 }
 
-void Model::update(float dt) {
-	//reduce shooting cooldown
-	if (player->projectileCooldown > 0)
-		player->projectileCooldown -= dt;
-	if (player->projectileCooldown < 0)
-		player->projectileCooldown = 0;
-
+void Model::update(float deltaTime) {
 	if (!playerIsGrounded())
-		player->velocity.y += 0.6;
-	else if (player->velocity.y > 0)
-		player->velocity.y = 0;
-	player->updatePosition(dt, mapTiles, levelWidth, levelHeight);
+		player->setVelocity(player->getVelocity() + sf::Vector2f(0, 0.6));
+	else if (player->getVelocity().y > 0)
+		player->setVelocity(sf::Vector2f(player->getVelocity().x, 0));
+	player->update(deltaTime, this);
 
-	for (int i = 0; i < playerProjectiles.size(); i++) {
-		if (!playerProjectiles[i]->updatePosition(dt, mapTiles, levelWidth, levelHeight, enemies)) {
+	/*for (int i = 0; i < playerProjectiles.size(); i++) {
+		if (!playerProjectiles[i]->updatePosition(deltaTime, mapTiles, levelWidth, levelHeight, enemies)) {
 			playerProjectiles.erase(playerProjectiles.begin() + i);
 		}
-	}
+	}*/
 
-	camera.x = player->position.x;
-	camera.y = player->position.y;
+	camera = player->position;
 }
 
 bool Model::playerIsGrounded() {
 	sf::Vector2f checkPoint = player->position + sf::Vector2f(0, (player->getSize().y / 2) + 0.05);
 	if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < levelWidth && checkPoint.y < levelHeight) {
-		TileType& tile = mapTiles[int(checkPoint.y)][int(checkPoint.x)];
-		return tile != TileType::NONE;
+		Entity* tile = mapTiles[int(checkPoint.y)][int(checkPoint.x)];
+		return tile != NULL;
 	}
 	else return false;
-}
-
-void Model::playerShoot() {
-	if (player->projectileCooldown == 0) {
-		playerProjectiles.push_back(new Projectile(player->position));
-		player->projectileCooldown = player->PROJECTILE_MAX_COOLDOWN;
-	}
 }

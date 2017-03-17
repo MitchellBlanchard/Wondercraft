@@ -11,8 +11,9 @@
 class Model : public Updateable {
 public:
 	Model();
+	~Model();
 
-	void update(float);
+	virtual void update(float);
 
 	sf::Vector2f camera;
 
@@ -27,16 +28,15 @@ public:
 	void readMapData(std::string filepath);
 
 	//Map tile data read in from the map_tiles file
-	TileType** mapTiles;
+	Entity*** mapTiles;
 	int levelHeight, levelWidth;
 
 	Player* player;
 	std::vector<Enemy*> enemies;
 	std::vector<Projectile*> playerProjectiles;
-	//std::vector<Projectile*> enemyProjectiles;
+	std::vector<Projectile*> enemyProjectiles;
 
 	bool playerIsGrounded();
-	void playerShoot();
 
 	int gameState;
 
@@ -47,7 +47,7 @@ private:
 		Returns the tile type associated with a color in the map_tiles image.
 		These associations are hard-coded into this function.
 	*/
-	static TileType parseColor(const sf::Color&);
+	static Entity* parseColor(const sf::Color&);
 
 	/*
 		Calls the appropriate initalizer function based on the keys found in the map data file.
