@@ -40,29 +40,53 @@ void Controller::inputs() {
 		}
 	}
 	*/
-	float speed = 5;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		if (model->playerIsGrounded()) {
-			model->player->velocity.y = -20;
+	if (model->gameState == 1) {
+		float speed = 5;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (model->playerIsGrounded()) {
+				model->player->velocity.y = -20;
+			}
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			//do nothing on Down right now
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			model->player->velocity.x = -speed;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			model->player->velocity.x = speed;
+		}
+		else {
+			model->player->velocity.x = 0;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			model->playerShoot();
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			model->gameState = 2;
 		}
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		//do nothing on Down right now
-	}
-	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		model->player->velocity.x = -speed;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		model->player->velocity.x = speed;
-	}
-	else {
-		model->player->velocity.x = 0;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		model->playerShoot();
-	}
+	else if (model->gameState == 2)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+			model->gameState = 1;
+		}
+	/* lol this shit doesnt work right now :B
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			view->selected.setPosition(view->selected.getPosition().x, view->selected.getPosition().y - view->SQUARE_SIZE_Y);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			view->selected.setPosition(view->selected.getPosition().x, view->selected.getPosition().y + view->SQUARE_SIZE_Y);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			view->selected.setPosition(view->selected.getPosition().x + view->SQUARE_SIZE_X, view->selected.getPosition().y);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			view->selected.setPosition(view->selected.getPosition().x + view->SQUARE_SIZE_X, view->selected.getPosition().y);
+		}
+		*/
 }
 
 bool Controller::isRunning() const {

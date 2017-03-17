@@ -14,13 +14,20 @@ View::View(Model* model) {
 
 	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
 	spriteTextures = new TextureLoader("assets/sprites/");
+	menuTextures = new TextureLoader("assets/menus/");
 	 
 	initSpriteArray();
+
+	initMenuArray();
 
 	background.setTexture(*(levelTextures->get("bg.png")));
 	
 	player.setTexture(*(spriteTextures->get("player.png")));
 	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2);
+
+	menu.setTexture(*(menuTextures->get("1.png")));
+	selected.setTexture(*(menuTextures->get("3.png")));
+
 }
 
 void View::initSpriteArray() {
@@ -40,6 +47,47 @@ void View::initSpriteArray() {
 			displaySprites[row][col].setTexture(*(getTexture(row, col)));
 		}
 	}
+}
+
+void View::initMenuArray() {
+	menuSquares1.resize(3);
+	for (int row = 0; row < menuSquares1.size(); row++) {
+		menuSquares1[row].resize(1);
+	}
+
+	for (int row = 0; row < menuSquares1.size(); row++) {
+		for (int col = 0; col < menuSquares1[row].size(); col++) {
+			menuSquares1[row][col].setPosition(SQUARE_SIZE_X * col + 317 + col * 5, SQUARE_SIZE_Y * row + 3 + row * 2);
+			menuSquares1[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+	menuSquares2.resize(1);
+	for (int row = 0; row < menuSquares2.size(); row++) {
+		menuSquares2[row].resize(3);
+	}
+
+	for (int row = 0; row < menuSquares2.size(); row++) {
+		for (int col = 0; col < menuSquares2[row].size(); col++) {
+			menuSquares2[row][col].setPosition(SQUARE_SIZE_X * col + 528 + col * 57, SQUARE_SIZE_Y * row + 136);// +row * 2);
+			menuSquares2[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+
+	menuSquares3.resize(3);
+	for (int row = 0; row < menuSquares3.size(); row++) {
+		menuSquares3[row].resize(10);
+	}
+
+	for (int row = 0; row < menuSquares3.size(); row++) {
+		for (int col = 0; col < menuSquares3[row].size(); col++) {
+			menuSquares3[row][col].setPosition(SQUARE_SIZE_X * col + 84 + col * 5, SQUARE_SIZE_Y * row + 280 +row * 2);
+			menuSquares3[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+	selected.setPosition(84, 280);
 }
 
 sf::Texture* View::getTexture(int r, int c) {
@@ -103,7 +151,7 @@ sf::Vector2f View::getStartingPos() {
 	return startingCoord;
 }
 
-void View::render() {
+void View::render(int gameState) {
 	//std::cout << "camera :" << model->camera.x << model->camera.y << std::endl;
 	window.clear();
 	
@@ -142,6 +190,32 @@ void View::render() {
 		enemy.setPosition(( model->enemies[i]->position - startingCoord) * TILE_SIZE);
 		window.draw(enemy/*, cameraState*/);
 	}
+
+	if (model->gameState == 2) { //drawing the pause menu
+		window.draw(menu);
+
+		for (int i = 0; i < menuSquares1.size(); i++) {
+			for (int j = 0; j < menuSquares1[i].size(); j++) {
+				window.draw(menuSquares1[i][j]);
+			}
+		}
+
+		for (int i = 0; i < menuSquares2.size(); i++) {
+			for (int j = 0; j < menuSquares2[i].size(); j++) {
+				window.draw(menuSquares2[i][j]);
+			}
+		}
+
+		for (int i = 0; i < menuSquares3.size(); i++) {
+			for (int j = 0; j < menuSquares3[i].size(); j++) {
+				window.draw(menuSquares3[i][j]);
+			}
+		}
+
+		window.draw(selected);
+	}
+	//std::cout << model->gameState << std::endl;
+	std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
     
 	window.display();
 }

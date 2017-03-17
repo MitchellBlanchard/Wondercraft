@@ -52,6 +52,7 @@
     <ClInclude Include="FontLoader.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="LeftEdgeEntity.hpp" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Projectile.hpp" />

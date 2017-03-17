@@ -38,6 +38,8 @@ public:
 	bool playerIsGrounded();
 	void playerShoot();
 
+	int gameState;
+
 private:
 	static std::string trim(std::string&);
 

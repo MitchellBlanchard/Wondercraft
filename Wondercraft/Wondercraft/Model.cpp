@@ -12,6 +12,8 @@ Model::Model() {
 
 	camera.x = 0;
 	camera.y = 0;
+
+	gameState = 1;
 }
 
 void Model::readMapTiles(std::string filepath) {

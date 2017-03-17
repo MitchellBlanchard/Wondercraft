@@ -18,7 +18,7 @@ void Game::loop() {
 		if (lastRender.getElapsedTime() > sf::seconds(1.0f / renderFPS)) {
 			//render the view
 			lastRender.restart();
-			view.render();
+			view.render(model.gameState);
 		}
 	}
 }
