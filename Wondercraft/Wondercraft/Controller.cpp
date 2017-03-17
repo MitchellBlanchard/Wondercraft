@@ -66,7 +66,7 @@ void Controller::inputs() {
 			sf::Vector2f mouseVec = sf::Vector2f(((float)sf::Mouse::getPosition(window).x / (float)64), ((float)sf::Mouse::getPosition(window).y / (float)64));
 			sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->position.x * view->TILE_SIZE), ((model->player->position.y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
 
-			model->playerProjectiles.push_back(new Projectile(model->player->position, playerVec, mouseVec, view->TILE_SIZE));
+			model->playerProjectiles.push_back(new Projectile(model->player->position, view->getStartingPos(), playerVec, mouseVec, view->TILE_SIZE, 2));
 
 			model->player->projectileTimer = 0.5;
 		}
