@@ -3,9 +3,19 @@
 #include "Collisions.hpp"
 #include "Model.hpp"
 
-Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {}
+Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
+	projectileTimer = 0;
+}
 
 void Player::update(float deltaTime, Model* model) {
+
+	if (projectileTimer != 0) {
+		projectileTimer -= deltaTime;
+	}
+
+	if (projectileTimer <= 0) {
+		projectileTimer = 0;
+	}
 	//initial step in the direction of the velocity
 	float initialStep = Collisions::collisionCalc(deltaTime, *this, model->mapTiles, model->levelWidth, model->levelHeight);
 	
