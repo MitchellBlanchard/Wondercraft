@@ -22,8 +22,15 @@ View::View(Model* model) {
 
 	background.setTexture(*(levelTextures->get("bg.png")));
 	
-	player.setTexture(*(spriteTextures->get("player.png")));
-	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2);
+	/*player.setTexture(*(spriteTextures->get("player.png")));
+	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
+
+	playerHat.setTexture(*(spriteTextures->get("player/blankHat.png")));
+	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
+	playerRobe.setTexture(*(spriteTextures->get("player/blankRobe.png")));
+	playerRobe.setOrigin(playerRobe.getLocalBounds().width / 2, playerRobe.getLocalBounds().height / 2);
+	playerStaff.setTexture(*(spriteTextures->get("player/blankStaff.png")));
+	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
 
 	menu.setTexture(*(menuTextures->get("1.png")));
 	selected.setTexture(*(menuTextures->get("3.png")));
@@ -165,8 +172,15 @@ void View::render() {
 	}
 
 	//draw player
-	player.setPosition(model->player->position * TILE_SIZE);
-	window.draw(player, cameraState);
+	/*player.setPosition(model->player->position * TILE_SIZE);
+	window.draw(player, cameraState);*/
+
+	playerHat.setPosition(model->player->position * TILE_SIZE);
+	window.draw(playerHat, cameraState);
+	playerRobe.setPosition(model->player->position * TILE_SIZE);
+	window.draw(playerRobe, cameraState);
+	playerStaff.setPosition(model->player->position * TILE_SIZE);
+	window.draw(playerStaff, cameraState);
 
 	//draw player projectiles
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
@@ -204,8 +218,8 @@ void View::render() {
 				window.draw(menuSquares3[i][j]);
 			}
 		}
+			window.draw(selected);
 
-		window.draw(selected);
 	}
 	//std::cout << model->gameState << std::endl;
 	//std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;

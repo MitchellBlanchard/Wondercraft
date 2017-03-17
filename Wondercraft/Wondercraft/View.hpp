@@ -21,7 +21,11 @@ public:
 	sf::Texture* getTexture(int, int);
 
 	sf::Sprite background;
-	sf::Sprite player;
+	//sf::Sprite player;
+
+	sf::Sprite playerHat;
+	sf::Sprite playerRobe;
+	sf::Sprite playerStaff;
 
 	//the menu bg and the selected square
 	sf::Sprite menu;
