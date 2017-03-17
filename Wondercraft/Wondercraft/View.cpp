@@ -175,20 +175,21 @@ void View::render() {
 	/*player.setPosition(model->player->position * TILE_SIZE);
 	window.draw(player, cameraState);*/
 
-	playerHat.setPosition(model->player->position * TILE_SIZE);
+	playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerHat, cameraState);
-	playerRobe.setPosition(model->player->position * TILE_SIZE);
+	playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerRobe, cameraState);
-	playerStaff.setPosition(model->player->position * TILE_SIZE);
+	playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerStaff, cameraState);
 
 	//draw player projectiles
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setScale(sf::Vector2f(model->playerProjectiles[i]->getSize().x / model->playerProjectiles[i]->originSize.x, model->playerProjectiles[i]->getSize().y / model->playerProjectiles[i]->originSize.y));
-		projectile.setPosition(model->playerProjectiles[i]->position * TILE_SIZE);   
-		//std::cout << "Size offset: " << model->playerProjectiles[i]->getSize().x / (float)2 * TILE_SIZE << " : " << model->playerProjectiles[i]->getSize().y / (float)2 * TILE_SIZE << std::endl;
+		projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
 		window.draw(projectile, cameraState);
 	}
 
@@ -196,11 +197,11 @@ void View::render() {
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
 		enemy.setTexture(*spriteTextures->get("goober1.png"));
-		enemy.setPosition(model->enemies[i]->position * TILE_SIZE);
+		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 		window.draw(enemy, cameraState);
 	}
 
-	if (model->gameState == 2) { //drawing the pause menu
+	if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
 		window.draw(menu);
 
 		for (int i = 0; i < menuSquares1.size(); i++) {
@@ -220,7 +221,17 @@ void View::render() {
 				window.draw(menuSquares3[i][j]);
 			}
 		}
-			window.draw(selected);
+
+
+		//draws the player on the menu
+		playerHat.setPosition(185, 135);
+		window.draw(playerHat);
+		playerRobe.setPosition(185, 135);
+		window.draw(playerRobe);
+		playerStaff.setPosition(185, 135);
+		window.draw(playerStaff);
+
+		window.draw(selected);
 
 	}
 	//std::cout << model->gameState << std::endl;

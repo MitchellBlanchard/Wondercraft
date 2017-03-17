@@ -1,14 +1,18 @@
 #include "Player.hpp"
 
+#include <cmath>
+
 #include "Collisions.hpp"
 #include "Model.hpp"
 
+#include <iostream>
+using namespace std;
 Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
 	projectileTimer = 0;
+	facingRight = true;
 }
 
 void Player::update(float deltaTime, Model* model) {
-
 	if (projectileTimer != 0) {
 		projectileTimer -= deltaTime;
 	}
@@ -16,17 +20,24 @@ void Player::update(float deltaTime, Model* model) {
 	if (projectileTimer <= 0) {
 		projectileTimer = 0;
 	}
-	//initial step in the direction of the velocity
-	float initialStep = Collisions::collisionCalc(deltaTime, *this, model->mapTiles, model->levelWidth, model->levelHeight);
-	
-	if (initialStep < 0) {
-		//no collision, take full step
-		position += velocity * deltaTime;
-	}
-	else {
-		position += velocity * deltaTime * initialStep;
 
+
+	float threshold = 0.0001;
+
+	cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl;
+	cout << "move: " << getVelocity().x * deltaTime << ", " << getVelocity().y * deltaTime << endl << endl;
+	//initial step in the direction of the velocity
+	float initialStep = 1;
+	bool initialCollision = Collisions::collisionCalc(initialStep, deltaTime, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+	setPosition(getPosition() + velocity * deltaTime * initialStep);
+
+	cout << "initial collision: " << initialCollision << endl;
+	cout << "initial step: " << initialStep << endl << endl;
+
+	if (initialCollision) {
 		float remainder = 1 - initialStep;
+
+		cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl << endl;
 
 		//the collisions are limited to axis-aligned edges,
 		//so try to take a second step in both the horizontal and vertical directions
@@ -34,29 +45,37 @@ void Player::update(float deltaTime, Model* model) {
 
 		sf::Vector2f savedVelocity = velocity; // save velocity's current value for later
 
-		velocity.y = 0;
-		float hStep = Collisions::collisionCalc(deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+		setVelocity(sf::Vector2f(savedVelocity.x, 0));
+		float hStep = 1;
+		bool hCollision = Collisions::collisionCalc(hStep, deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+		cout << "horizontal move: " << getVelocity().x * deltaTime * remainder << ", " << getVelocity().y * deltaTime * remainder << endl;
+		cout << "horizontal collision: " << hCollision << endl;
+		cout << "horizontal step: " << hStep << endl << endl;
 
-		if (hStep < 0) {
-			//no collision, assuming we collided with a top or bottom surface,
+		if (!hCollision && abs(getVelocity().x) > threshold) {
+			//no collision with a left or right surface, assume we collided with a top or bottom surface,
 			//take horizontal step and keep velocity.y set to 0
-			position += velocity * deltaTime * remainder;
+			setPosition(getPosition() + velocity * deltaTime * remainder);
 		}
 		else {
-			velocity.y = savedVelocity.y; // reset velocity.y
-			velocity.x = 0;
-			float vStep = Collisions::collisionCalc(deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
+			setVelocity(sf::Vector2f(0, savedVelocity.y));
+			float vStep = 1;
+			bool vCollision = Collisions::collisionCalc(vStep, deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
 			
-			if (vStep < 0) {
-				//no collision, assuming we collided with a left or right surface,
+			cout << "vertical move: " << getVelocity().x * deltaTime * remainder << ", " << getVelocity().y * deltaTime * remainder << endl;
+			cout << "vertical collision: " << vCollision << endl;
+			cout << "vertical step: " << vStep << endl << endl;
+
+			if (!vCollision) {
+				//no collision with a top or bottom surface, assume we collided with a left or right surface,
 				//take vertical step and keep velocity.x set to 0
-				position += velocity * deltaTime * remainder;
+				setPosition(getPosition() + velocity * deltaTime * remainder);
 			}
 			else {
 				//this should only happen if you are moving directly into an inside corner
 				//(and possibly an outside corner, I'm not sure)
 				//set velocity to (0, 0) and don't move
-				velocity = sf::Vector2f(0, 0);
+				setVelocity(sf::Vector2f(0, 0));
 			}
 		}
 	}

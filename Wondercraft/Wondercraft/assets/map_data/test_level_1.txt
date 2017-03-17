@@ -2,7 +2,7 @@ level_name : Nathan's Test Level
 background : mountains
 tile_set   : meadowTiles
 
-player_spawn : 2.25, 13.75
+player_spawn : 2.5, 13
 
 entity : goober, 9.25, 11.25
 entity : goober, 11.75, 11.25

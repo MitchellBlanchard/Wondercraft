@@ -14,49 +14,69 @@ float RectangleEntity::getBottom() { return bottomEdge.getBottom(); }
 
 void RectangleEntity::setVelocity(sf::Vector2f& v) {
 	Entity::setVelocity(v);
+
 	leftEdge.setVelocity(v);
 	rightEdge.setVelocity(v);
 	topEdge.setVelocity(v);
 	bottomEdge.setVelocity(v);
 }
 
-void RectangleEntity::setSize(sf::Vector2f newSize) {
-	leftEdge = LeftEdgeEntity(position + sf::Vector2f(-newSize.x / 2, 0), newSize.y);
-	rightEdge = RightEdgeEntity(position + sf::Vector2f(newSize.x / 2, 0), newSize.y);
-	topEdge = TopEdgeEntity(position + sf::Vector2f(0, -newSize.y / 2), newSize.x);
-	bottomEdge = BottomEdgeEntity(position + sf::Vector2f(0, newSize.y / 2), newSize.x);
+void RectangleEntity::setPosition(sf::Vector2f& p) {
+	sf::Vector2f movement = p - position;
+
+	Entity::setPosition(p);
+
+	leftEdge.setPosition(leftEdge.getPosition() + movement);
+	rightEdge.setPosition(rightEdge.getPosition() + movement);
+	topEdge.setPosition(topEdge.getPosition() + movement);
+	bottomEdge.setPosition(bottomEdge.getPosition() + movement);
 }
 
-float RectangleEntity::collisionCalc(float deltaTime, Entity& e) {
+bool RectangleEntity::collisionCalc(float& step, float deltaTime, Entity& e) {
 	if (!checkMovingAABB(deltaTime, e))
-		return -1;
+		return false;
 
 	//potential collision, do more advanced checks
 
-	float horizontalCollisionStep = -1;
+	//collision with left or right edge
+	bool horizontalCollision = false;
+	float horizontalStep = 1;
 	if (velocity.x < 0) {
-		horizontalCollisionStep = leftEdge.collisionCalc(deltaTime, e);
+		horizontalCollision = leftEdge.collisionCalc(horizontalStep, deltaTime, e);
 	}
 	else if (velocity.x > 0) {
-		horizontalCollisionStep = rightEdge.collisionCalc(deltaTime, e);
+		horizontalCollision = rightEdge.collisionCalc(horizontalStep, deltaTime, e);
 	}
 
-	float verticalCollisionStep = -1;
+	//collision with top or bottom edge
+	bool verticalCollision = false;
+	float verticalStep = 1;
 	if (velocity.y < 0) {
-		verticalCollisionStep = topEdge.collisionCalc(deltaTime, e);
+		verticalCollision = topEdge.collisionCalc(verticalStep, deltaTime, e);
 	}
 	else if (velocity.y > 0) {
-		verticalCollisionStep = bottomEdge.collisionCalc(deltaTime, e);
+		verticalCollision = bottomEdge.collisionCalc(verticalStep, deltaTime, e);
 	}
 
-	if (horizontalCollisionStep < 0)
-		return verticalCollisionStep;
+	//if no horizontal collision, take the vertical one
+	if (!horizontalCollision) {
+		step = verticalStep;
+		return verticalCollision;
+	}
 
-	else if (verticalCollisionStep < 0)
-		return horizontalCollisionStep;
+	//if no vertical collision, take the horizontal one
+	else if (!verticalCollision) {
+		step = horizontalStep;
+		return horizontalCollision;
+	}
 
-	else if (horizontalCollisionStep < verticalCollisionStep)
-		return horizontalCollisionStep;
+	//collides either way, take the closest one
 
-	else return verticalCollisionStep;
+	else if (horizontalCollision < verticalCollision) {
+		step = horizontalStep;
+		return horizontalCollision;
+	} else {
+		step = verticalStep;
+		return verticalCollision;
+	}
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include "BasicTile.hpp"
 
@@ -12,7 +13,7 @@ Model::Model() {
 
 	player = new Player(playerSpawn);
 
-	gameState = 1;
+	gameState = GameState::PLAYING;
 }
 
 Model::~Model() {
@@ -65,7 +66,7 @@ void Model::readMapTiles(std::string filepath) {
 			sf::Color pixelColor = terrainImage.getPixel(x, y);
 			mapTiles[x][y] = parseColor(pixelColor);
 			if (mapTiles[x][y] != NULL) {
-				mapTiles[x][y]->position = sf::Vector2f(x, y);
+				mapTiles[x][y]->setPosition(sf::Vector2f(x + 0.5, y + 0.5));
 			}
 		}
 	}
@@ -169,33 +170,39 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 }
 
 void Model::update(float deltaTime) {
-	if (!playerIsGrounded())
-		player->setVelocity(player->getVelocity() + sf::Vector2f(0, 0.6));
-	else if (player->getVelocity().y > 0)
-		player->setVelocity(sf::Vector2f(player->getVelocity().x, 0));
+	if (gameState == GameState::PLAYING) {
+		if (!playerIsGrounded())
+			player->setVelocity(player->getVelocity() + sf::Vector2f(0, 16)*deltaTime);
+		player->update(deltaTime, this);
 
-	player->setVelocity(sf::Vector2f(player->getVelocity().x, 0));
-
-	player->update(deltaTime, this);
-
-	for (int i = 0; i < playerProjectiles.size(); i++) {
-		playerProjectiles[i]->update(deltaTime, this);
-	}
-	/*
-	for (int i = 0; i < playerProjectiles.size(); i++) {
-		if (!playerProjectiles[i]->update(deltaTime, this) {
-			playerProjectiles.erase(playerProjectiles.begin() + i);
+		for (int i = 0; i < playerProjectiles.size(); i++) {
+			playerProjectiles[i]->update(deltaTime, this);
 		}
-	}*/
+		/*
+		for (int i = 0; i < playerProjectiles.size(); i++) {
+		if (!playerProjectiles[i]->update(deltaTime, this) {
+		playerProjectiles.erase(playerProjectiles.begin() + i);
+		}
+		}*/
 
-	camera = player->position;
+		camera = player->getPosition();
+	}
 }
 
 bool Model::playerIsGrounded() {
-	sf::Vector2f checkPoint = player->position + sf::Vector2f(0, (player->getSize().y / 2) + 0.05);
-	if (checkPoint.x > 0 && checkPoint.y > 0 && checkPoint.x < levelWidth && checkPoint.y < levelHeight) {
-		Entity* tile = mapTiles[int(checkPoint.y)][int(checkPoint.x)];
-		return tile != NULL;
+	sf::Vector2f checkPoints []{
+			sf::Vector2f(player->getLeft() + 0.01, player->getBottom() + 0.01),
+			sf::Vector2f(player->getPosition().x, player->getBottom() + 0.01),
+			sf::Vector2f(player->getRight() - 0.01, player->getBottom() + 0.01) };
+	
+	for (int i = 0; i < sizeof(checkPoints); i++) {
+		sf::Vector2f p = checkPoints[i];
+
+		if (p.x > 0 && p.y > 0 && p.x < levelWidth && p.y < levelHeight) {
+			Entity* tile = mapTiles[int(floor(p.x))][int(floor(p.y))];
+			if (tile != NULL)
+				return true;
+		}
 	}
-	else return false;
+	return false;
 }

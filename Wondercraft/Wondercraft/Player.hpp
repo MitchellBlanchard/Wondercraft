@@ -14,6 +14,8 @@ public:
 
 	float projectileTimer;
 
+	bool facingRight;
+
 private:
 	
 };

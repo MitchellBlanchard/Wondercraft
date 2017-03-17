@@ -8,7 +8,7 @@ class BottomEdgeEntity : public Entity {
 public:
 	BottomEdgeEntity(sf::Vector2f& position, float width);
 
-	virtual float collisionCalc(float deltaTime, Entity&);
+	virtual bool collisionCalc(float& step, float deltaTime, Entity&);
 
 	virtual float getLeft();
 	virtual float getRight();
