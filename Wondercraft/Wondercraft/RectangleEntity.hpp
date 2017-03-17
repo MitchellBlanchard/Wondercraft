@@ -24,6 +24,8 @@ public:
 	virtual float getRight();
 	virtual float getBottom();
 
+	void setSize(sf::Vector2f);
+
 private:
 	LeftEdgeEntity leftEdge;
 	RightEdgeEntity rightEdge;

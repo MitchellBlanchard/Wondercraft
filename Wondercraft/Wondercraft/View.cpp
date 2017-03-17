@@ -186,7 +186,9 @@ void View::render() {
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition(model->playerProjectiles[i]->position * TILE_SIZE);
+		projectile.setScale(sf::Vector2f(model->playerProjectiles[i]->getSize().x / model->playerProjectiles[i]->originSize.x, model->playerProjectiles[i]->getSize().y / model->playerProjectiles[i]->originSize.y));
+		projectile.setPosition(model->playerProjectiles[i]->position * TILE_SIZE);   
+		//std::cout << "Size offset: " << model->playerProjectiles[i]->getSize().x / (float)2 * TILE_SIZE << " : " << model->playerProjectiles[i]->getSize().y / (float)2 * TILE_SIZE << std::endl;
 		window.draw(projectile, cameraState);
 	}
 

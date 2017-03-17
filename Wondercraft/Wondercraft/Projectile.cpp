@@ -3,6 +3,8 @@
 #include <iostream>
 
 Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE, int projectileType) : RectangleEntity(spawn, sf::Vector2f(1.5,2.5)), projectileType(projectileType), TILE_SIZE(TILE_SIZE), startingPos(startingPos){
+	originSize = sf::Vector2f(1.5, 2.5);
+	
 	mouseVector = sf::Vector2f((float)mouseLoc.x*(float)TILE_SIZE, (float)mouseLoc.y*(float)TILE_SIZE);
 	
 	this->mouseLoc = mouseLoc;
@@ -31,13 +33,13 @@ void Projectile::update(float deltaTime, Model* model) {
 			//start the expansion of the bomb
 			explode();
 		}
- 
 	}
 	
 }
 
 void Projectile::explode() {
-	//nothing yet
+	setSize(sf::Vector2f(getSize().x + 0.05, getSize().y + 0.05));
+	//std::cout << "Size: " << getSize().x << " : " << getSize().y << std::endl;
 }
 
 void Projectile::setBehaviour() {
