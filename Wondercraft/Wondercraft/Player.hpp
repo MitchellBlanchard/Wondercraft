@@ -12,6 +12,8 @@ public:
 
 	void update(float deltaTime, Model*);
 
+	bool facingRight;
+
 private:
 	
 };

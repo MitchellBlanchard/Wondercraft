@@ -11,8 +11,6 @@ public:
 	Projectile(sf::Vector2f spawn);
 	bool updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies);
 
-	sf::Vector2f velocity;
-
 private:
 
 };

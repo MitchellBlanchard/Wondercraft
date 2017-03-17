@@ -20,57 +20,69 @@ void Entity::setVelocity(sf::Vector2f& v) {
 	velocity = v;
 }
 
+sf::Vector2f Entity::getPosition() {
+	return position;
+}
+
+void Entity::setPosition(sf::Vector2f& p) {
+	position = p;
+}
+
 
 
 bool Entity::checkAABB(Entity& e) {
+	float threshold = 0.0001;
+
 	//check if e is too far left
-	if (e.getRight() < getLeft())
+	if (e.getRight() < getLeft() + threshold)
 		return false;
 
 	//check if e is too far right
-	if (e.getLeft() > getRight())
+	if (e.getLeft() > getRight() - threshold)
 		return false;
 
 	//check if e is too high
-	if (e.getBottom() < getTop())
+	if (e.getBottom() < getTop() + threshold)
 		return false;
 
 	//check if e is too low
-	if (e.getTop() > getBottom())
+	if (e.getTop() > getBottom() - threshold)
 		return false;
 
 	return true;
 }
 
 bool Entity::checkMovingAABB(float deltaTime, Entity& e) {
+	float threshold = 0.0001;
+
 	sf::Vector2f v = velocity * deltaTime;
 
 	//check if e is too far left
 	float leftBound = getLeft();
 	if (v.x < 0) leftBound += v.x;
 
-	if (e.getRight() < leftBound)
+	if (e.getRight() < leftBound + threshold)
 		return false;
 
 	//check if e is too far right
 	float rightBound = getRight();
 	if (v.x > 0) rightBound += v.x;
 
-	if (e.getLeft() > rightBound)
+	if (e.getLeft() > rightBound - threshold)
 		return false;
 
 	//check if e is too high
 	float topBound = getTop();
 	if (v.y < 0) topBound += v.y;
 
-	if (e.getBottom() < topBound)
+	if (e.getBottom() < topBound + threshold)
 		return false;
 
 	//check if e is too low
 	float bottomBound = getBottom();
 	if (v.y > 0) bottomBound += v.y;
 
-	if (e.getTop() > bottomBound)
+	if (e.getTop() > bottomBound - threshold)
 		return false;
 
 	return true;

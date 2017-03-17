@@ -19,6 +19,6 @@ private:
 	sf::Clock lastUpdate;
 	sf::Clock lastRender;
 
-	const float updateFPS = 100.0f;
-	const float renderFPS = 60.0f;
+	const float updateFPS;
+	const float renderFPS;
 };

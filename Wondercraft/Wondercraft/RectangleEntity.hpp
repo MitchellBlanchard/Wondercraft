@@ -15,9 +15,10 @@ public:
 	//also sets the velocity of all four edges
 	virtual void setVelocity(sf::Vector2f&);
 
-	//returns the fraction of the frame step until colliding with the given object
-	//returns a negative value if there is no collision
-	virtual float collisionCalc(float deltaTime, Entity&);
+	//also sets the position of all four edges
+	virtual void setPosition(sf::Vector2f&);
+
+	virtual bool collisionCalc(float& step, float deltaTime, Entity&);
 
 	virtual float getLeft();
 	virtual float getTop();

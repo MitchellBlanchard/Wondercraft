@@ -9,9 +9,6 @@ public:
 	Enemy(sf::Vector2f spawn);
 	void updatePosition(float dt, Player* p);
 
-protected:
-	sf::Vector2f velocity;
-
 private:
 
 };

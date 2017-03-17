@@ -7,13 +7,13 @@ Projectile::Projectile(sf::Vector2f spawn) : RectangleEntity(spawn, sf::Vector2f
 }
 
 bool Projectile::updatePosition(float dt, TileType** tiles, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies) {
-	position += (velocity * dt);
+	setPosition(getPosition() + velocity * dt);
 	sf::Vector2f checkPoint = position;
 	for (int i = 0; i < enemies.size(); i++) {
-		if (checkPoint.x > enemies[i]->position.x - enemies[i]->getSize().x/2
-			&& checkPoint.y > enemies[i]->position.y - enemies[i]->getSize().y/2
-			&& checkPoint.x < enemies[i]->position.x + enemies[i]->getSize().x/2
-			&& checkPoint.y < enemies[i]->position.y + enemies[i]->getSize().y/2) {
+		if (checkPoint.x > enemies[i]->getPosition().x - enemies[i]->getSize().x/2
+			&& checkPoint.y > enemies[i]->getPosition().y - enemies[i]->getSize().y/2
+			&& checkPoint.x < enemies[i]->getPosition().x + enemies[i]->getSize().x/2
+			&& checkPoint.y < enemies[i]->getPosition().y + enemies[i]->getSize().y/2) {
 			enemies.erase(enemies.begin() + i);
 			return false;
 		}

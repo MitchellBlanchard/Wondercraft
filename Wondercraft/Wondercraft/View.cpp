@@ -116,14 +116,15 @@ void View::render() {
 	}
 
 	//draw player
-	player.setPosition(model->player->position * TILE_SIZE);
+	player.setPosition(model->player->getPosition() * TILE_SIZE);
+	player.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(player, cameraState);
 
 	//draw player projectiles
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition(model->playerProjectiles[i]->position * TILE_SIZE);
+		projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
 		window.draw(projectile, cameraState);
 	}
 
@@ -131,7 +132,7 @@ void View::render() {
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
 		enemy.setTexture(*spriteTextures->get("goober1.png"));
-		enemy.setPosition(model->enemies[i]->position * TILE_SIZE);
+		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 		window.draw(enemy, cameraState);
 	}
     
