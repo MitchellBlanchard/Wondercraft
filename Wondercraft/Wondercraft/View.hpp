@@ -31,7 +31,7 @@ public:
 	TextureLoader* spriteTextures;
 	TextureLoader* menuTextures;
 
-	void render(int);
+	void render();
 	void updateTiles();
 
 	sf::Vector2f getStartingPos();

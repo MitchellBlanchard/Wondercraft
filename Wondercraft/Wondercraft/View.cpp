@@ -152,7 +152,7 @@ void View::render() {
 	//create a new render state for the camera displacement
 	sf::RenderStates cameraState;
 	cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
-	//std::cout << getStartingPos().x << " : " << getStartingPos().y << std::endl;
+	//std::cout << -getStartingPos().x * TILE_SIZE + model->player->position.x * TILE_SIZE << " : " << getStartingPos().y * TILE_SIZE + model->player->position.y * TILE_SIZE << std::endl;
 
 	//draw background	
 	window.draw(background);
@@ -208,7 +208,7 @@ void View::render() {
 		window.draw(selected);
 	}
 	//std::cout << model->gameState << std::endl;
-	std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
+	//std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
     
 	window.display();
 }
