@@ -12,6 +12,8 @@ public:
 
 	void update(float deltaTime, Model*);
 
+	float projectileTimer;
+
 	bool facingRight;
 
 private:

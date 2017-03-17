@@ -7,12 +7,21 @@
 
 #include <iostream>
 using namespace std;
-
 Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
+	projectileTimer = 0;
 	facingRight = true;
 }
 
 void Player::update(float deltaTime, Model* model) {
+	if (projectileTimer != 0) {
+		projectileTimer -= deltaTime;
+	}
+
+	if (projectileTimer <= 0) {
+		projectileTimer = 0;
+	}
+
+
 	float threshold = 0.0001;
 
 	cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl;

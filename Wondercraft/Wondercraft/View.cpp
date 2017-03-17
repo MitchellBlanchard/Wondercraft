@@ -14,13 +14,27 @@ View::View(Model* model) {
 
 	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
 	spriteTextures = new TextureLoader("assets/sprites/");
+	menuTextures = new TextureLoader("assets/menus/");
 	 
 	initSpriteArray();
 
+	initMenuArray();
+
 	background.setTexture(*(levelTextures->get("bg.png")));
 	
-	player.setTexture(*(spriteTextures->get("player.png")));
-	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2);
+	/*player.setTexture(*(spriteTextures->get("player.png")));
+	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
+
+	playerHat.setTexture(*(spriteTextures->get("player/blankHat.png")));
+	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
+	playerRobe.setTexture(*(spriteTextures->get("player/blankRobe.png")));
+	playerRobe.setOrigin(playerRobe.getLocalBounds().width / 2, playerRobe.getLocalBounds().height / 2);
+	playerStaff.setTexture(*(spriteTextures->get("player/blankStaff.png")));
+	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
+
+	menu.setTexture(*(menuTextures->get("1.png")));
+	selected.setTexture(*(menuTextures->get("3.png")));
+
 }
 
 void View::initSpriteArray() {
@@ -39,6 +53,47 @@ void View::initSpriteArray() {
 			displaySprites[x][y].setTexture(*(getTexture(x, y)));
 		}
 	}
+}
+
+void View::initMenuArray() {
+	menuSquares1.resize(3);
+	for (int row = 0; row < menuSquares1.size(); row++) {
+		menuSquares1[row].resize(1);
+	}
+
+	for (int row = 0; row < menuSquares1.size(); row++) {
+		for (int col = 0; col < menuSquares1[row].size(); col++) {
+			menuSquares1[row][col].setPosition(SQUARE_SIZE_X * col + 317 + col * 5, SQUARE_SIZE_Y * row + 3 + row * 2);
+			menuSquares1[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+	menuSquares2.resize(1);
+	for (int row = 0; row < menuSquares2.size(); row++) {
+		menuSquares2[row].resize(3);
+	}
+
+	for (int row = 0; row < menuSquares2.size(); row++) {
+		for (int col = 0; col < menuSquares2[row].size(); col++) {
+			menuSquares2[row][col].setPosition(SQUARE_SIZE_X * col + 528 + col * 57, SQUARE_SIZE_Y * row + 136);// +row * 2);
+			menuSquares2[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+
+	menuSquares3.resize(3);
+	for (int row = 0; row < menuSquares3.size(); row++) {
+		menuSquares3[row].resize(10);
+	}
+
+	for (int row = 0; row < menuSquares3.size(); row++) {
+		for (int col = 0; col < menuSquares3[row].size(); col++) {
+			menuSquares3[row][col].setPosition(SQUARE_SIZE_X * col + 84 + col * 5, SQUARE_SIZE_Y * row + 280 +row * 2);
+			menuSquares3[row][col].setTexture(*(menuTextures->get("tile.png")));
+		}
+	}
+
+	selected.setPosition(84, 280);
 }
 
 sf::Texture* View::getTexture(int x, int y) {
@@ -104,6 +159,7 @@ void View::render() {
 	//create a new render state for the camera displacement
 	sf::RenderStates cameraState;
 	cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
+	//std::cout << -getStartingPos().x * TILE_SIZE + model->player->position.x * TILE_SIZE << " : " << getStartingPos().y * TILE_SIZE + model->player->position.y * TILE_SIZE << std::endl;
 
 	//draw background	
 	window.draw(background);
@@ -116,9 +172,18 @@ void View::render() {
 	}
 
 	//draw player
-	player.setPosition(model->player->getPosition() * TILE_SIZE);
-	player.setScale(model->player->facingRight ? 1 : -1, 1);
-	window.draw(player, cameraState);
+	/*player.setPosition(model->player->position * TILE_SIZE);
+	window.draw(player, cameraState);*/
+
+	playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
+	window.draw(playerHat, cameraState);
+	playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
+	window.draw(playerRobe, cameraState);
+	playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
+	window.draw(playerStaff, cameraState);
 
 	//draw player projectiles
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
@@ -135,6 +200,42 @@ void View::render() {
 		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 		window.draw(enemy, cameraState);
 	}
+
+	if (model->gameState == 2) { //drawing the pause menu
+		window.draw(menu);
+
+		for (int i = 0; i < menuSquares1.size(); i++) {
+			for (int j = 0; j < menuSquares1[i].size(); j++) {
+				window.draw(menuSquares1[i][j]);
+			}
+		}
+
+		for (int i = 0; i < menuSquares2.size(); i++) {
+			for (int j = 0; j < menuSquares2[i].size(); j++) {
+				window.draw(menuSquares2[i][j]);
+			}
+		}
+
+		for (int i = 0; i < menuSquares3.size(); i++) {
+			for (int j = 0; j < menuSquares3[i].size(); j++) {
+				window.draw(menuSquares3[i][j]);
+			}
+		}
+
+
+		//draws the player on the menu
+		playerHat.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerHat);
+		playerRobe.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerRobe);
+		playerStaff.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerStaff);
+
+		window.draw(selected);
+
+	}
+	//std::cout << model->gameState << std::endl;
+	//std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
     
 	window.display();
 }

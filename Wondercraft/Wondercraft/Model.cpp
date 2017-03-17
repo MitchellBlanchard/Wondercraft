@@ -12,6 +12,8 @@ Model::Model() {
 	readMapData("assets/map_data/test_level_1.txt");
 
 	player = new Player(playerSpawn);
+
+	gameState = 1;
 }
 
 Model::~Model() {
@@ -172,8 +174,12 @@ void Model::update(float deltaTime) {
 		player->setVelocity(player->getVelocity() + sf::Vector2f(0, 16)*deltaTime);
 	player->update(deltaTime, this);
 
-	/*for (int i = 0; i < playerProjectiles.size(); i++) {
-		if (!playerProjectiles[i]->updatePosition(deltaTime, mapTiles, levelWidth, levelHeight, enemies)) {
+	for (int i = 0; i < playerProjectiles.size(); i++) {
+		playerProjectiles[i]->update(deltaTime, this);
+	}
+	/*
+	for (int i = 0; i < playerProjectiles.size(); i++) {
+		if (!playerProjectiles[i]->update(deltaTime, this) {
 			playerProjectiles.erase(playerProjectiles.begin() + i);
 		}
 	}*/
