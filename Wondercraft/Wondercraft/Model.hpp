@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "Projectile.hpp"
 #include "Enemy.hpp"
+#include "Menu.h"
 
 class Model : public Updateable {
 public:
@@ -39,6 +40,8 @@ public:
 	bool playerIsGrounded();
 
 	int gameState;
+
+	Menu menu;
 
 private:
 	static std::string trim(std::string&);

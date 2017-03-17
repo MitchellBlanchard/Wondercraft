@@ -93,7 +93,7 @@ void View::initMenuArray() {
 		}
 	}
 
-	selected.setPosition(84, 280);
+	selected.setPosition(model->menu.x, model->menu.y);
 }
 
 sf::Texture* View::getTexture(int x, int y) {
@@ -228,7 +228,24 @@ void View::render() {
 		playerStaff.setPosition(model->player->pauseX, model->player->pauseY);
 		window.draw(playerStaff);
 
-			window.draw(selected);
+		//SQUARE_SIZE_X * col + 84 + col * 5, SQUARE_SIZE_Y * row + 280 +row * 2
+		//jesus don't mind this math garbo, disgusting
+		//this just chooses where to draw the highlighted tile based on some shit
+		if (model->menu.menuSide == 1) {
+			selected.setPosition(SQUARE_SIZE_X * model->menu.selectedLoc.x + 317 + model->menu.selectedLoc.x * 5,
+				SQUARE_SIZE_Y * model->menu.selectedLoc.y + 3 + model->menu.selectedLoc.y * 2);
+		}
+		else if (model->menu.menuSide == 2) {
+			selected.setPosition(SQUARE_SIZE_X * model->menu.selectedLoc.x + 528 + model->menu.selectedLoc.x * 57, 
+				SQUARE_SIZE_Y * model->menu.selectedLoc.y + 136);
+		}
+		else if (model->menu.menuSide == 3) {
+			selected.setPosition(SQUARE_SIZE_X * model->menu.selectedLoc.x + model->menu.x + model->menu.selectedLoc.x * 5,
+				SQUARE_SIZE_Y * model->menu.selectedLoc.y + model->menu.y + model->menu.selectedLoc.y * 2);
+		}
+		window.draw(selected);
+		std::cout << "Menu: " << model->menu.menuSide << std::endl;
+		//std::cout << "X: " << model->menu.selectedLoc.x << ", Y: " << model->menu.selectedLoc.y << std::endl;
 
 	}
 	//std::cout << model->gameState << std::endl;

@@ -13,6 +13,8 @@ Model::Model() {
 	player = new Player(playerSpawn);
 
 	gameState = 1;
+
+	menu = Menu();
 }
 
 Model::~Model() {

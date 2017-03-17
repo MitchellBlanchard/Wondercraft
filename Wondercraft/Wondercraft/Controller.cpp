@@ -85,27 +85,91 @@ void Controller::inputs() {
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			model->gameState = 2;
+			model->menu.selectedLoc.x = 0;
+			model->menu.selectedLoc.y = 0;
 		}
 		else {
 			model->player->setVelocity(sf::Vector2f(0, model->player->getVelocity().y));
 		}
 	}
 
+	//this shit currently flips too fast. gotta set an individual limit for moving on this menu i guess :V
+	//also, fuck this garbage, im shit im so sorry
 	else if (model->gameState == 2) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
 			model->gameState = 1;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			
+			if (model->menu.menuSide == 1) { //left menu
+				if (model->menu.selectedLoc.y - 1 >= 0)
+					model->menu.selectedLoc.y -= 1;
+			}
+			else if (model->menu.menuSide == 2) {
+				//nothing happens if you hit up on crafting menu
+			}
+			else if (model->menu.menuSide == 3) {
+				if (model->menu.selectedLoc.y - 1 >= 0) //stay in menu, just move up
+					model->menu.selectedLoc.y -= 1;
+				else if (model->menu.selectedLoc.x <= 4) { //gotta go to equip menus
+					model->menu.menuSide = 1;
+					model->menu.selectedLoc.y = 2;
+				}
+				else { //gotta go to crafting
+					model->menu.menuSide = 2;
+					model->menu.selectedLoc.x = 0;
+					model->menu.selectedLoc.y = 0;
+				}
+			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-
+			if (model->menu.menuSide == 1) { //left menu
+				//nothing happens if you hit left in left menu
+			}
+			else if (model->menu.menuSide == 2) { //right menu
+				if (model->menu.selectedLoc.x - 1 >= 0) {
+					model->menu.selectedLoc.x -= 1;
+				}
+				else {
+					model->menu.menuSide = 1;
+					model->menu.selectedLoc.y = 2;
+				}
+			}
+			else if (model->menu.menuSide == 3) {
+				if (model->menu.selectedLoc.x - 1 >= 0)
+					model->menu.selectedLoc.x -= 1;
+			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-
+			if (model->menu.menuSide == 1) { //in left menu, go to right menu
+				model->menu.menuSide = 2;
+			}
+			else if (model->menu.menuSide == 2) { //in right menu 
+				if (model->menu.selectedLoc.x + 1 < 3) {
+					model->menu.selectedLoc.x += 1;
+				}
+			}
+			else if (model->menu.menuSide == 3) { //in bottom menu
+				if (model->menu.selectedLoc.x + 1 < 10)
+					model->menu.selectedLoc.x += 1;
+			}
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-
+			if (model->menu.menuSide == 1){ //in left menu
+				if (model->menu.selectedLoc.y + 1 < 3) {
+					model->menu.selectedLoc.y += 1;
+				}
+				else {
+					model->menu.menuSide = 3;
+				}
+			}
+			else if (model->menu.menuSide == 2) { //in right menu 
+				model->menu.menuSide = 3;
+			}
+			else if (model->menu.menuSide == 3) { //in the bottom menu
+				if (model->menu.selectedLoc.y + 1 < 3)
+					model->menu.selectedLoc.y += 1;
+			}
+			
 		}
 	}
 }
