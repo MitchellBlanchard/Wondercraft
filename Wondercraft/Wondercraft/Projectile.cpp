@@ -2,12 +2,10 @@
 #include <cmath>
 #include <iostream>
 
-Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f playerVec, sf::Vector2f mouseLoc) : RectangleEntity(spawn, sf::Vector2f(1.5,2.5)) {
+Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE) : RectangleEntity(spawn, sf::Vector2f(1.5,2.5)) {
 	
-	//this is pretty gross, but i'm not really sure how else to fix this...
-	sf::Vector2f mouseVector = sf::Vector2f((float)mouseLoc.x*(float)64, (float)mouseLoc.y*(float)64);
+	sf::Vector2f mouseVector = sf::Vector2f((float)mouseLoc.x*(float)TILE_SIZE, (float)mouseLoc.y*(float)TILE_SIZE);
 	sf::Vector2f diffVector = mouseVector - playerVec;
-	diffVector.y += 128;
 	
 	float magnitude = sqrt(pow(diffVector.x, 2) + pow(diffVector.y, 2));
 	velocity = sf::Vector2f((diffVector.x / magnitude)*5, (diffVector.y / magnitude)*5);
