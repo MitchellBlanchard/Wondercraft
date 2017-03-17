@@ -4,5 +4,5 @@ Enemy::Enemy(sf::Vector2f spawn) : RectangleEntity(spawn - sf::Vector2f(2.5/2, 1
 }
 
 void Enemy::updatePosition(float dt, Player* player) {
-	position += (velocity * dt);
+	setPosition(getPosition() + velocity * dt);
 }

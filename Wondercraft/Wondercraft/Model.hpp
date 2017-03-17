@@ -9,6 +9,11 @@
 #include "Enemy.hpp"
 #include "Menu.h"
 
+enum GameState {
+	PLAYING,
+	INVENTORY
+};
+
 class Model : public Updateable {
 public:
 	Model();
@@ -39,7 +44,7 @@ public:
 
 	bool playerIsGrounded();
 
-	int gameState;
+	GameState gameState;
 
 	Menu menu;
 

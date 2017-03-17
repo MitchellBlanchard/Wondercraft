@@ -17,65 +17,54 @@ void Controller::inputs() {
 		if (event.type == sf::Event::Closed) {
 			window.close();
 		}
-	}
 
-	/*
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		if (model->camera.y - 0.01 - (view->windowSize.y/2) > 0) {
-			model->camera.y -= 0.01;
-		}
-	}
-
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		if (model->camera.y + 0.01 + (view->windowSize.y / 2) < (model->levelHeight) * view->TILE_SIZE) {
-			model->camera.y += 0.01;
-		}
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (model->camera.x + 0.01 + (view->windowSize.x / 2) < (model->levelWidth - 1) * view->TILE_SIZE) {
-			model->camera.x += 0.01;
-		}
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		if (model->camera.x - 0.01 - (view->windowSize.x / 2) > 0) {
-			model->camera.x -= 0.01;
-		}
-	}
-	*/
-	float speed = 5;
-
-	if (model->gameState == 1) {
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			if (model->playerIsGrounded()) {
-				model->player->setVelocity(sf::Vector2f(model->player->getVelocity().x, -20));
+		else if (event.type == sf::Event::KeyReleased) {
+			if (model->gameState == GameState::PLAYING) {
+				if (event.key.code == sf::Keyboard::I) {
+					model->gameState = INVENTORY;
+				}
+			}
+			else if (model->gameState == GameState::INVENTORY) {
+				if (event.key.code == sf::Keyboard::I) {
+					model->gameState = PLAYING;
+				}
 			}
 		}
+	}
 
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			//do nothing on Down right now
+	if (model->gameState == GameState::PLAYING) {
+		float speed = 5;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (model->playerIsGrounded()) {
+				model->player->setVelocity(sf::Vector2f(model->player->getVelocity().x, -10));
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			model->player->setVelocity(sf::Vector2f(-speed, model->player->getVelocity().y));
+			model->player->facingRight = false;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			model->player->setVelocity(sf::Vector2f(speed, model->player->getVelocity().y));
+			model->player->facingRight = true;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			if (model->player->projectileTimer == 0) {
-				sf::Vector2f mouseVec = sf::Vector2f(((float)sf::Mouse::getPosition(window).x / (float)64), ((float)sf::Mouse::getPosition(window).y / (float)64));
-				sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->position.x * view->TILE_SIZE), ((model->player->position.y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
+		else {
+			model->player->setVelocity(sf::Vector2f(0, model->player->getVelocity().y));
+		}
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			sf::Vector2f mouseVec = sf::Vector2f(((float)sf::Mouse::getPosition(window).x / (float)64), ((float)sf::Mouse::getPosition(window).y / (float)64));
+			sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->getPosition().x * view->TILE_SIZE), ((model->player->getPosition().y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
 
+			if (model->player->projectileTimer == 0) {
 				int projectileType = 2;
 
 				/*
 				if (projectileType == 1) {
-					model->player->projectileTimer = 0.5;
+				model->player->projectileTimer = 0.5;
 				}
 				else if (projectileType == 2) {
-					model->player->projectileTimer = 1;
+				model->player->projectileTimer = 1;
 				}
 				*/
 
@@ -169,7 +158,6 @@ void Controller::inputs() {
 				if (model->menu.selectedLoc.y + 1 < 3)
 					model->menu.selectedLoc.y += 1;
 			}
-			
 		}
 	}
 }

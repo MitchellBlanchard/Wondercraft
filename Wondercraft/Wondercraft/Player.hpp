@@ -14,7 +14,7 @@ public:
 
 	float projectileTimer;
 
-	float pauseX, pauseY;
+	bool facingRight;
 
 private:
 	

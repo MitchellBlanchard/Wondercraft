@@ -175,18 +175,21 @@ void View::render() {
 	/*player.setPosition(model->player->position * TILE_SIZE);
 	window.draw(player, cameraState);*/
 
-	playerHat.setPosition(model->player->position * TILE_SIZE);
+	playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerHat, cameraState);
-	playerRobe.setPosition(model->player->position * TILE_SIZE);
+	playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerRobe, cameraState);
-	playerStaff.setPosition(model->player->position * TILE_SIZE);
+	playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
+	playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerStaff, cameraState);
 
 	//draw player projectiles
 	for (int i = 0; i < model->playerProjectiles.size(); i++) {
 		sf::Sprite projectile;
 		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition(model->playerProjectiles[i]->position * TILE_SIZE);
+		projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
 		window.draw(projectile, cameraState);
 	}
 
@@ -194,11 +197,11 @@ void View::render() {
 	for (int i = 0; i < model->enemies.size(); i++) {
 		sf::Sprite enemy;
 		enemy.setTexture(*spriteTextures->get("goober1.png"));
-		enemy.setPosition(model->enemies[i]->position * TILE_SIZE);
+		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 		window.draw(enemy, cameraState);
 	}
 
-	if (model->gameState == 2) { //drawing the pause menu
+	if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
 		window.draw(menu);
 
 		for (int i = 0; i < menuSquares1.size(); i++) {
@@ -221,11 +224,11 @@ void View::render() {
 
 
 		//draws the player on the menu
-		playerHat.setPosition(model->player->pauseX, model->player->pauseY);
+		playerHat.setPosition(185, 135);
 		window.draw(playerHat);
-		playerRobe.setPosition(model->player->pauseX, model->player->pauseY);
+		playerRobe.setPosition(185, 135);
 		window.draw(playerRobe);
-		playerStaff.setPosition(model->player->pauseX, model->player->pauseY);
+		playerStaff.setPosition(185, 135);
 		window.draw(playerStaff);
 
 		//SQUARE_SIZE_X * col + 84 + col * 5, SQUARE_SIZE_Y * row + 280 +row * 2
@@ -244,7 +247,7 @@ void View::render() {
 				SQUARE_SIZE_Y * model->menu.selectedLoc.y + model->menu.y + model->menu.selectedLoc.y * 2);
 		}
 		window.draw(selected);
-		std::cout << "Menu: " << model->menu.menuSide << std::endl;
+		//std::cout << "Menu: " << model->menu.menuSide << std::endl;
 		//std::cout << "X: " << model->menu.selectedLoc.x << ", Y: " << model->menu.selectedLoc.y << std::endl;
 
 	}

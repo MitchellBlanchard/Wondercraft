@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game() : view(&model), controller(&model, &view) {}
+Game::Game() : view(&model), controller(&model, &view), updateFPS(100), renderFPS(60) {}
 
 void Game::loop() {
 	while (controller.isRunning()) {
@@ -21,4 +21,5 @@ void Game::loop() {
 			view.render(/*model.gameState*/);
 		}
 	}
+	while (true) {}
 }
