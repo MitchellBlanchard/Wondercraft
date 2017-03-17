@@ -44,11 +44,13 @@ void Controller::inputs() {
 	}
 	*/
 	float speed = 5;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		if (model->playerIsGrounded()) {
 			model->player->setVelocity(sf::Vector2f(model->player->getVelocity().x, -20));
 		}
 	}
+
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		//do nothing on Down right now
 	}
@@ -58,6 +60,12 @@ void Controller::inputs() {
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		model->player->setVelocity(sf::Vector2f(speed, model->player->getVelocity().y));
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		sf::Vector2f mouseVec = sf::Vector2f(((float)sf::Mouse::getPosition(window).x / (float)64), ((float)sf::Mouse::getPosition(window).y / (float)64));
+		model->playerProjectiles.push_back(new Projectile(model->player->position,view->getStartingPos(), mouseVec));
+		//model->playerProjectiles.push_back(new Projectile(view->getStartingPos(), sf::Mouse::getPosition(window)));
+
 	}
 	else {
 		model->player->setVelocity(sf::Vector2f(0, model->player->getVelocity().y));

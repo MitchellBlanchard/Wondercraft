@@ -171,10 +171,17 @@ void Model::update(float deltaTime) {
 		player->setVelocity(player->getVelocity() + sf::Vector2f(0, 0.6));
 	else if (player->getVelocity().y > 0)
 		player->setVelocity(sf::Vector2f(player->getVelocity().x, 0));
+
+	player->setVelocity(sf::Vector2f(player->getVelocity().x, 0));
+
 	player->update(deltaTime, this);
 
-	/*for (int i = 0; i < playerProjectiles.size(); i++) {
-		if (!playerProjectiles[i]->updatePosition(deltaTime, mapTiles, levelWidth, levelHeight, enemies)) {
+	for (int i = 0; i < playerProjectiles.size(); i++) {
+		playerProjectiles[i]->update(deltaTime, this);
+	}
+	/*
+	for (int i = 0; i < playerProjectiles.size(); i++) {
+		if (!playerProjectiles[i]->update(deltaTime, this) {
 			playerProjectiles.erase(playerProjectiles.begin() + i);
 		}
 	}*/

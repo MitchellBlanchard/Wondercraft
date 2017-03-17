@@ -5,13 +5,17 @@
 #include "TileType.hpp"
 #include "Enemy.hpp"
 #include "RectangleEntity.hpp"
+#include <cmath>
+
 
 class Projectile : public RectangleEntity {
 public:
-	Projectile(sf::Vector2f spawn);
-	bool updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies);
+	Projectile(sf::Vector2f, sf::Vector2f, sf::Vector2f);
+	//bool updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies);
 
-	sf::Vector2f velocity;
+	void update(float, Model*);
+
+	sf::Vector2i mouseLoc;
 
 private:
 

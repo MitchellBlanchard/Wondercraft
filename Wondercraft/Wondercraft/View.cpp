@@ -104,6 +104,7 @@ void View::render() {
 	//create a new render state for the camera displacement
 	sf::RenderStates cameraState;
 	cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
+	//std::cout << getStartingPos().x << " : " << getStartingPos().y << std::endl;
 
 	//draw background	
 	window.draw(background);
