@@ -5,6 +5,10 @@
 
 Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
 	projectileTimer = 0;
+
+	//the location the player is drawn on the pause screen
+	pauseX = 185;
+	pauseY = 135;
 }
 
 void Player::update(float deltaTime, Model* model) {

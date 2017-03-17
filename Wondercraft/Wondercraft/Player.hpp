@@ -14,6 +14,8 @@ public:
 
 	float projectileTimer;
 
+	float pauseX, pauseY;
+
 private:
 	
 };

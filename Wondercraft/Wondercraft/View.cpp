@@ -218,6 +218,16 @@ void View::render() {
 				window.draw(menuSquares3[i][j]);
 			}
 		}
+
+
+		//draws the player on the menu
+		playerHat.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerHat);
+		playerRobe.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerRobe);
+		playerStaff.setPosition(model->player->pauseX, model->player->pauseY);
+		window.draw(playerStaff);
+
 			window.draw(selected);
 
 	}
