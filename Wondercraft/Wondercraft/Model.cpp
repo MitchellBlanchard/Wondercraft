@@ -11,6 +11,8 @@ Model::Model() {
 	readMapData("assets/map_data/test_level_1.txt");
 
 	player = new Player(playerSpawn);
+
+	gameState = 1;
 }
 
 Model::~Model() {

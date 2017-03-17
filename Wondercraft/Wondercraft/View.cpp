@@ -204,8 +204,8 @@ void View::render() {
 				window.draw(menuSquares3[i][j]);
 			}
 		}
+			window.draw(selected);
 
-		window.draw(selected);
 	}
 	//std::cout << model->gameState << std::endl;
 	//std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
