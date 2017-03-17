@@ -8,6 +8,11 @@
 #include "Projectile.hpp"
 #include "Enemy.hpp"
 
+enum GameState {
+	PLAYING,
+	INVENTORY
+};
+
 class Model : public Updateable {
 public:
 	Model();
@@ -38,7 +43,7 @@ public:
 
 	bool playerIsGrounded();
 
-	int gameState;
+	GameState gameState;
 
 private:
 	static std::string trim(std::string&);

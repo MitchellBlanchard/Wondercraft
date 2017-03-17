@@ -201,7 +201,7 @@ void View::render() {
 		window.draw(enemy, cameraState);
 	}
 
-	if (model->gameState == 2) { //drawing the pause menu
+	if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
 		window.draw(menu);
 
 		for (int i = 0; i < menuSquares1.size(); i++) {
@@ -224,11 +224,11 @@ void View::render() {
 
 
 		//draws the player on the menu
-		playerHat.setPosition(model->player->pauseX, model->player->pauseY);
+		playerHat.setPosition(185, 135);
 		window.draw(playerHat);
-		playerRobe.setPosition(model->player->pauseX, model->player->pauseY);
+		playerRobe.setPosition(185, 135);
 		window.draw(playerRobe);
-		playerStaff.setPosition(model->player->pauseX, model->player->pauseY);
+		playerStaff.setPosition(185, 135);
 		window.draw(playerStaff);
 
 		window.draw(selected);
