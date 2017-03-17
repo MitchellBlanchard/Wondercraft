@@ -20,6 +20,8 @@ public:
 	void update(float, Model*);
 	void setBehaviour();
 
+	void explode();
+
 	int projectileType;
 private:
 	sf::Vector2f mouseVector;

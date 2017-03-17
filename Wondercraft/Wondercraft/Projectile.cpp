@@ -22,24 +22,31 @@ void Projectile::update(float deltaTime, Model* model) {
 		sf::Vector2f relativePos = sf::Vector2f(((-startingPos.x)*TILE_SIZE) + (position.x * TILE_SIZE), ((position.y * TILE_SIZE) - (startingPos.y*TILE_SIZE)));
 
 		sf::Vector2f distance = mouseVector - relativePos;
-		std::cout << distance.x << " : " << distance.y << std::endl;
+		//std::cout << abs(distance.x) << " : " << abs(distance.y) << std::endl;
 
-		if (abs(distance.x) > 5 && abs(distance.y) > 5) {
+		if (abs(distance.x) > 5 || abs(distance.y) > 5) {
 			position += (velocity * deltaTime);
 		}
 		else {
 			//start the expansion of the bomb
+			explode();
 		}
  
 	}
 	
 }
 
+void Projectile::explode() {
+	//nothing yet
+}
+
 void Projectile::setBehaviour() {
 	if (projectileType == FIREBALL) {
+
 		velocity = sf::Vector2f((diffVector.x / magnitude) * 5, (diffVector.y / magnitude) * 5);
 	}
 	else if (projectileType == FIRE_BOMB) {
+
 		velocity = sf::Vector2f((diffVector.x / magnitude) * 5, (diffVector.y / magnitude) * 5);
 	}
 }
