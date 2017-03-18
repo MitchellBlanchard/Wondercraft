@@ -13,12 +13,15 @@ public:
 
 	void update(float deltaTime, Model*);
 
+	float getHealth();
+
 	float projectileTimer;
+	float invinceFrames;
 
 	bool facingRight;
 
 	ItemType::ItemType hat, robe, staff;
 
 private:
-	
+	float health;
 };

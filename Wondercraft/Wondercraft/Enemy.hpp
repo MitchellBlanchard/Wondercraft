@@ -17,7 +17,7 @@ public:
 	Enemy(sf::Vector2f spawn, int, float);
 	void updatePosition(float dt, Player* p);
 
-	float health;
+	float health, damage;
 	EnemyType::EnemyType type;
 
 private:

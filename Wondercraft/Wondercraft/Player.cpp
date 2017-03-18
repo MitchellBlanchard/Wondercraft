@@ -8,7 +8,7 @@
 #include <iostream>
 using namespace std;
 
-Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
+Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)), health(40) {
 	projectileTimer = 0;
 	facingRight = true;
 
@@ -17,7 +17,12 @@ Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.
 	staff = ItemType::BASIC_STAFF;
 }
 
+float Player::getHealth() {
+	return health;
+}
+
 void Player::update(float deltaTime, Model* model) {
+	std::cout << "Player health: " << health << std::endl;
 	if (projectileTimer != 0) {
 		projectileTimer -= deltaTime;
 	}
@@ -26,6 +31,33 @@ void Player::update(float deltaTime, Model* model) {
 		projectileTimer = 0;
 	}
 
+	if (invinceFrames != 0) {
+		invinceFrames -= deltaTime;
+	}
+
+	if (invinceFrames <= 0) {
+		invinceFrames = 0;
+	}
+
+	//check collisions with entities
+	bool removed = false;
+
+	for (int i = 0; i < model->enemies.size(); i++) {
+		//std::cout << "Colliding with enemies" << std::endl;
+
+		bool collided = checkAABB(*model->enemies[i]);
+
+		if (collided) {
+			//we have a collision with the enemy
+			Enemy* currentEnemy = dynamic_cast <Enemy*>(model->enemies[i]);
+
+			if (invinceFrames == 0) {
+				health -= currentEnemy->damage;
+
+				invinceFrames = 1.0f;
+			}
+		}
+	}
 
 	float threshold = 0.0001;
 
