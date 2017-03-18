@@ -31,31 +31,6 @@ Model::~Model() {
 	player = NULL;
 	
 	this->cleanLevel();
-	/*
-	//delete enemies
-	for (int i = 0; i < enemies.size(); i++)
-		delete enemies[i];
-	enemies.clear();
-
-	//delete player projectiles
-	for (int i = 0; i < playerProjectiles.size(); i++)
-		delete playerProjectiles[i];
-	playerProjectiles.clear();
-
-	//delete enemy projectiles
-	for (int i = 0; i < enemyProjectiles.size(); i++)
-		delete enemyProjectiles[i];
-	enemyProjectiles.clear();
-
-	//delete tiles
-	for (int x = 0; x < levelWidth; x++) {
-		for (int y = 0; y < levelHeight; y++) {
-			delete mapTiles[x][y];
-		}
-		delete[] mapTiles[x];
-	}
-	delete[] mapTiles;
-	mapTiles = NULL;*/
 }
 
 void Model::readMapTiles(std::string filepath) {
