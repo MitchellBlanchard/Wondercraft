@@ -28,11 +28,11 @@ View::View(Model* model) {
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
 
-	playerHat.setTexture(*(spriteTextures->get("player/blankHat.png")));
+	playerHat.setTexture(*(spriteTextures->get("player/basic hat.png")));
 	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
-	playerRobe.setTexture(*(spriteTextures->get("player/blankRobe.png")));
+	playerRobe.setTexture(*(spriteTextures->get("player/basic robe.png")));
 	playerRobe.setOrigin(playerRobe.getLocalBounds().width / 2, playerRobe.getLocalBounds().height / 2);
-	playerStaff.setTexture(*(spriteTextures->get("player/blankStaff.png")));
+	playerStaff.setTexture(*(spriteTextures->get("player/basic staff.png")));
 	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
 
 	menu.setTexture(*(menuTextures->get("1.png")));
