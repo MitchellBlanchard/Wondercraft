@@ -24,11 +24,15 @@ Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2
 }
 
 void Projectile::update(float deltaTime, Model* model) {
+	std::cout << "Updating" << std::endl;
+
 	if (projectileType == FIREBALL) {
 		//check collisions with entities
-		//bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntity, std::vector<Entity*>& stillEntities, std::vector<Entity*>& collidedEntities);
+		bool removed = false;
 
 		for (int i = 0; i < model->enemies.size(); i++) {
+			std::cout << "Colliding with enemies" << std::endl;
+
 			bool collided = checkAABB(*model->enemies[i]);
 			
 			if (collided) {
@@ -47,8 +51,7 @@ void Projectile::update(float deltaTime, Model* model) {
 				}
 				
 				//erase the projectile
-				bool removed = false;;
-				bool player = true;;
+				bool player = true;
 
 				for (int j = 0; j < model->playerProjectiles.size(); j++) {
  					if (model->playerProjectiles[j] == this) {
@@ -69,11 +72,73 @@ void Projectile::update(float deltaTime, Model* model) {
 			}
 		}
 
+		//check collisions with the tiles
+		if (!removed) {
+			for (int i = getLeft(); i < (getRight()); i++) {
+				for (int j = getTop(); j < (getBottom()); j++) {
+					std::cout << "Colliding with tiles" << std::endl;
+					//we need to go through the ones that we are close to
+					if (i > 0 && i < model->levelWidth && j > 0 && j < model->levelHeight) {
+						if (model->mapTiles[i][j] != NULL) {
+							bool collided = checkAABB(*model->mapTiles[i][j]);
+
+							if (collided) {
+								//erase the projectile
+								bool player = true;;
+
+								for (int k = 0; k < model->playerProjectiles.size(); k++) {
+									if (model->playerProjectiles[k] == this) {
+										model->playerProjectiles.erase(model->playerProjectiles.begin() + k);
+										removed = true;
+										break;
+									}
+								}
+
+								if (!removed) {
+									for (int l = 0; l < model->enemyProjectiles.size(); l++) {
+										if (model->enemyProjectiles[l] == this) {
+											model->enemyProjectiles.erase(model->enemyProjectiles.begin() + l);
+											removed = true;
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+
+		if (!removed) {
+			//check to see if the projectile is off the screen
+			if (position.x < 0 || position.y > model->levelWidth || position.y < 0 || position.y > model->levelHeight) {
+				std::cout << "Removing off screen tiles" << std::endl;
+
+				//we need to erase the projectile
+				bool player = true;
+
+				for (int j = 0; j < model->playerProjectiles.size(); j++) {
+					if (model->playerProjectiles[j] == this) {
+						model->playerProjectiles.erase(model->playerProjectiles.begin() + j);
+						removed = true;
+						break;
+					}
+				}
+
+				if (!removed) {
+					for (int k = 0; k < model->enemyProjectiles.size(); k++) {
+						if (model->enemyProjectiles[k] == this) {
+							model->enemyProjectiles.erase(model->enemyProjectiles.begin() + k);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
 		setPosition(position + velocity*deltaTime);
-
-		//check collisions with tiles
-		//bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows) {
-
 	}
 }
 
