@@ -13,6 +13,8 @@ bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntit
 	float nearestStep = 1;
 	for (int i = 0; i < stillEntities.size(); i++) {
 		Entity* e = stillEntities[i];
+		//cout << "Still entity left and right: " << stillEntities[i]->getLeft() << " : " << stillEntities[i]->getRight() << endl;
+		//cout << "Still entity top and bottom: " << stillEntities[i]->getTop() << " : " << stillEntities[i]->getBottom() << endl;
 
 		float currentStep = 1;
 		/*

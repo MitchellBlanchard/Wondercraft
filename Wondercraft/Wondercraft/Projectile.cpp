@@ -7,9 +7,10 @@
 #include "TileType.hpp"
 #include "Enemy.hpp"
 #include "Model.hpp"
+//#include "Collisions.hpp"
 
-Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE, int projectileType, bool facingRight) : RectangleEntity(spawn, sf::Vector2f(1.5,2.5)), projectileType(projectileType), TILE_SIZE(TILE_SIZE), startingPos(startingPos){
-	originSize = sf::Vector2f(1.5, 2.5);
+Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE, int projectileType, bool facingRight) : RectangleEntity(spawn, sf::Vector2f(1.125,0.375)), projectileType(projectileType), TILE_SIZE(TILE_SIZE), startingPos(startingPos){
+	originSize = sf::Vector2f(1.125, 0.375);
 	
 	mouseVector = sf::Vector2f((float)mouseLoc.x*(float)TILE_SIZE, (float)mouseLoc.y*(float)TILE_SIZE);
 	
@@ -24,7 +25,55 @@ Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2
 
 void Projectile::update(float deltaTime, Model* model) {
 	if (projectileType == FIREBALL) {
-		position += velocity*deltaTime;
+		//check collisions with entities
+		//bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntity, std::vector<Entity*>& stillEntities, std::vector<Entity*>& collidedEntities);
+
+		for (int i = 0; i < model->enemies.size(); i++) {
+			bool collided = checkAABB(*model->enemies[i]);
+			
+			if (collided) {
+				//we have a collision with the enemy
+				Enemy* currentEnemy = dynamic_cast <Enemy*>(model->enemies[i]);
+
+				currentEnemy->health -= damage;
+
+				if (currentEnemy->health <= 0) {
+					//remove the enemy
+					for (int x = 0; x < model->enemies.size(); x++) {
+						if (model->enemies[x] == currentEnemy) {
+							model->enemies.erase(model->enemies.begin() + x);
+						}
+					}
+				}
+				
+				//erase the projectile
+				bool removed = false;;
+				bool player = true;;
+
+				for (int j = 0; j < model->playerProjectiles.size(); j++) {
+ 					if (model->playerProjectiles[j] == this) {
+						model->playerProjectiles.erase(model->playerProjectiles.begin() + j);
+						removed = true;
+						break;
+					}
+				}
+
+				if (!removed) {
+					for (int k = 0; k < model->enemyProjectiles.size(); k++) {
+						if (model->enemyProjectiles[k] == this) {
+							model->enemyProjectiles.erase(model->enemyProjectiles.begin() + k);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		setPosition(position + velocity*deltaTime);
+
+		//check collisions with tiles
+		//bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntity, Entity*** stillEntities, int cols, int rows) {
+
 	}
 }
 
@@ -40,11 +89,11 @@ void Projectile::setBehaviour(bool facingRight) {
 
 		if (facingRight) {
 			rotation = 0;
-			velocity = sf::Vector2f(5, 0);
+			velocity = sf::Vector2f(7, 0);
 		}
 		else {
 			rotation = 180;
-			velocity = sf::Vector2f(-5, 0);
+			velocity = sf::Vector2f(-7, 0);
 		}
 	}
 	else if (projectileType == FIRE_BOMB) {

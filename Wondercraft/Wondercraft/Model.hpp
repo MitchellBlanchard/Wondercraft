@@ -43,7 +43,7 @@ public:
 	int levelHeight, levelWidth;
 
 	Player* player;
-	std::vector<Enemy*> enemies;
+	std::vector<Entity*> enemies;
 	std::vector<Projectile*> playerProjectiles;
 	std::vector<Projectile*> enemyProjectiles;
 
