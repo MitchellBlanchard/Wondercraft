@@ -32,6 +32,13 @@ void RectangleEntity::setPosition(sf::Vector2f& p) {
 	bottomEdge.setPosition(bottomEdge.getPosition() + movement);
 }
 
+void RectangleEntity::setSize(sf::Vector2f newSize) {
+	leftEdge =     LeftEdgeEntity(position + sf::Vector2f(-newSize.x / 2, 0), newSize.y);
+	rightEdge =   RightEdgeEntity(position + sf::Vector2f( newSize.x / 2, 0), newSize.y);
+	topEdge =       TopEdgeEntity(position + sf::Vector2f(0, -newSize.y / 2), newSize.x);
+	bottomEdge = BottomEdgeEntity(position + sf::Vector2f(0,  newSize.y / 2), newSize.x);
+}
+
 bool RectangleEntity::collisionCalc(float& step, float deltaTime, Entity& e) {
 	if (!checkMovingAABB(deltaTime, e))
 		return false;

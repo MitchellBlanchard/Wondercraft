@@ -1,12 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include "TileType.hpp"
-#include "Enemy.hpp"
-#include "RectangleEntity.hpp"
-#include <cmath>
 
+#include "RectangleEntity.hpp"
+
+class Model;
 
 class Projectile : public RectangleEntity {
 public:

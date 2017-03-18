@@ -25,7 +25,7 @@ public:
 	virtual float getRight();
 	virtual float getBottom();
 
-	void setSize(sf::Vector2f);
+	virtual void setSize(sf::Vector2f);
 
 private:
 	LeftEdgeEntity leftEdge;

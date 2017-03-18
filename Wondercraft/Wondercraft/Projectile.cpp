@@ -1,6 +1,11 @@
 #include "Projectile.hpp"
+
+#include <vector>
 #include <cmath>
 #include <iostream>
+
+#include "TileType.hpp"
+#include "Enemy.hpp"
 
 Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE, int projectileType) : RectangleEntity(spawn, sf::Vector2f(1.5,2.5)), projectileType(projectileType), TILE_SIZE(TILE_SIZE), startingPos(startingPos){
 	originSize = sf::Vector2f(1.5, 2.5);
