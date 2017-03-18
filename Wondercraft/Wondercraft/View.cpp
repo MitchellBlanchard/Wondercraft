@@ -23,6 +23,7 @@ View::View(Model* model) {
 
 	background.setTexture(*(levelTextures->get("bg.png")));
 	title.setTexture(*(menuTextures->get("titleScreen.png")));
+	end.setTexture(*(menuTextures->get("endScreen.png")));
 	
 	/*player.setTexture(*(spriteTextures->get("player.png")));
 	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
@@ -158,6 +159,9 @@ void View::render() {
 	
 	if (model->gameState == GameState::TITLE) {
 		window.draw(title);
+	}
+	else if (model->gameState == GameState::END) {
+		window.draw(end);
 	}
 	else {
 		updateTiles();

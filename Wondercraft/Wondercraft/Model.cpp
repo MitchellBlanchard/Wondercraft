@@ -187,6 +187,9 @@ void Model::update(float deltaTime) {
 		}*/
 
 		camera = player->getPosition();
+		//std::cout << player->getPosition().x << std::endl;
+		if (player->getPosition().x >= levelWidth - 1)
+			gameState = GameState::END;
 	}
 }
 
