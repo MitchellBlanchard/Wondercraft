@@ -195,6 +195,7 @@ void View::render() {
 			sf::Sprite projectile;
 			projectile.setTexture(*spriteTextures->get("fireball.png"));
 			projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
+			projectile.setRotation(model->playerProjectiles[i]->rotation);
 			window.draw(projectile, cameraState);
 		}
 

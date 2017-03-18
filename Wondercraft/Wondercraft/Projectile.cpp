@@ -20,8 +20,6 @@ Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2
 	magnitude = sqrt(pow(diffVector.x, 2) + pow(diffVector.y, 2));
 
 	setBehaviour(facingRight);
-	
-
 }
 
 void Projectile::update(float deltaTime, Model* model) {
@@ -37,6 +35,9 @@ void Projectile::explode() {
 
 void Projectile::setBehaviour(bool facingRight) {
 	if (projectileType == FIREBALL) {
+
+		damage = 5;
+
 		if (facingRight) {
 			rotation = 0;
 			velocity = sf::Vector2f(5, 0);

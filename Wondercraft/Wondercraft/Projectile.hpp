@@ -14,6 +14,8 @@ public:
 	const int FIRE_BOMB = 2;
 	const float TILE_SIZE;
 
+	float damage;
+
 	sf::Vector2f originSize;
 
 	Projectile(sf::Vector2f, sf::Vector2f, sf::Vector2f, sf::Vector2f, float, int, bool);
