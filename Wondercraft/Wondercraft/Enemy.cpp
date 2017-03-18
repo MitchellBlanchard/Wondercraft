@@ -6,16 +6,19 @@ Enemy::Enemy(sf::Vector2f spawn, int type, float TILE_SIZE) : RectangleEntity(sp
 		//we need to spawn a goober
 		this->type = EnemyType::GOOBER;
 		health = 15;
+		damage = 10;
 	}
 	else if (type == 2) {
 		//we need to spawn a ghost
 		this->type = EnemyType::GHOST;
 		health = 10;
+		damage = 7;
 	}
 	else if (type == 3) {
 		//we need to spawn a goblin
 		this->type = EnemyType::GOBLIN;
 		health = 10;
+		damage = 7;
 	}
 }
 
