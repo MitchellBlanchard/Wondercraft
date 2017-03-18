@@ -6,7 +6,7 @@
 
 class LevelItem {
 public:
-	LevelItem(sf::Vector2f& position);
+	LevelItem(ItemType::ItemType type, sf::Vector2f& position);
 
 	sf::Vector2f position;
 	ItemType::ItemType type;
