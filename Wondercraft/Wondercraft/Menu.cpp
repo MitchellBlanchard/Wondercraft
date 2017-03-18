@@ -6,6 +6,8 @@ Menu::Menu() {
 	equipmentIndex = 0;
 	craftingIndex = 0;
 	inventoryIndex = sf::Vector2i(0, 0);
+
+	selected = sf::Vector2i(-1, -1);
 }
 
 void Menu::selectionLeft() {
@@ -95,5 +97,17 @@ void Menu::selectionDown() {
 
 	default:
 		break;
+	}
+}
+
+void Menu::select() {
+	if (selected == sf::Vector2i(0, 0)) {
+		selectedSide = menuSide;
+		if (menuSide == MenuSide::EQUIPMENT)
+			selected = sf::Vector2i(0, equipmentIndex);
+		else if (menuSide == MenuSide::CRAFTING)
+			selected = sf::Vector2i(craftingIndex, 0);
+		else if (menuSide == MenuSide::INVENTORY)
+			selected = inventoryIndex;
 	}
 }
