@@ -27,9 +27,6 @@ View::View(Model* model) {
 
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
-	
-	/*player.setTexture(*(spriteTextures->get("player.png")));
-	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
 
 	playerHat.setTexture(*(spriteTextures->get("player/blankHat.png")));
 	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
