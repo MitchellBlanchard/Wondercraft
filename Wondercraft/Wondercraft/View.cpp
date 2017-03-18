@@ -24,6 +24,9 @@ View::View(Model* model) {
 	background.setTexture(*(levelTextures->get("bg.png")));
 	title.setTexture(*(menuTextures->get("titleScreen.png")));
 	end.setTexture(*(menuTextures->get("endScreen.png")));
+
+	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
+	health.setTexture(*(menuTextures->get("health.png")));
 	
 	/*player.setTexture(*(spriteTextures->get("player.png")));
 	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
@@ -180,6 +183,11 @@ void View::render() {
 				window.draw(displaySprites[x][y]);
 			}
 		}
+
+		//draw health
+		window.draw(health);
+		window.draw(healthBar);
+
 
 		//draw player
 		playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
