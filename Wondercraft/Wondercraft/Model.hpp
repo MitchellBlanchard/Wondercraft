@@ -11,10 +11,14 @@
 #include "ItemType.hpp"
 #include "LevelItem.hpp"
 
+//class Projectile;
+
 namespace GameState {
 	enum GameState {
 		PLAYING,
-		INVENTORY
+		INVENTORY,
+		TITLE,
+		END
 	};
 }
 
@@ -42,7 +46,7 @@ public:
 	int levelHeight, levelWidth;
 
 	Player* player;
-	std::vector<Enemy*> enemies;
+	std::vector<Entity*> enemies;
 	std::vector<Projectile*> playerProjectiles;
 	std::vector<Projectile*> enemyProjectiles;
 	std::vector<LevelItem*> items;
