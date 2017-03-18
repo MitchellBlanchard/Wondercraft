@@ -23,6 +23,8 @@ Model::Model() {
 	gameState = GameState::TITLE;
 
 	currLevel = 1; 
+
+	transitionTime = 0;
 }
 
 Model::~Model() {
@@ -191,7 +193,7 @@ void Model::update(float deltaTime) {
 		if (player->getPosition().x >= levelWidth - 1) {
 			
 			if (currLevel == 1) { //if in level 1
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 2;    // go to level 2
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_2.png");
@@ -199,7 +201,7 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 2) {//if in level 2
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 3;    // go to level 3
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_3.png");
@@ -207,7 +209,7 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 3) { //if in level 3
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 4;    // go to level 4
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_4.png");
@@ -215,9 +217,17 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 4) {
-				//TRANSITION MISSING
 				gameState = GameState::END;
 			}
+		}
+	}
+	else if (gameState == GameState::TRANSITION) {
+		if (transitionTime < 3) {
+			transitionTime += deltaTime;
+		}
+		else {
+			transitionTime = 0;
+			gameState = GameState::PLAYING;
 		}
 	}
 }
@@ -268,26 +278,34 @@ void Model::cleanLevel() {
 }
 
 void Model::pickUp() {
+	std::cout << "Picking up an object" << std::endl;
 	//loop through the items in the level
 	for (int i = 0; i < items.size(); i++) {
 		LevelItem* item = items[i];
+		std::cout << item->type << std::endl;
 
+		std::cout << "Item position: " << item->position.x << " : " << item->position.y << std::endl;
 		//check if the current item is close enough to pick up
 		sf::Vector2f diff = player->getPosition() - item->position;
+
 		float distSq = diff.x * diff.x + diff.y * diff.y;
+
+		std::cout << "Distance: " << distSq << std::endl;
+
 		if (distSq < pickupDistSq) {
 			//look for an empty place in the inventory
 			for (int x = 0; x < sizeof(inventory); x++) {
 				for (int y = 0; y < sizeof(inventory[x]); y++) {
 					if (inventory[x][y] == ItemType::NONE) {
 						//add to inventory
+						//std::cout << item->type << std::endl;
 						inventory[x][y] = item->type;
 
 						//remove from level
 						delete item;
 						items.erase(items.begin() + i);
 
-						break;
+						return;
 					}
 				}
 			}

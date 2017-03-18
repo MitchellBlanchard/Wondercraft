@@ -6,3 +6,5 @@ player_spawn : 2.5, 13
 
 entity : goober, 10.5, 12
 entity : goober, 13, 12
+
+item : air gem, 15, 14
