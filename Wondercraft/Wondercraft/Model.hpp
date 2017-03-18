@@ -53,6 +53,9 @@ public:
 
 	bool playerIsGrounded();
 
+	const float pickupDistSq = 1.5*1.5;
+	void pickUp();
+
 	GameState::GameState gameState;
 
 	ItemType::ItemType inventory [10][3];

@@ -291,3 +291,33 @@ void Model::cleanLevel() {
 	delete[] mapTiles;
 	mapTiles = NULL;
 }
+
+void Model::pickUp() {
+	//loop through the items in the level
+	for (int i = 0; i < items.size(); i++) {
+		LevelItem* item = items[i];
+
+		//check if the current item is close enough to pick up
+		sf::Vector2f diff = player->getPosition() - item->position;
+		float distSq = diff.x * diff.x + diff.y * diff.y;
+		if (distSq < pickupDistSq) {
+			//look for an empty place in the inventory
+			for (int x = 0; x < sizeof(inventory); x++) {
+				for (int y = 0; y < sizeof(inventory[x]); y++) {
+					if (inventory[x][y] == ItemType::NONE) {
+						//add to inventory
+						inventory[x][y] = item->type;
+
+						//remove from level
+						delete item;
+						items.erase(items.begin() + i);
+
+						break;
+					}
+				}
+			}
+
+			return;
+		}
+	}
+}
