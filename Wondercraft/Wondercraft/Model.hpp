@@ -67,6 +67,7 @@ public:
 
 	float transitionTime;
 
+	std::string tile_set;
 private:
 	static std::string trim(std::string&);
 
@@ -93,7 +94,6 @@ private:
 	*/
 	std::string level_name;
 	std::string background;
-	std::string tile_set;
 
 	sf::Vector2f playerSpawn;
 };
