@@ -50,7 +50,7 @@ void Projectile::explode() {
 void Projectile::setBehaviour() {
 	if (projectileType == FIREBALL) {
 
-		velocity = sf::Vector2f((diffVector.x / magnitude) * 5, (diffVector.y / magnitude) * 5);
+		velocity = sf::Vector2f(5, 0);//(diffVector.x / magnitude) * 5, (diffVector.y / magnitude) * 5);
 	}
 	else if (projectileType == FIRE_BOMB) {
 

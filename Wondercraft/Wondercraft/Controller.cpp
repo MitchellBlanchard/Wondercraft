@@ -42,6 +42,11 @@ void Controller::inputs() {
 					model->menu.selectionDown();
 				}
 			}
+			else if (model->gameState == GameState::TITLE) { //if they're on the title screen
+				if (event.key.code == sf::Keyboard::Return) { //and they hit enter
+					model->gameState = GameState::PLAYING;    //they start playin
+				}
+			}
 		}
 	}
 
@@ -70,7 +75,7 @@ void Controller::inputs() {
 			sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->getPosition().x * view->TILE_SIZE), ((model->player->getPosition().y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
 
 			if (model->player->projectileTimer == 0) {
-				int projectileType = 2;
+				int projectileType = 1;
 
 				/*
 				if (projectileType == 1) {

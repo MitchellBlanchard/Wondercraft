@@ -22,6 +22,7 @@ View::View(Model* model) {
 	initMenuArray();
 
 	background.setTexture(*(levelTextures->get("bg.png")));
+	title.setTexture(*(menuTextures->get("titleScreen.png")));
 	
 	/*player.setTexture(*(spriteTextures->get("player.png")));
 	player.setOrigin(player.getLocalBounds().width / 2, player.getLocalBounds().height / 2); */
@@ -155,94 +156,99 @@ sf::Vector2f View::getStartingPos() {
 void View::render() {
 	window.clear();
 	
-	updateTiles();
-
-	//create a new render state for the camera displacement
-	sf::RenderStates cameraState;
-	cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
-	//std::cout << -getStartingPos().x * TILE_SIZE + model->player->position.x * TILE_SIZE << " : " << getStartingPos().y * TILE_SIZE + model->player->position.y * TILE_SIZE << std::endl;
-
-	//draw background	
-	window.draw(background);
-
-	//draw tiles
-	for (int x = 0; x < displaySprites.size(); x++) {
-		for (int y = 0; y < displaySprites[x].size(); y++) {
-			window.draw(displaySprites[x][y]);
-		}
+	if (model->gameState == GameState::TITLE) {
+		window.draw(title);
 	}
+	else {
+		updateTiles();
 
-	//draw player
-	playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
-	playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
-	window.draw(playerHat, cameraState);
+		//create a new render state for the camera displacement
+		sf::RenderStates cameraState;
+		cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
+		//std::cout << -getStartingPos().x * TILE_SIZE + model->player->position.x * TILE_SIZE << " : " << getStartingPos().y * TILE_SIZE + model->player->position.y * TILE_SIZE << std::endl;
 
-	playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
-	playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
-	window.draw(playerRobe, cameraState);
+		//draw background	
+		window.draw(background);
 
-	playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
-	playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
-	window.draw(playerStaff, cameraState);
-
-	//draw player projectiles
-	for (int i = 0; i < model->playerProjectiles.size(); i++) {
-		sf::Sprite projectile;
-		projectile.setTexture(*spriteTextures->get("fireball.png"));
-		projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
-		window.draw(projectile, cameraState);
-	}
-
-	//draw enemies
-	for (int i = 0; i < model->enemies.size(); i++) {
-		sf::Sprite enemy;
-		enemy.setTexture(*spriteTextures->get("goober1.png"));
-		enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
-		window.draw(enemy, cameraState);
-	}
-
-	if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
-		window.draw(menu);
-
-		for (int i = 0; i < menuSquares1.size(); i++) {
-			for (int j = 0; j < menuSquares1[i].size(); j++) {
-				window.draw(menuSquares1[i][j]);
+		//draw tiles
+		for (int x = 0; x < displaySprites.size(); x++) {
+			for (int y = 0; y < displaySprites[x].size(); y++) {
+				window.draw(displaySprites[x][y]);
 			}
 		}
 
-		for (int i = 0; i < menuSquares2.size(); i++) {
-			for (int j = 0; j < menuSquares2[i].size(); j++) {
-				window.draw(menuSquares2[i][j]);
+		//draw player
+		playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
+		playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
+		window.draw(playerHat, cameraState);
+
+		playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
+		playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
+		window.draw(playerRobe, cameraState);
+
+		playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
+		playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
+		window.draw(playerStaff, cameraState);
+
+		//draw player projectiles
+		for (int i = 0; i < model->playerProjectiles.size(); i++) {
+			sf::Sprite projectile;
+			projectile.setTexture(*spriteTextures->get("fireball.png"));
+			projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
+			window.draw(projectile, cameraState);
+		}
+
+		//draw enemies
+		for (int i = 0; i < model->enemies.size(); i++) {
+			sf::Sprite enemy;
+			enemy.setTexture(*spriteTextures->get("goober1.png"));
+			enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
+			window.draw(enemy, cameraState);
+		}
+
+		if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
+			window.draw(menu);
+
+			for (int i = 0; i < menuSquares1.size(); i++) {
+				for (int j = 0; j < menuSquares1[i].size(); j++) {
+					window.draw(menuSquares1[i][j]);
+				}
 			}
-		}
 
-		for (int i = 0; i < menuSquares3.size(); i++) {
-			for (int j = 0; j < menuSquares3[i].size(); j++) {
-				window.draw(menuSquares3[i][j]);
+			for (int i = 0; i < menuSquares2.size(); i++) {
+				for (int j = 0; j < menuSquares2[i].size(); j++) {
+					window.draw(menuSquares2[i][j]);
+				}
 			}
-		}
 
-		//draws the player on the menu
-		sf::Vector2f invPlayerPos(185, 135);
-		playerHat.setPosition(invPlayerPos);
-		window.draw(playerHat);
-		playerRobe.setPosition(invPlayerPos);
-		window.draw(playerRobe);
-		playerStaff.setPosition(invPlayerPos);
-		window.draw(playerStaff);
+			for (int i = 0; i < menuSquares3.size(); i++) {
+				for (int j = 0; j < menuSquares3[i].size(); j++) {
+					window.draw(menuSquares3[i][j]);
+				}
+			}
 
-		//draws the selected square
-		if (model->menu.menuSide == MenuSide::EQUIPMENT) {
-			selected.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.equipmentIndex);
+			//draws the player on the menu
+			sf::Vector2f invPlayerPos(185, 135);
+			playerHat.setPosition(invPlayerPos);
+			window.draw(playerHat);
+			playerRobe.setPosition(invPlayerPos);
+			window.draw(playerRobe);
+			playerStaff.setPosition(invPlayerPos);
+			window.draw(playerStaff);
+
+			//draws the selected square
+			if (model->menu.menuSide == MenuSide::EQUIPMENT) {
+				selected.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.equipmentIndex);
+			}
+			else if (model->menu.menuSide == MenuSide::CRAFTING) {
+				selected.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.craftingIndex, 136);
+			}
+			else if (model->menu.menuSide == MenuSide::INVENTORY) {
+				selected.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.inventoryIndex.x,
+					280 + (SQUARE_SIZE_Y + 2) * model->menu.inventoryIndex.y);
+			}
+			window.draw(selected);
 		}
-		else if (model->menu.menuSide == MenuSide::CRAFTING) {
-			selected.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.craftingIndex, 136);
-		}
-		else if (model->menu.menuSide == MenuSide::INVENTORY) {
-			selected.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.inventoryIndex.x,
-								280 + (SQUARE_SIZE_Y + 2) * model->menu.inventoryIndex.y);
-		}
-		window.draw(selected);
 	}
     
 	window.display();
