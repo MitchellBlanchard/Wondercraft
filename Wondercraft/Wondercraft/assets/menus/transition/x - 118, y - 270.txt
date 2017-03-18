@@ -1,0 +1,5 @@
+the icon's original position needs to be 
+x : 118
+y : 270
+
+when moving forward he only gains to x obviously

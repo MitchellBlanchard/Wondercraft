@@ -58,6 +58,9 @@ public:
 	ItemType::ItemType inventory [10][3];
 	Menu menu;
 
+	int currLevel;
+	void cleanLevel ();
+
 private:
 	static std::string trim(std::string&);
 

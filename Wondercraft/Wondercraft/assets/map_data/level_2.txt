@@ -1,0 +1,12 @@
+level_name : Level 2
+tile_set   : dunesTiles
+
+player_spawn : 2.5, 13
+
+entity : ghostie, 15.25, 14.25
+entity : ghostie, 23.25, 12.25
+entity : ghostie, 43.25, 11.25
+entity : ghostie, 55.25, 11.25
+entity : ghostie, 62.25, 11.25
+entity : solid_platform, 3, 1,  1.5,  2.5, 22.5,  2.5
+entity : thin_platform,  3,    62.5, 10.5, 62.5,  4.5
