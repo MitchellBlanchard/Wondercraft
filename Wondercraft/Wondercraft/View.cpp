@@ -38,6 +38,10 @@ View::View(Model* model) {
 	menu.setTexture(*(menuTextures->get("1.png")));
 	selected.setTexture(*(menuTextures->get("3.png")));
 
+	//transition stuff
+	map.setTexture(*(menuTextures->get("transition/transition.png")));
+	icon.setTexture(*(menuTextures->get("transition/icon.png")));
+
 }
 
 void View::initSpriteArray() {
@@ -154,6 +158,12 @@ sf::Vector2f View::getStartingPos() {
 	return startingCoord;
 }
 
+void View::playTransition() {
+	window.draw(map);
+	icon.setPosition(118 + (model->currLevel - 1) * 230, 270);
+	window.draw(icon);
+}
+
 void View::render() {
 	window.clear();
 
@@ -165,6 +175,9 @@ void View::render() {
 	}
 	else if (model->gameState == GameState::END) {
 		window.draw(end);
+	}
+	else if (model->gameState == GameState::TRANSITION) {
+		playTransition();
 	}
 	else {
 		updateTiles();

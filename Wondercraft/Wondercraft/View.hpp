@@ -52,11 +52,17 @@ public:
 	std::vector<std::vector<sf::Sprite>> menuSquares2;
 	std::vector<std::vector<sf::Sprite>> menuSquares3;
 
+	//transition garbo
+	sf::Sprite map;
+	sf::Sprite icon;
+
 	sf::Vector2f windowSize;
 private:
 
 	void initSpriteArray();
 	void initMenuArray();
+
+	void playTransition();
 
 	sf::RenderWindow window;
 };

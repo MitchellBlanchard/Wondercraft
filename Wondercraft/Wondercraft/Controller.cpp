@@ -44,7 +44,7 @@ void Controller::inputs() {
 			}
 			else if (model->gameState == GameState::TITLE) { //if they're on the title screen
 				if (event.key.code == sf::Keyboard::Return) { //and they hit enter
-					model->gameState = GameState::PLAYING;    //they start playin
+					model->gameState = GameState::TRANSITION;    //they start playin
 				}
 			}
 		}

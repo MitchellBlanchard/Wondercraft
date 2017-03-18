@@ -18,6 +18,7 @@ namespace GameState {
 		PLAYING,
 		INVENTORY,
 		TITLE,
+		TRANSITION,
 		END
 	};
 }
@@ -63,6 +64,8 @@ public:
 
 	int currLevel;
 	void cleanLevel ();
+
+	float transitionTime;
 
 private:
 	static std::string trim(std::string&);
