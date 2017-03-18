@@ -7,9 +7,14 @@
 
 #include <iostream>
 using namespace std;
+
 Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)) {
 	projectileTimer = 0;
 	facingRight = true;
+
+	hat = ItemType::BASIC_HAT;
+	robe = ItemType::BASIC_ROBE;
+	staff = ItemType::BASIC_STAFF;
 }
 
 void Player::update(float deltaTime, Model* model) {

@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "RectangleEntity.hpp"
+#include "ItemType.hpp"
 
 class Model;
 
@@ -15,6 +16,8 @@ public:
 	float projectileTimer;
 
 	bool facingRight;
+
+	ItemType::ItemType hat, robe, staff;
 
 private:
 	
