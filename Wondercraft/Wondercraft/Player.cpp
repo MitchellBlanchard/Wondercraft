@@ -21,22 +21,24 @@ void Player::update(float deltaTime, Model* model) {
 		projectileTimer = 0;
 	}
 
+
 	float threshold = 0.0001;
-/*
+
+	/*
 	cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl;
-	cout << "move: " << getVelocity().x * deltaTime << ", " << getVelocity().y * deltaTime << endl << endl;
-	//initial step in the direction of the velocity*/
+	cout << "move: " << getVelocity().x * deltaTime << ", " << getVelocity().y * deltaTime << endl << endl; */
+	//initial step in the direction of the velocity
 	float initialStep = 1;
 	bool initialCollision = Collisions::collisionCalc(initialStep, deltaTime, *this, model->mapTiles, model->levelWidth, model->levelHeight);
 	setPosition(getPosition() + velocity * deltaTime * initialStep);
-/*
+	/*
 	cout << "initial collision: " << initialCollision << endl;
-	cout << "initial step: " << initialStep << endl << endl;
-	*/
+	cout << "initial step: " << initialStep << endl << endl;*/
+
 	if (initialCollision) {
 		float remainder = 1 - initialStep;
-
-		//cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl << endl;
+		/*
+		cout << "bounds: " << getLeft() << ", " << getTop() << ", " << getRight() << ", " << getBottom() << endl << endl;*/
 
 		//the collisions are limited to axis-aligned edges,
 		//so try to take a second step in both the horizontal and vertical directions
@@ -50,8 +52,8 @@ void Player::update(float deltaTime, Model* model) {
 		/*
 		cout << "horizontal move: " << getVelocity().x * deltaTime * remainder << ", " << getVelocity().y * deltaTime * remainder << endl;
 		cout << "horizontal collision: " << hCollision << endl;
-		cout << "horizontal step: " << hStep << endl << endl;
-		*/
+		cout << "horizontal step: " << hStep << endl << endl;*/
+
 		if (!hCollision && abs(getVelocity().x) > threshold) {
 			//no collision with a left or right surface, assume we collided with a top or bottom surface,
 			//take horizontal step and keep velocity.y set to 0
@@ -61,12 +63,10 @@ void Player::update(float deltaTime, Model* model) {
 			setVelocity(sf::Vector2f(0, savedVelocity.y));
 			float vStep = 1;
 			bool vCollision = Collisions::collisionCalc(vStep, deltaTime * remainder, *this, model->mapTiles, model->levelWidth, model->levelHeight);
-			
 			/*
 			cout << "vertical move: " << getVelocity().x * deltaTime * remainder << ", " << getVelocity().y * deltaTime * remainder << endl;
 			cout << "vertical collision: " << vCollision << endl;
-			cout << "vertical step: " << vStep << endl << endl;
-			*/
+			cout << "vertical step: " << vStep << endl << endl;*/
 
 			if (!vCollision) {
 				//no collision with a top or bottom surface, assume we collided with a left or right surface,

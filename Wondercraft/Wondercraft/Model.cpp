@@ -13,7 +13,8 @@ Model::Model() {
 
 	player = new Player(playerSpawn);
 
-	gameState = GameState::PLAYING;
+	//gameState = GameState::PLAYING;
+	gameState = GameState::TITLE;
 }
 
 Model::~Model() {
