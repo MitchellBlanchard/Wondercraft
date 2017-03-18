@@ -6,5 +6,3 @@ player_spawn : 2.5, 13
 
 entity : goober, 10.5, 12
 entity : goober, 13, 12
-entity : solid_platform, 3, 1,  1.5,  2.5, 22.5,  2.5
-entity : thin_platform,  3,    62.5, 10.5, 62.5,  4.5

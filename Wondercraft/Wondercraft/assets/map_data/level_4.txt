@@ -3,20 +3,18 @@ tile_set   : volcanoTiles
 
 player_spawn : 2.5, 13
 
-entity : goober, 3.25, 11.25
+entity : goober, 3.25, 11
 entity : ghostie, 9.25, 6.25
-entity : goober, 10.75, 15.25
+entity : goober, 10.75, 15
 entity : ghostie, 22.75, 3.25
-entity : goober, 32.25, 12.25
-entity : goober, 47.75, 8.25
-entity : ghostie, 55.25, 2.25
-entity : goober, 59.75, 12.25
-entity : goober, 61.25, 12.25
-entity : goober, 63.75, 12.25
-entity : goober, 69.25, 12.25
-entity : goober, 70.75, 15.25
+entity : goober, 32.25, 12
+entity : goober, 47, 8
+entity : ghostie, 54.25, 2
+entity : goober, 59.75, 11
+entity : goober, 61.25, 15
+entity : goober, 64.5, 11
+entity : goober, 69.5, 11
+entity : goober, 70.75, 15
 entity : ghostie, 72.75, 5.25
-entity : goober, 73.75, 12.25
-entity : goober, 74.25, 15.25
-entity : solid_platform, 3, 1,  1.5,  2.5, 22.5,  2.5
-entity : thin_platform,  3,    62.5, 10.5, 62.5,  4.5
+entity : goober, 73.75, 11
+entity : goober, 74.25, 15
