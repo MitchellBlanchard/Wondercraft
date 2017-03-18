@@ -210,6 +210,7 @@ void Model::update(float deltaTime) {
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_2.png");
 				readMapData("assets/map_data/level_2.txt");
+				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 2) {//if in level 2
 				//TRANSITION MISSING
@@ -217,6 +218,7 @@ void Model::update(float deltaTime) {
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_3.png");
 				readMapData("assets/map_data/level_3.txt");
+				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 3) { //if in level 3
 				//TRANSITION MISSING
@@ -224,6 +226,7 @@ void Model::update(float deltaTime) {
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_4.png");
 				readMapData("assets/map_data/level_4.txt");
+				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 4) {
 				//TRANSITION MISSING
