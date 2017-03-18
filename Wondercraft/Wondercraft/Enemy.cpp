@@ -30,16 +30,17 @@ void Enemy::updatePosition(float dt, Player* player) {
 	}
 	else if (type == EnemyType::GHOST) {
 		//move like a ghost
-		sf::Vector2f ghostVec = sf::Vector2f(position.x*TILE_SIZE, position.y*TILE_SIZE);
-		sf::Vector2f playerVec = sf::Vector2f(player->getPosition().x*TILE_SIZE, player->getPosition().y*TILE_SIZE);
+		sf::Vector2f ghostVec = sf::Vector2f(position.x/**TILE_SIZE*/, position.y/**TILE_SIZE*/);
+		sf::Vector2f playerVec = sf::Vector2f(player->getPosition().x/**TILE_SIZE*/, player->getPosition().y/**TILE_SIZE*/);
 		sf::Vector2f diffVector = ghostVec - playerVec;
 
 		float magnitude = sqrt(pow(diffVector.x, 2) + pow(diffVector.y, 2));
 
-		velocity = sf::Vector2f(-(diffVector.x / magnitude) * 2, -(diffVector.y / magnitude) * 2);
+		if (magnitude < 10) {
+			velocity = sf::Vector2f(-(diffVector.x / magnitude) * 2, -(diffVector.y / magnitude) * 2);
 
-		setPosition(position + velocity*dt);
-		std::cout << position.x << " : " << position.y << std::endl;
+			setPosition(position + velocity*dt);
+		}		
 	}
 	else if (type == EnemyType::GOBLIN) {
 		//move like a goblin

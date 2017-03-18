@@ -9,7 +9,7 @@
 View::View(Model* model) {
 	windowSize = sf::Vector2f(960, 540);
 
-	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Wondercraft");
+	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Wondercraft", sf::Style::None);
 	
 	this->model = model;
 
