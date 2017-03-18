@@ -166,7 +166,7 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	//check the key with hardcoded values
 
 	if (key == "goober") {
-		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str()))));
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())),2,64));
 
 		return true;
 	}
@@ -187,6 +187,11 @@ void Model::update(float deltaTime) {
 
 		for (int i = 0; i < playerProjectiles.size(); i++) {
 			playerProjectiles[i]->update(deltaTime, this);
+		}
+
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy* currentEnemy = dynamic_cast <Enemy*>(enemies[i]);
+			currentEnemy->updatePosition(deltaTime, player);
 		}
 		/*
 		for (int i = 0; i < playerProjectiles.size(); i++) {
