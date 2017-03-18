@@ -15,13 +15,17 @@ Model::Model() {
 
 	//gameState = GameState::PLAYING;
 	gameState = GameState::TITLE;
+
+	currLevel = 1; 
 }
 
 Model::~Model() {
 	//delete player
 	delete player;
 	player = NULL;
-
+	
+	this->cleanLevel();
+	/*
 	//delete enemies
 	for (int i = 0; i < enemies.size(); i++)
 		delete enemies[i];
@@ -45,7 +49,7 @@ Model::~Model() {
 		delete[] mapTiles[x];
 	}
 	delete[] mapTiles;
-	mapTiles = NULL;
+	mapTiles = NULL;*/
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -166,6 +170,11 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 
 		return true;
 	}
+	else if (key == "ghostie") {
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str()))));
+
+		return true;
+	}
 
 	else return false;
 }
@@ -188,8 +197,34 @@ void Model::update(float deltaTime) {
 
 		camera = player->getPosition();
 		//std::cout << player->getPosition().x << std::endl;
-		if (player->getPosition().x >= levelWidth - 1)
-			gameState = GameState::END;
+		if (player->getPosition().x >= levelWidth - 1) {
+			
+			if (currLevel == 1) { //if in level 1
+				//TRANSITION MISSING
+				currLevel = 2;    // go to level 2
+				cleanLevel();
+				readMapTiles("assets/map_tiles/level_2.png");
+				readMapData("assets/map_data/level_2.txt");
+			}
+			else if (currLevel == 2) {//if in level 2
+				//TRANSITION MISSING
+				currLevel = 3;    // go to level 3
+				cleanLevel();
+				readMapTiles("assets/map_tiles/level_3.png");
+				readMapData("assets/map_data/level_3.txt");
+			}
+			else if (currLevel == 3) { //if in level 3
+				//TRANSITION MISSING
+				currLevel = 4;    // go to level 4
+				cleanLevel();
+				readMapTiles("assets/map_tiles/level_4.png");
+				readMapData("assets/map_data/level_4.txt");
+			}
+			else if (currLevel == 4) {
+				//TRANSITION MISSING
+				gameState = GameState::END;
+			}
+		}
 	}
 }
 
@@ -209,4 +244,31 @@ bool Model::playerIsGrounded() {
 		}
 	}
 	return false;
+}
+
+void Model::cleanLevel() {
+	//delete enemies
+	for (int i = 0; i < enemies.size(); i++)
+		delete enemies[i];
+	enemies.clear();
+
+	//delete player projectiles
+	for (int i = 0; i < playerProjectiles.size(); i++)
+		delete playerProjectiles[i];
+	playerProjectiles.clear();
+
+	//delete enemy projectiles
+	for (int i = 0; i < enemyProjectiles.size(); i++)
+		delete enemyProjectiles[i];
+	enemyProjectiles.clear();
+
+	//delete tiles
+	for (int x = 0; x < levelWidth; x++) {
+		for (int y = 0; y < levelHeight; y++) {
+			delete mapTiles[x][y];
+		}
+		delete[] mapTiles[x];
+	}
+	delete[] mapTiles;
+	mapTiles = NULL;
 }
