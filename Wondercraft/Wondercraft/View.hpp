@@ -23,6 +23,10 @@ public:
 	sf::Sprite background;
 	//sf::Sprite player;
 	sf::Sprite title;
+	sf::Sprite end;
+
+	sf::Sprite healthBar;
+	sf::Sprite health;
 
 	sf::Sprite playerHat;
 	sf::Sprite playerRobe;

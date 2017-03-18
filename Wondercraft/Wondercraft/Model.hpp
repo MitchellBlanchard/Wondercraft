@@ -15,7 +15,8 @@ namespace GameState {
 	enum GameState {
 		PLAYING,
 		INVENTORY,
-		TITLE
+		TITLE,
+		END
 	};
 }
 
