@@ -23,6 +23,8 @@ Model::Model() {
 	gameState = GameState::TITLE;
 
 	currLevel = 1; 
+
+	transitionTime = 0;
 }
 
 Model::~Model() {
@@ -31,31 +33,6 @@ Model::~Model() {
 	player = NULL;
 	
 	this->cleanLevel();
-	/*
-	//delete enemies
-	for (int i = 0; i < enemies.size(); i++)
-		delete enemies[i];
-	enemies.clear();
-
-	//delete player projectiles
-	for (int i = 0; i < playerProjectiles.size(); i++)
-		delete playerProjectiles[i];
-	playerProjectiles.clear();
-
-	//delete enemy projectiles
-	for (int i = 0; i < enemyProjectiles.size(); i++)
-		delete enemyProjectiles[i];
-	enemyProjectiles.clear();
-
-	//delete tiles
-	for (int x = 0; x < levelWidth; x++) {
-		for (int y = 0; y < levelHeight; y++) {
-			delete mapTiles[x][y];
-		}
-		delete[] mapTiles[x];
-	}
-	delete[] mapTiles;
-	mapTiles = NULL;*/
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -216,7 +193,7 @@ void Model::update(float deltaTime) {
 		if (player->getPosition().x >= levelWidth - 1) {
 			
 			if (currLevel == 1) { //if in level 1
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 2;    // go to level 2
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_2.png");
@@ -224,7 +201,7 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 2) {//if in level 2
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 3;    // go to level 3
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_3.png");
@@ -232,7 +209,7 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 3) { //if in level 3
-				//TRANSITION MISSING
+				gameState = GameState::TRANSITION;
 				currLevel = 4;    // go to level 4
 				cleanLevel();
 				readMapTiles("assets/map_tiles/level_4.png");
@@ -240,9 +217,17 @@ void Model::update(float deltaTime) {
 				player->setPosition(playerSpawn);
 			}
 			else if (currLevel == 4) {
-				//TRANSITION MISSING
 				gameState = GameState::END;
 			}
+		}
+	}
+	else if (gameState == GameState::TRANSITION) {
+		if (transitionTime < 3) {
+			transitionTime += deltaTime;
+		}
+		else {
+			transitionTime = 0;
+			gameState = GameState::PLAYING;
 		}
 	}
 }
