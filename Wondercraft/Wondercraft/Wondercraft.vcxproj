@@ -30,6 +30,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LeftEdgeEntity.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -52,7 +53,7 @@
     <ClInclude Include="FontLoader.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="LeftEdgeEntity.hpp" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Projectile.hpp" />

@@ -7,11 +7,14 @@
 #include "Player.hpp"
 #include "Projectile.hpp"
 #include "Enemy.hpp"
+#include "Menu.hpp"
 
-enum GameState {
-	PLAYING,
-	INVENTORY
-};
+namespace GameState {
+	enum GameState {
+		PLAYING,
+		INVENTORY
+	};
+}
 
 class Model : public Updateable {
 public:
@@ -43,7 +46,9 @@ public:
 
 	bool playerIsGrounded();
 
-	GameState gameState;
+	GameState::GameState gameState;
+
+	Menu menu;
 
 private:
 	static std::string trim(std::string&);

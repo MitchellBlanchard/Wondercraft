@@ -1,7 +1,8 @@
 #include "Controller.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
+
+#include "Menu.hpp"
 
 Controller::Controller(Model* model, View* view) {
 	this->model = model;
@@ -21,12 +22,24 @@ void Controller::inputs() {
 		else if (event.type == sf::Event::KeyReleased) {
 			if (model->gameState == GameState::PLAYING) {
 				if (event.key.code == sf::Keyboard::I) {
-					model->gameState = INVENTORY;
+					model->gameState = GameState::INVENTORY;
 				}
 			}
 			else if (model->gameState == GameState::INVENTORY) {
 				if (event.key.code == sf::Keyboard::I) {
-					model->gameState = PLAYING;
+					model->gameState = GameState::PLAYING;
+				}
+				else if (event.key.code == sf::Keyboard::Left) {
+					model->menu.selectionLeft();
+				}
+				else if (event.key.code == sf::Keyboard::Right) {
+					model->menu.selectionRight();
+				}
+				else if (event.key.code == sf::Keyboard::Up) {
+					model->menu.selectionUp();
+				}
+				else if (event.key.code == sf::Keyboard::Down) {
+					model->menu.selectionDown();
 				}
 			}
 		}

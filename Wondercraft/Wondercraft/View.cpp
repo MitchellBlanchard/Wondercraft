@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "Tile.hpp"
+#include "Menu.hpp"
 
 View::View(Model* model) {
 	windowSize = sf::Vector2f(960, 540);
@@ -172,15 +173,14 @@ void View::render() {
 	}
 
 	//draw player
-	/*player.setPosition(model->player->position * TILE_SIZE);
-	window.draw(player, cameraState);*/
-
 	playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
 	playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerHat, cameraState);
+
 	playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
 	playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerRobe, cameraState);
+
 	playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
 	playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
 	window.draw(playerStaff, cameraState);
@@ -222,20 +222,28 @@ void View::render() {
 			}
 		}
 
-
 		//draws the player on the menu
-		playerHat.setPosition(185, 135);
+		sf::Vector2f invPlayerPos(185, 135);
+		playerHat.setPosition(invPlayerPos);
 		window.draw(playerHat);
-		playerRobe.setPosition(185, 135);
+		playerRobe.setPosition(invPlayerPos);
 		window.draw(playerRobe);
-		playerStaff.setPosition(185, 135);
+		playerStaff.setPosition(invPlayerPos);
 		window.draw(playerStaff);
 
+		//draws the selected square
+		if (model->menu.menuSide == MenuSide::EQUIPMENT) {
+			selected.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.equipmentIndex);
+		}
+		else if (model->menu.menuSide == MenuSide::CRAFTING) {
+			selected.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.craftingIndex, 136);
+		}
+		else if (model->menu.menuSide == MenuSide::INVENTORY) {
+			selected.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.inventoryIndex.x,
+								280 + (SQUARE_SIZE_Y + 2) * model->menu.inventoryIndex.y);
+		}
 		window.draw(selected);
-
 	}
-	//std::cout << model->gameState << std::endl;
-	//std::cout << "X: " << selected.getPosition().x << ", Y: " << selected.getPosition().y << std::endl;
     
 	window.display();
 }

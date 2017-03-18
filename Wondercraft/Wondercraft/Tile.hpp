@@ -4,7 +4,7 @@
 
 class Tile {
 public:
-	Tile(TileType);
+	Tile(TileType::TileType);
 
-	TileType type;
+	TileType::TileType type;
 };

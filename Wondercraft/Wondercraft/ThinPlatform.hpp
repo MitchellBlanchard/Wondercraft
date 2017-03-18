@@ -8,7 +8,7 @@
 
 class ThinPlatform : public TopEdgeEntity, public Tile {
 public:
-	ThinPlatform(TileType, sf::Vector2f position = sf::Vector2f());
+	ThinPlatform(TileType::TileType, sf::Vector2f position = sf::Vector2f());
 
 	//override getTop() and getBottom() to essentially shift the edge up by half a tile
 	//from the position coordinates (to the top of the tile)

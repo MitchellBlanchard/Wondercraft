@@ -1,7 +1,9 @@
 #pragma once
 
-enum TileType {
-	NONE,
-	STONE,
-	THIN
-};
+namespace TileType {
+	enum TileType {
+		NONE,
+		STONE,
+		THIN
+	};
+}

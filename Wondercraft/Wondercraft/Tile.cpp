@@ -1,3 +1,3 @@
 #include "Tile.hpp"
 
-Tile::Tile(TileType t) : type(t) {}
+Tile::Tile(TileType::TileType t) : type(t) {}
