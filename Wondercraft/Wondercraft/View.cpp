@@ -160,8 +160,8 @@ sf::Vector2f View::getStartingPos() {
 void View::render() {
 	window.clear();
 
-	//float healthWidth = 
-	health.setPosition(0 - (40 - model->player->getHealth()) * 5, 0);
+	float healthWidth = health.getTexture()->getSize().x / (float)40;
+	health.setPosition(0 - ((40 - model->player->getHealth()) * healthWidth), 0);
 	
 	if (model->gameState == GameState::TITLE) {
 		window.draw(title);
