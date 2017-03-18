@@ -24,14 +24,14 @@ Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2
 }
 
 void Projectile::update(float deltaTime, Model* model) {
-	std::cout << "Updating" << std::endl;
+	//std::cout << "Updating" << std::endl;
 
 	if (projectileType == FIREBALL) {
 		//check collisions with entities
 		bool removed = false;
 
 		for (int i = 0; i < model->enemies.size(); i++) {
-			std::cout << "Colliding with enemies" << std::endl;
+			//std::cout << "Colliding with enemies" << std::endl;
 
 			bool collided = checkAABB(*model->enemies[i]);
 			
@@ -76,7 +76,7 @@ void Projectile::update(float deltaTime, Model* model) {
 		if (!removed) {
 			for (int i = getLeft(); i < (getRight()); i++) {
 				for (int j = getTop(); j < (getBottom()); j++) {
-					std::cout << "Colliding with tiles" << std::endl;
+					//std::cout << "Colliding with tiles" << std::endl;
 					//we need to go through the ones that we are close to
 					if (i > 0 && i < model->levelWidth && j > 0 && j < model->levelHeight) {
 						if (model->mapTiles[i][j] != NULL) {
@@ -114,7 +114,7 @@ void Projectile::update(float deltaTime, Model* model) {
 		if (!removed) {
 			//check to see if the projectile is off the screen
 			if (position.x < 0 || position.y > model->levelWidth || position.y < 0 || position.y > model->levelHeight) {
-				std::cout << "Removing off screen tiles" << std::endl;
+				//std::cout << "Removing off screen tiles" << std::endl;
 
 				//we need to erase the projectile
 				bool player = true;
