@@ -8,6 +8,8 @@
 #include "Projectile.hpp"
 #include "Enemy.hpp"
 #include "Menu.hpp"
+#include "ItemType.hpp"
+#include "LevelItem.hpp"
 
 //class Projectile;
 
@@ -47,11 +49,13 @@ public:
 	std::vector<Entity*> enemies;
 	std::vector<Projectile*> playerProjectiles;
 	std::vector<Projectile*> enemyProjectiles;
+	std::vector<LevelItem*> items;
 
 	bool playerIsGrounded();
 
 	GameState::GameState gameState;
 
+	ItemType::ItemType inventory [10][3];
 	Menu menu;
 
 private:
