@@ -166,12 +166,12 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	//check the key with hardcoded values
 
 	if (key == "goober") {
-		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())),2,64));
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())),1,64.0f));
 
 		return true;
 	}
 	else if (key == "ghostie") {
-		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str()))));
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())), 2, 64.0f));
 
 		return true;
 	}
