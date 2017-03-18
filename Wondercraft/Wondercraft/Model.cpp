@@ -13,7 +13,13 @@ Model::Model() {
 
 	player = new Player(playerSpawn);
 
-	//gameState = GameState::PLAYING;
+	//initialize empty inventory
+	for (int x = 0; x < sizeof(inventory); x++) {
+		for (int y = 0; y < sizeof(inventory[x]); y++) {
+			inventory[x][y] = ItemType::NONE;
+		}
+	}
+
 	gameState = GameState::TITLE;
 
 	currLevel = 1; 
@@ -155,7 +161,12 @@ bool Model::mapInitFunctions(std::string key, std::string* args, int numArgs) {
 
 	else if (key == "entity") {
 		//call entity function
-		entityInitFunctions(args[0], args+1, numArgs-1);
+		entityInitFunctions(args[0], args + 1, numArgs - 1);
+		return true;
+	}
+
+	else if (key == "item") {
+		items.push_back(new LevelItem(ItemType::stringToEnum(args[0]), sf::Vector2f(atof(args[1].c_str()), atof(args[2].c_str()))));
 		return true;
 	}
 

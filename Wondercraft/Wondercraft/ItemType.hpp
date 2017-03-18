@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace ItemType {
 	enum ItemType {
 		NONE,
@@ -34,4 +36,7 @@ namespace ItemType {
 
 		HEALTH_POTION
 	};
+
+	std::string enumToString(ItemType);
+	ItemType stringToEnum(std::string&);
 };

@@ -1,3 +1,3 @@
 #include "LevelItem.hpp"
 
-LevelItem::LevelItem(sf::Vector2f& position) : position(position) {}
+LevelItem::LevelItem(ItemType::ItemType type, sf::Vector2f& position) : type(type), position(position) {}

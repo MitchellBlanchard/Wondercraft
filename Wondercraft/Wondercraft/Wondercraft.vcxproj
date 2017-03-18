@@ -28,6 +28,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FontLoader.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ItemType.cpp" />
     <ClCompile Include="LeftEdgeEntity.cpp" />
     <ClCompile Include="LevelItem.cpp" />
     <ClCompile Include="main.cpp" />
