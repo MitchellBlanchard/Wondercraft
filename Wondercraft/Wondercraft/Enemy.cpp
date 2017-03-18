@@ -23,7 +23,7 @@ Enemy::Enemy(sf::Vector2f spawn, int type, float TILE_SIZE) : RectangleEntity(sp
 }
 
 void Enemy::updatePosition(float dt, Player* player) {
-	std::cout << type << std::endl;
+	//std::cout << type << std::endl;
 	if (type == EnemyType::GOOBER) {
 		//move like a goober
 		//setPosition(getPosition() + velocity * dt);

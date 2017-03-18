@@ -16,6 +16,7 @@ View::View(Model* model) {
 	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
 	spriteTextures = new TextureLoader("assets/sprites/");
 	menuTextures = new TextureLoader("assets/menus/");
+	itemTextures = new TextureLoader("assets/items/");
 	 
 	initSpriteArray();
 
@@ -220,6 +221,16 @@ void View::render() {
 			enemy.setOrigin(enemy.getTexture()->getSize().x / 2, enemy.getTexture()->getSize().y / 2); 
 			enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 			window.draw(enemy, cameraState);
+		}
+
+		//draw items
+		for (int i = 0; i < model->items.size(); i++) {
+			sf::Sprite item;
+			
+			item.setTexture(*itemTextures->get(ItemType::enumToString(model->items[i]->type) + ".png"));
+			item.setOrigin(item.getTexture()->getSize().x / 2, item.getTexture()->getSize().y / 2);
+			item.setPosition(model->items[i]->position * TILE_SIZE);
+			window.draw(item, cameraState);
 		}
 
 		if (model->gameState == GameState::INVENTORY) { //drawing the pause menu

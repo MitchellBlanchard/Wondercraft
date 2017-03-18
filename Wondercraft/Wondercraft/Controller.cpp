@@ -24,6 +24,9 @@ void Controller::inputs() {
 				if (event.key.code == sf::Keyboard::I) {
 					model->gameState = GameState::INVENTORY;
 				}
+				else if (event.key.code == sf::Keyboard::Down) {
+					model->pickUp();
+				}
 			}
 			else if (model->gameState == GameState::INVENTORY) {
 				if (event.key.code == sf::Keyboard::I) {

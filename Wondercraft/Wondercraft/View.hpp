@@ -39,6 +39,7 @@ public:
 	TextureLoader* levelTextures;
 	TextureLoader* spriteTextures;
 	TextureLoader* menuTextures;
+	TextureLoader* itemTextures;
 
 	void render();
 	void updateTiles();
