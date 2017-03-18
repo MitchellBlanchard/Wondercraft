@@ -16,6 +16,7 @@ bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntit
 
 		float currentStep = 1;
 
+		/*
 		cout << "Player position: " << movingEntity.getPosition().x << ", " << movingEntity.getPosition().y << endl;
 		cout << "Player bounds: " << movingEntity.getLeft() << ", " << movingEntity.getTop() << ", " << movingEntity.getRight() << ", " << movingEntity.getBottom() << endl;
 		cout << "Velocity * dt: " << movingEntity.getVelocity().x*deltaTime << ", " << movingEntity.getVelocity().y*deltaTime << endl;
@@ -24,6 +25,7 @@ bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntit
 		cout << "Tile bounds: " << e->getLeft() << ", " << e->getTop() << ", " << e->getRight() << ", " << e->getBottom() << endl;
 		cout << "Step: " << currentStep << endl;
 		cout << endl;
+		*/
 
 		if (!movingEntity.collisionCalc(currentStep, deltaTime, *e))
 			continue;

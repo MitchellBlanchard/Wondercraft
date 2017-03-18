@@ -70,7 +70,7 @@ void Controller::inputs() {
 			sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->getPosition().x * view->TILE_SIZE), ((model->player->getPosition().y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
 
 			if (model->player->projectileTimer == 0) {
-				int projectileType = 2;
+				int projectileType = 1;
 
 				/*
 				if (projectileType == 1) {
@@ -82,7 +82,7 @@ void Controller::inputs() {
 				*/
 
 				model->player->projectileTimer = 0.5;
-				model->playerProjectiles.push_back(new Projectile(model->player->getPosition(), view->getStartingPos(), playerVec, mouseVec, view->TILE_SIZE, projectileType));
+				model->playerProjectiles.push_back(new Projectile(model->player->getPosition(), view->getStartingPos(), playerVec, mouseVec, view->TILE_SIZE, projectileType, model->player->facingRight));
 			}
 		}
 	}

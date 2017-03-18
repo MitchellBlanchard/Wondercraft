@@ -4,6 +4,8 @@
 
 #include "RectangleEntity.hpp"
 
+#include "Collisions.hpp"
+
 class Model;
 
 class Projectile : public RectangleEntity {
@@ -14,13 +16,15 @@ public:
 
 	sf::Vector2f originSize;
 
-	Projectile(sf::Vector2f, sf::Vector2f, sf::Vector2f, sf::Vector2f, float, int);
+	Projectile(sf::Vector2f, sf::Vector2f, sf::Vector2f, sf::Vector2f, float, int, bool);
 	//bool updatePosition(float dt, TileType**, int tilesWidth, int tilesHeight, std::vector<Enemy*>& enemies);
 
 	void update(float, Model*);
-	void setBehaviour();
+	void setBehaviour(bool);
 
 	void explode();
+
+	float rotation;
 
 	int projectileType;
 private:

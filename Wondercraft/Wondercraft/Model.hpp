@@ -9,6 +9,8 @@
 #include "Enemy.hpp"
 #include "Menu.hpp"
 
+//class Projectile;
+
 namespace GameState {
 	enum GameState {
 		PLAYING,

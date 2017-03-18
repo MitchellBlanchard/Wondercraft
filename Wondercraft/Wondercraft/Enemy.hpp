@@ -9,6 +9,7 @@ public:
 	Enemy(sf::Vector2f spawn);
 	void updatePosition(float dt, Player* p);
 
+	float health;
 private:
 
 };
