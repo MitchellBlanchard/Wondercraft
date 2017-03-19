@@ -362,6 +362,19 @@ void View::render() {
 					}
 				}
 			}
+
+
+			for (int i = 0; i < menuSquares1.size(); i++) {
+				for (int j = 0; j < menuSquares1[i].size(); j++) {
+					sf::Sprite itemSprite;
+
+					std::string itemString = ItemType::enumToString(model->player->equipment[i]);
+
+					itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
+					itemSprite.setPosition(menuSquares1[i][j].getPosition());
+					window.draw(itemSprite);
+				}
+			}
 		}
 	}
     
