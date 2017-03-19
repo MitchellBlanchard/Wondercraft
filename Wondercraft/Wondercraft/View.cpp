@@ -38,7 +38,8 @@ View::View(Model* model) {
 	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
 
 	menu.setTexture(*(menuTextures->get("1.png")));
-	selected.setTexture(*(menuTextures->get("3.png")));
+	index.setTexture(*(menuTextures->get("3.png")));
+	selected.setTexture(*(menuTextures->get("4.png")));
 
 	//transition stuff
 	map.setTexture(*(menuTextures->get("transition/transition.png")));
@@ -102,7 +103,7 @@ void View::initMenuArray() {
 		}
 	}
 
-	selected.setPosition(84, 280);
+	index.setPosition(84, 280);
 }
 
 sf::Texture* View::getTexture(int x, int y) {
@@ -305,18 +306,32 @@ void View::render() {
 			playerStaff.setPosition(invPlayerPos);
 			window.draw(playerStaff);
 
-			//draws the selected square
+			//draws the index square
 			if (model->menu.menuSide == MenuSide::EQUIPMENT) {
-				selected.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.equipmentIndex);
+				index.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.equipmentIndex);
 			}
 			else if (model->menu.menuSide == MenuSide::CRAFTING) {
-				selected.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.craftingIndex, 136);
+				index.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.craftingIndex, 136);
 			}
 			else if (model->menu.menuSide == MenuSide::INVENTORY) {
-				selected.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.inventoryIndex.x,
+				index.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.inventoryIndex.x,
 					280 + (SQUARE_SIZE_Y + 2) * model->menu.inventoryIndex.y);
 			}
-			window.draw(selected);
+			window.draw(index);
+
+			//draws the selected square
+			if (model->menu.selectedSide == MenuSide::EQUIPMENT) {
+				selected.setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * model->menu.selected.y);
+			}
+			else if (model->menu.selectedSide == MenuSide::CRAFTING) {
+				selected.setPosition(528 + (SQUARE_SIZE_X + 57) * model->menu.selected.x, 136);
+			}
+			else if (model->menu.selectedSide == MenuSide::INVENTORY) {
+				selected.setPosition(84 + (SQUARE_SIZE_X + 5) * model->menu.selected.x,
+					280 + (SQUARE_SIZE_Y + 2) * model->menu.selected.y);
+			}
+			if(model->menu.selected != sf::Vector2i(-1, -1))
+				window.draw(selected);
 
 
 			for (int i = 0; i < menuSquares3.size(); i++) {

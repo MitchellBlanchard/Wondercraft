@@ -36,6 +36,7 @@ public:
 	//the menu bg and the selected square
 	sf::Sprite menu;
 	sf::Sprite selected;
+	sf::Sprite index;
 
 	TextureLoader* levelTextures;
 	TextureLoader* spriteTextures;

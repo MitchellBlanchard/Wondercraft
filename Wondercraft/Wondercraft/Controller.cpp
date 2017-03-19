@@ -44,6 +44,9 @@ void Controller::inputs() {
 				else if (event.key.code == sf::Keyboard::Down) {
 					model->menu.selectionDown();
 				}
+				else if (event.key.code == sf::Keyboard::Space) {
+					model->menu.select(model);
+				}
 			}
 			else if (model->gameState == GameState::TITLE) { //if they're on the title screen
 				if (event.key.code == sf::Keyboard::Return) { //and they hit enter
