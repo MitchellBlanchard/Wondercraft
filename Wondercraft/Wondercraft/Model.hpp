@@ -66,6 +66,8 @@ public:
 	int currLevel;
 	void cleanLevel ();
 
+	void resetLevel(int);
+
 	float transitionTime;
 
 	std::string tile_set;

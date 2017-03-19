@@ -3,6 +3,7 @@
 #include "Model.hpp"
 #include "TextureLoader.hpp"
 #include "DrawableGroup.hpp"
+#include "Enemy.hpp"
 
 #include <math.h>
 
