@@ -22,6 +22,8 @@ public:
 
 	ItemType::ItemType equipment[3]; // hat, robe, staff
 
+	void resetHealth();
+
 private:
 	float health;
 };
