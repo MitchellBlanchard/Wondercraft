@@ -147,14 +147,18 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	//check the key with hardcoded values
 
 	if (key == "goober") {
-		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())),1,64.0f));
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())), 1, sf::Vector2f(2.5, 1.5)));
 
 		return true;
 	}
 	else if (key == "ghostie") {
-		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())), 2, 64.0f));
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())), 2, sf::Vector2f(1.5, 2.5)));
 
 		return true;
+	}
+	else if (key == "goblin") {
+		enemies.push_back(new Enemy(sf::Vector2f(atof(args[0].c_str()), atof(args[1].c_str())), 3, sf::Vector2f(1.5, 2.5)));
+
 	}
 
 	else return false;
@@ -172,7 +176,7 @@ void Model::update(float deltaTime) {
 
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy* currentEnemy = dynamic_cast <Enemy*>(enemies[i]);
-			currentEnemy->updatePosition(deltaTime, player);
+			currentEnemy->updatePosition(deltaTime, player, this);
 		}
 		/*
 		for (int i = 0; i < playerProjectiles.size(); i++) {

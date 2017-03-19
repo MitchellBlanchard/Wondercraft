@@ -231,8 +231,35 @@ void View::render() {
 		for (int i = 0; i < model->enemies.size(); i++) {
 			sf::Sprite enemy;
 			
-			enemy.setTexture(*spriteTextures->get("goober1.png"));
+			Enemy* currentEnemy = dynamic_cast <Enemy*>(model->enemies[i]);
+
+			switch (currentEnemy->type)
+			{
+			case EnemyType::GOOBER:
+				//goober texture
+				enemy.setTexture(*spriteTextures->get("goober1.png"));
+				break;
+			case EnemyType::GHOST:
+				//ghost texture
+				enemy.setTexture(*spriteTextures->get("ghostie.png"));
+				break;
+			case EnemyType::GOBLIN:
+				//goblin texture
+				enemy.setTexture(*spriteTextures->get("gremlin1.png"));
+				break;
+			default:
+				break;
+			}
+
 			enemy.setOrigin(enemy.getTexture()->getSize().x / 2, enemy.getTexture()->getSize().y / 2); 
+
+			if (currentEnemy->right == true) {
+				enemy.setScale(sf::Vector2f(-1,1));
+			}
+			else if (currentEnemy->right == false) {
+				enemy.setScale(sf::Vector2f(1, 1));
+			}
+
 			enemy.setPosition(model->enemies[i]->getPosition() * TILE_SIZE);
 			window.draw(enemy, cameraState);
 		}
