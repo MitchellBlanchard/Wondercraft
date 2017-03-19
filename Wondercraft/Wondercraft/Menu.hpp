@@ -20,8 +20,13 @@ public:
 	int craftingIndex;
 	sf::Vector2i inventoryIndex;
 
+	MenuSide::MenuSide selectedSide;
+	sf::Vector2i selected;
+
 	void selectionLeft();
 	void selectionRight();
 	void selectionUp();
 	void selectionDown();
+
+	void select();
 };

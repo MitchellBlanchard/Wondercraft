@@ -13,7 +13,7 @@ View::View(Model* model) {
 	
 	this->model = model;
 
-	levelTextures = new TextureLoader("assets/tilesets/meadowTiles/");
+	levelTextures = new TextureLoader("assets/tilesets/");
 	spriteTextures = new TextureLoader("assets/sprites/");
 	menuTextures = new TextureLoader("assets/menus/");
 	itemTextures = new TextureLoader("assets/items/");
@@ -22,7 +22,7 @@ View::View(Model* model) {
 
 	initMenuArray();
 
-	background.setTexture(*(levelTextures->get("bg.png")));
+	background.setTexture(*(levelTextures->get(model->tile_set+"/bg.png")));
 	title.setTexture(*(menuTextures->get("titleScreen.png")));
 	end.setTexture(*(menuTextures->get("endScreen.png")));
 
@@ -106,18 +106,18 @@ void View::initMenuArray() {
 
 sf::Texture* View::getTexture(int x, int y) {
 	if(x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight)
-		return levelTextures->get("nullTile.png");
+		return levelTextures->get(model->tile_set + "/nullTile.png");
 
 	Tile* e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
 	
 	if (e == NULL) {
-		return levelTextures->get("nullTile.png");
+		return levelTextures->get(model->tile_set + "/nullTile.png");
 	}
 	else if(e->type == TileType::STONE){
-		return levelTextures->get("stone.png");
+		return levelTextures->get(model->tile_set + "/stone.png");
 	}
 	else {
-		return levelTextures->get("nullTile.png");
+		return levelTextures->get(model->tile_set + "/nullTile.png");
 	}
 }
 
@@ -163,6 +163,7 @@ void View::playTransition() {
 	window.draw(map);
 	icon.setPosition(118 + (model->currLevel - 1) * 230, 270);
 	window.draw(icon);
+	background.setTexture(*(levelTextures->get(model->tile_set + "/bg.png")));
 }
 
 void View::render() {
