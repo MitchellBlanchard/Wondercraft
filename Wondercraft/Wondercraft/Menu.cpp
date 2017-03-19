@@ -1,5 +1,7 @@
 #include "Menu.hpp"
 
+#include "Model.hpp"
+
 Menu::Menu() {
 	menuSide = MenuSide::INVENTORY;
 
@@ -100,14 +102,151 @@ void Menu::selectionDown() {
 	}
 }
 
-void Menu::select() {
-	if (selected == sf::Vector2i(0, 0)) {
-		selectedSide = menuSide;
-		if (menuSide == MenuSide::EQUIPMENT)
-			selected = sf::Vector2i(0, equipmentIndex);
-		else if (menuSide == MenuSide::CRAFTING)
-			selected = sf::Vector2i(craftingIndex, 0);
-		else if (menuSide == MenuSide::INVENTORY)
-			selected = inventoryIndex;
+void Menu::select(Model* model) {
+	//select an item if there is an item to select and no current selection
+	if (selected == sf::Vector2i(-1, -1)) {
+		if (currentItem(model) != ItemType::NONE) {
+			selectedSide = menuSide;
+			if (menuSide == MenuSide::EQUIPMENT)
+				selected = sf::Vector2i(0, equipmentIndex);
+			else if (menuSide == MenuSide::CRAFTING)
+				selected = sf::Vector2i(craftingIndex, 0);
+			else if (menuSide == MenuSide::INVENTORY)
+				selected = inventoryIndex;
+		}
 	}
+	//move items and remove selection
+	else {
+		ItemType::ItemType temp;
+
+		
+
+		switch (selectedSide) {
+		case MenuSide::EQUIPMENT:
+			if (typesMatch(model)) {
+				temp = model->player->equipment[selected.y];
+				model->player->equipment[selected.y] = 
+			}
+			break;
+
+		case MenuSide::CRAFTING:
+			
+			break;
+
+		case MenuSide::INVENTORY:
+			
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+bool Menu::canSwap(Model* model) {
+	//return true if it's the same position
+	if (selectedSide == menuSide) {
+		if (menuSide == MenuSide::EQUIPMENT && selected.y == equipmentIndex) {
+			return true;
+		}
+		else if (menuSide == MenuSide::CRAFTING && selected.x < 2 && craftingIndex < 2) {
+			return true;
+		}
+		else if (menuSide == MenuSide::INVENTORY && selected == inventoryIndex) {
+			return true;
+		}
+	}
+
+	//source is equipment
+	if (selectedSide == MenuSide::EQUIPMENT) {
+		if (menuSide == MenuSide::EQUIPMENT) {
+			return false;
+		}
+		else if (menuSide == MenuSide::CRAFTING && craftingIndex < 2 && typesMatch(model)) {
+			return true;
+		}
+		else if (menuSide == MenuSide::INVENTORY && typesMatch(model)) {
+			return true;
+		}
+	}
+	//source is crafting input
+	else if (selectedSide == MenuSide::CRAFTING && selected.x < 2) {
+		if (menuSide == MenuSide::EQUIPMENT && selected.x < 2 && typesMatch(model)) {
+
+		}
+		else if (menuSide == MenuSide::CRAFTING && selected.x < 2 && ) {
+
+		}
+		else if (menuSide == MenuSide::INVENTORY) {
+			return selected.x < 2 || currentItem(model) == ItemType::NONE;
+		}
+	}
+	//source is crafting output
+	else if (selectedSide == MenuSide::CRAFTING && selected.x == 2) {
+		if (menuSide == MenuSide::EQUIPMENT) {
+			return false;
+		}
+		else if (menuSide == MenuSide::CRAFTING && currentItem(model) == ItemType::NONE) {
+			return 
+		}
+		else if (menuSide == MenuSide::INVENTORY && currentItem(model) == ItemType::NONE) {
+			
+		}
+	}
+	//source is inventory
+	else if (selectedSide == MenuSide::INVENTORY) {
+		if (menuSide == MenuSide::EQUIPMENT) {
+			return typesMatch(model);
+		}
+		else if (menuSide == MenuSide::CRAFTING) {
+			return craftingIndex < 2;
+		}
+		else if (menuSide == MenuSide::INVENTORY) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+ItemType::ItemType Menu::currentItem(Model* model) {
+	switch (menuSide) {
+	case MenuSide::EQUIPMENT:
+		return model->player->equipment[equipmentIndex];
+
+	case MenuSide::CRAFTING:
+		if(craftingIndex < 2)
+			return craftingSlots[craftingIndex];
+		else return craftedItem();
+
+	case MenuSide::INVENTORY:
+		return model->inventory[inventoryIndex.x][inventoryIndex.y];
+
+	default:
+		return ItemType::NONE;
+	}
+}
+
+ItemType::ItemType Menu::selectedItem(Model* model) {
+	switch (selectedSide) {
+	case MenuSide::EQUIPMENT:
+		return model->player->equipment[selected.y];
+
+	case MenuSide::CRAFTING:
+		if (selected.x < 2)
+			return craftingSlots[selected.x];
+		else return craftedItem();
+
+	case MenuSide::INVENTORY:
+		return model->inventory[selected.x][selected.y];
+
+	default:
+		return ItemType::NONE;
+	}
+}
+
+bool Menu::typesMatch(Model* model) {
+	return     isHat(currentItem(model))   == isHat(selectedItem(model))
+			&& isRobe(currentItem(model))  == isRobe(selectedItem(model))
+			&& isStaff(currentItem(model)) == isStaff(selectedItem(model));
 }

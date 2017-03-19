@@ -39,4 +39,8 @@ namespace ItemType {
 
 	std::string enumToString(ItemType);
 	ItemType stringToEnum(std::string&);
+
+	bool isHat(ItemType);
+	bool isRobe(ItemType);
+	bool isStaff(ItemType);
 };

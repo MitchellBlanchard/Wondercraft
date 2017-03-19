@@ -2,6 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "ItemType.hpp"
+
+class Model;
+
 namespace MenuSide {
 	enum MenuSide {
 		EQUIPMENT,
@@ -23,10 +27,19 @@ public:
 	MenuSide::MenuSide selectedSide;
 	sf::Vector2i selected;
 
+	ItemType::ItemType craftingSlots[2];
+
 	void selectionLeft();
 	void selectionRight();
 	void selectionUp();
 	void selectionDown();
 
-	void select();
+	void select(Model*);
+
+	ItemType::ItemType craftedItem();
+private:
+	bool canSwap(Model*);
+	ItemType::ItemType currentItem(Model*);
+	ItemType::ItemType selectedItem(Model*);
+	bool typesMatch(Model*);
 };
