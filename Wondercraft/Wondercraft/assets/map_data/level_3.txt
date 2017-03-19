@@ -4,8 +4,8 @@ tile_set   : tundraTiles
 player_spawn : 2.5, 13
 
 entity : goober, 14, 13
-entity : ghostie, 25.75, 7.5
+entity : gremlin, 25.75, 7.5
 entity : ghostie, 36.25, 12.25
 entity : goober, 53.25, 9
-entity : goober, 68.25, 15
+entity : gremlin, 68.25, 15
 entity : ghostie, 74.75, 14.25

@@ -164,11 +164,47 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	else return false;
 }
 
+void Model::resetLevel(int level) {
+	gameState = GameState::TRANSITION;
+
+	cleanLevel();
+
+	switch (level) {
+	case(1):
+		readMapTiles("assets/map_tiles/test_level_1.png");
+		readMapData("assets/map_data/test_level_1.txt");
+		break;
+	case(2):
+		readMapTiles("assets/map_tiles/level_2.png");
+		readMapData("assets/map_data/level_2.txt");
+		break;
+	case(3):
+		readMapTiles("assets/map_tiles/level_3.png");
+		readMapData("assets/map_data/level_3.txt");
+		break;
+	case(4):
+		readMapTiles("assets/map_tiles/level_4.png");
+		readMapData("assets/map_data/level_4.txt");
+		break;
+	}
+	player->setPosition(playerSpawn);
+	player->resetHealth();
+
+}
+
+//game restart
+	// set to transition
+	// reset based off currLevel
+
 void Model::update(float deltaTime) {
 	if (gameState == GameState::PLAYING) {
 		if (!playerIsGrounded())
 			player->setVelocity(player->getVelocity() + sf::Vector2f(0, 16)*deltaTime);
 		player->update(deltaTime, this);
+
+		if (player->getHealth() < 0 || player->getPosition().y >= 16) {
+			resetLevel(currLevel);
+		}
 
 		for (int i = 0; i < playerProjectiles.size(); i++) {
 			playerProjectiles[i]->update(deltaTime, this);
@@ -262,6 +298,11 @@ void Model::cleanLevel() {
 	for (int i = 0; i < enemyProjectiles.size(); i++)
 		delete enemyProjectiles[i];
 	enemyProjectiles.clear();
+
+	//delete items
+	for (int i = 0; i < items.size(); i++)
+		delete items[i];
+	items.clear();
 
 	//delete tiles
 	for (int x = 0; x < levelWidth; x++) {

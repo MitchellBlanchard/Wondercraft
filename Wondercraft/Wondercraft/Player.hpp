@@ -22,6 +22,8 @@ public:
 
 	ItemType::ItemType hat, robe, staff;
 
+	void resetHealth();
+
 private:
 	float health;
 };

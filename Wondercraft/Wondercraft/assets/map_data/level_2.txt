@@ -5,6 +5,6 @@ player_spawn : 2.5, 13
 
 entity : ghostie, 15.25, 14.25
 entity : ghostie, 23.25, 12.25
-entity : goober, 43.25, 12
+entity : goblin, 43.25, 12
 entity : ghostie, 55.25, 11.25
-entity : goober, 63.5, 12
+entity : gremlin, 63.5, 12

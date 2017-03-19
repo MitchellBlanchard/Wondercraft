@@ -21,6 +21,10 @@ float Player::getHealth() {
 	return health;
 }
 
+void Player::resetHealth() {
+	health = 40;
+}
+
 void Player::update(float deltaTime, Model* model) {
 	//std::cout << "Player health: " << health << std::endl;
 	if (projectileTimer != 0) {
