@@ -1,6 +1,7 @@
 #include "View.hpp"
 
 #include <iostream>
+#include <string.h>
 #include <cmath>
 
 #include "Tile.hpp"
@@ -316,6 +317,22 @@ void View::render() {
 					280 + (SQUARE_SIZE_Y + 2) * model->menu.inventoryIndex.y);
 			}
 			window.draw(selected);
+
+
+			for (int i = 0; i < menuSquares3.size(); i++) {
+				for (int j = 0; j < menuSquares3[i].size(); j++) {
+					if (model->inventory[i][j] != NULL) {
+						//draw the inventory item on top
+						sf::Sprite itemSprite;
+
+						std::string itemString = ItemType::enumToString(model->inventory[i][j]);
+
+						itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
+						itemSprite.setPosition(menuSquares3[i][j].getPosition());
+						window.draw(itemSprite);
+					}
+				}
+			}
 		}
 	}
     
