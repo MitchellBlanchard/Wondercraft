@@ -299,6 +299,11 @@ void Model::cleanLevel() {
 		delete enemyProjectiles[i];
 	enemyProjectiles.clear();
 
+	//delete items
+	for (int i = 0; i < items.size(); i++)
+		delete items[i];
+	items.clear();
+
 	//delete tiles
 	for (int x = 0; x < levelWidth; x++) {
 		for (int y = 0; y < levelHeight; y++) {
