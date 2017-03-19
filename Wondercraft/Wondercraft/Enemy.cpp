@@ -44,6 +44,10 @@ void Enemy::updatePosition(float dt, Player* player, Model* model) {
 
 			setPosition(position + velocity*dt);
 		}
+
+		if (magnitude < 3) {
+			velocity.x = 0;
+		}
 	}
 	else if (type == EnemyType::GOBLIN) {
 		//move like a goblin
