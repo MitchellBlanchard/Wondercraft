@@ -221,7 +221,21 @@ void View::render() {
 		//draw player projectiles
 		for (int i = 0; i < model->playerProjectiles.size(); i++) {
 			sf::Sprite projectile;
-			projectile.setTexture(*spriteTextures->get("fireball.png"));
+			if (model->player->equipment[2] == ItemType::FIRE_STAFF) {
+				projectile.setTexture(*spriteTextures->get("fireball.png"));
+			}
+			else if (model->player->equipment[2] == ItemType::AIR_STAFF) {
+				projectile.setTexture(*spriteTextures->get("air spell.png"));
+			}
+			else if (model->player->equipment[2] == ItemType::EARTH_STAFF) {
+				projectile.setTexture(*spriteTextures->get("earth spell.png"));
+			}
+			else if (model->player->equipment[2] == ItemType::WATER_STAFF) {
+				projectile.setTexture(*spriteTextures->get("water spell.png"));
+			}
+			else {
+				projectile.setTexture(*spriteTextures->get("fireball.png"));
+			}
 			projectile.setOrigin(projectile.getTexture()->getSize().x / 2, projectile.getTexture()->getSize().y / 2);
 			projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
 			projectile.setRotation(model->playerProjectiles[i]->rotation);
