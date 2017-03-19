@@ -9,3 +9,7 @@ entity : ghostie, 36.25, 12.25
 entity : goober, 53.25, 9
 entity : gremlin, 68.25, 15
 entity : ghostie, 74.75, 14.25
+
+item : cool stone, 22, 8
+item : basic robe, 35, 12
+item : health potion, 36, 12
