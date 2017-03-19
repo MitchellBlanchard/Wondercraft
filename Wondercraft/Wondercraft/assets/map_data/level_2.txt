@@ -8,3 +8,6 @@ entity : ghostie, 23.25, 12.25
 entity : goblin, 43.25, 12
 entity : ghostie, 55.25, 11.25
 entity : gremlin, 63.5, 12
+
+item : dry stone, 50, 14
+item : basic staff, 12, 14

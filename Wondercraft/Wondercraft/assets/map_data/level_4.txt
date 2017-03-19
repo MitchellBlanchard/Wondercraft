@@ -18,3 +18,7 @@ entity : goober, 70.75, 15
 entity : ghostie, 72.75, 5.25
 entity : goober, 73.75, 11
 entity : gremlin, 74.25, 15
+
+item : basic hat, 14, 8
+item : warm stone, 31, 7
+item : dry stone, 82.5, 10

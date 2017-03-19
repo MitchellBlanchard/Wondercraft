@@ -12,9 +12,9 @@ Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.
 	projectileTimer = 0;
 	facingRight = true;
 
-	equipment[0] = ItemType::BASIC_HAT;
-	equipment[1] = ItemType::BASIC_ROBE;
-	equipment[2] = ItemType::BASIC_STAFF;
+	equipment[0] = ItemType::WATER_HAT;
+	equipment[1] = ItemType::FIRE_ROBE;
+	equipment[2] = ItemType::EARTH_STAFF;
 }
 
 float Player::getHealth() {

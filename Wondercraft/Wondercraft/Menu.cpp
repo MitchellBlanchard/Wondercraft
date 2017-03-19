@@ -12,6 +12,84 @@ Menu::Menu() {
 	selected = sf::Vector2i(-1, -1);
 }
 
+ItemType::ItemType Menu::craftedItem() {
+
+	if (craftingContains(ItemType::AIR_GEM) && craftingContains(ItemType::BASIC_HAT)) {
+		return ItemType::AIR_HAT;
+	}
+
+	else if (craftingContains(ItemType::WATER_GEM) && craftingContains(ItemType::BASIC_HAT)) {
+		return ItemType::WATER_HAT;
+	}
+
+	else if (craftingContains(ItemType::FIRE_GEM) && craftingContains(ItemType::BASIC_HAT)) {
+		return ItemType::FIRE_HAT;
+	}
+
+	else if (craftingContains(ItemType::EARTH_GEM) && craftingContains(ItemType::BASIC_HAT)) {
+		return ItemType::EARTH_HAT;
+	}
+
+	else if (craftingContains(ItemType::AIR_GEM) && craftingContains(ItemType::BASIC_ROBE)) {
+		return ItemType::AIR_ROBE;
+	}
+
+	else if (craftingContains(ItemType::WATER_GEM) && craftingContains(ItemType::BASIC_ROBE)) {
+		return ItemType::WATER_ROBE;
+	}
+
+	else if (craftingContains(ItemType::FIRE_GEM) && craftingContains(ItemType::BASIC_ROBE)) {
+		return ItemType::FIRE_ROBE;
+	}
+
+	else if (craftingContains(ItemType::EARTH_GEM) && craftingContains(ItemType::BASIC_ROBE)) {
+		return ItemType::EARTH_ROBE;
+	}
+	else if (craftingContains(ItemType::AIR_GEM) && craftingContains(ItemType::BASIC_STAFF)) {
+		return ItemType::AIR_STAFF;
+	}
+
+	else if (craftingContains(ItemType::WATER_GEM) && craftingContains(ItemType::BASIC_STAFF)) {
+		return ItemType::WATER_STAFF;
+	}
+
+	else if (craftingContains(ItemType::FIRE_GEM) && craftingContains(ItemType::BASIC_STAFF)) {
+		return ItemType::FIRE_STAFF;
+	}
+
+	else if (craftingContains(ItemType::EARTH_GEM) && craftingContains(ItemType::BASIC_STAFF)) {
+		return ItemType::EARTH_STAFF;
+	}
+
+	else if (craftingContains(ItemType::WARM_STONE) && craftingContains(ItemType::DRY_STONE)) {
+		//gives fire gem
+		return ItemType::FIRE_GEM;
+	}
+
+	else if (craftingContains(ItemType::WARM_STONE) && craftingContains(ItemType::WET_STONE)) {
+		//gives air
+		return ItemType::AIR_GEM;
+	}
+
+	else if (craftingContains(ItemType::COOL_STONE) && craftingContains(ItemType::DRY_STONE)) {
+		//gives earth
+		return ItemType::EARTH_GEM;
+	}
+
+	else if (craftingContains(ItemType::COOL_STONE) && craftingContains(ItemType::WET_STONE)) {
+		//gives water
+		return ItemType::WATER_GEM;
+	}
+
+	else {
+		return ItemType::NONE;
+	}
+}
+
+bool Menu::craftingContains(ItemType::ItemType a) {
+	return (craftingSlots[0] == a || craftingSlots[1] == a);
+}
+
 void Menu::selectionLeft() {
 	switch (menuSide) {
 	case MenuSide::EQUIPMENT:

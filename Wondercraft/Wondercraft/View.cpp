@@ -30,11 +30,11 @@ View::View(Model* model) {
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
 
-	playerHat.setTexture(*(spriteTextures->get("player/basic hat.png")));
+	playerHat.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[0]) + ".png")));
 	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
-	playerRobe.setTexture(*(spriteTextures->get("player/basic robe.png")));
+	playerRobe.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[1]) + ".png")));
 	playerRobe.setOrigin(playerRobe.getLocalBounds().width / 2, playerRobe.getLocalBounds().height / 2);
-	playerStaff.setTexture(*(spriteTextures->get("player/basic staff.png")));
+	playerStaff.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[2]) + ".png")));
 	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
 
 	menu.setTexture(*(menuTextures->get("1.png")));
