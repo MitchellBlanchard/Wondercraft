@@ -225,21 +225,21 @@ void Menu::select(Model* model) {
 		//destination is equipment
 		if (menuSide == MenuSide::EQUIPMENT) {
 			model->player->equipment[equipmentIndex] = temp;
-			selected = sf::Vector2i();
+			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is crafting input
 		else if (menuSide == MenuSide::CRAFTING && selected.x < 2) {
 			craftingSlots[craftingIndex] = temp;
-			selected = sf::Vector2i();
+			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is crafting output
 		else if (menuSide == MenuSide::CRAFTING && selected.x == 2) {
-			selected = sf::Vector2i();
+			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is inventory
 		else if (menuSide == MenuSide::INVENTORY) {
 			model->inventory[inventoryIndex.x][inventoryIndex.y] = temp;
-			selected = sf::Vector2i();
+			selected = sf::Vector2i(-1, -1);
 		}
 	}
 }
