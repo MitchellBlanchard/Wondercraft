@@ -10,12 +10,12 @@
 Model::Model() {
 	readMapTiles("assets/map_tiles/test_level_1.png");
 	readMapData("assets/map_data/test_level_1.txt");
-
+	
 	player = new Player(playerSpawn);
 
 	//initialize empty inventory
-	for (int x = 0; x < sizeof(inventory); x++) {
-		for (int y = 0; y < sizeof(inventory[x]); y++) {
+	for (int x = 0; x < inventorySize.x; x++) {
+		for (int y = 0; y < inventorySize.y; y++) {
 			inventory[x][y] = ItemType::NONE;
 		}
 	}
@@ -114,14 +114,7 @@ bool Model::mapInitFunctions(std::string key, std::string* args, int numArgs) {
 		return true;
 	}
 
-	else if (key == "background") {
-		//set the background
-		this->background = args[0];
-
-		return true;
-	}
-
-	else if (key == "tile_set ") {
+	else if (key == "tile_set") {
 		//set the tile set
 		this->tile_set = args[0];
 
@@ -238,7 +231,7 @@ bool Model::playerIsGrounded() {
 			sf::Vector2f(player->getPosition().x, player->getBottom() + 0.01),
 			sf::Vector2f(player->getRight() - 0.01, player->getBottom() + 0.01) };
 	
-	for (int i = 0; i < sizeof(checkPoints); i++) {
+	for (int i = 0; i < 3; i++) {
 		sf::Vector2f p = checkPoints[i];
 
 		if (p.x > 0 && p.y > 0 && p.x < levelWidth && p.y < levelHeight) {
@@ -294,8 +287,8 @@ void Model::pickUp() {
 
 		if (distSq < pickupDistSq) {
 			//look for an empty place in the inventory
-			for (int x = 0; x < sizeof(inventory); x++) {
-				for (int y = 0; y < sizeof(inventory[x]); y++) {
+			for (int x = 0; x < inventorySize.x; x++) {
+				for (int y = 0; y < inventorySize.y; y++) {
 					if (inventory[x][y] == ItemType::NONE) {
 						//add to inventory
 						//std::cout << item->type << std::endl;

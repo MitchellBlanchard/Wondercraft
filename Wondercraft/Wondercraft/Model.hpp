@@ -59,6 +59,7 @@ public:
 
 	GameState::GameState gameState;
 
+	const sf::Vector2i inventorySize = sf::Vector2i(10, 3);
 	ItemType::ItemType inventory [10][3];
 	Menu menu;
 
@@ -93,7 +94,6 @@ private:
 		Values used for initalizing and mainting the level data
 	*/
 	std::string level_name;
-	std::string background;
 
 	sf::Vector2f playerSpawn;
 };
