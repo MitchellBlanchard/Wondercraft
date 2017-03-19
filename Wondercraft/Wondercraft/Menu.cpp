@@ -116,29 +116,52 @@ void Menu::select(Model* model) {
 		}
 	}
 	//move items and remove selection
-	else {
+	else if(canSwap(model)){
 		ItemType::ItemType temp;
 
-		
-
-		switch (selectedSide) {
-		case MenuSide::EQUIPMENT:
-			if (typesMatch(model)) {
-				temp = model->player->equipment[selected.y];
-				model->player->equipment[selected.y] = 
+		//source is equipment
+		if (selectedSide == MenuSide::EQUIPMENT) {
+			temp = model->player->equipment[selected.y];
+			model->player->equipment[selected.y] = currentItem(model);
+		}
+		//source is crafting input
+		else if (selectedSide == MenuSide::CRAFTING && selected.x < 2) {
+			temp = craftingSlots[selected.x];
+			craftingSlots[selected.x] = currentItem(model);
+		}
+		//source is crafting output
+		else if (selectedSide == MenuSide::CRAFTING && selected.x == 2) {
+			if (menuSide != MenuSide::CRAFTING || craftingIndex < 2) {
+				temp = craftedItem();
+				craftingSlots[0] = ItemType::NONE;
+				craftingSlots[1] = ItemType::NONE;
 			}
-			break;
+		}
+		//source is inventory
+		else if (selectedSide == MenuSide::INVENTORY) {
+			temp = model->inventory[selected.x][selected.y];
+			model->inventory[selected.x][selected.y] = currentItem(model);
+		}
 
-		case MenuSide::CRAFTING:
-			
-			break;
 
-		case MenuSide::INVENTORY:
-			
-			break;
-
-		default:
-			break;
+		//destination is equipment
+		if (menuSide == MenuSide::EQUIPMENT) {
+			model->player->equipment[equipmentIndex] = temp;
+			selected = sf::Vector2i();
+		}
+		//destination is crafting input
+		else if (menuSide == MenuSide::CRAFTING && selected.x < 2) {
+			craftingSlots[craftingIndex] = temp;
+			selected = sf::Vector2i();
+		}
+		//destination is crafting output
+		else if (menuSide == MenuSide::CRAFTING && selected.x == 2) {
+			selected = sf::Vector2i();
+		}
+		//destination is inventory
+		else if (menuSide == MenuSide::INVENTORY) {
+			model->inventory[inventoryIndex.x][inventoryIndex.y] = temp;
+			selected = sf::Vector2i();
 		}
 	}
 }
@@ -152,6 +175,9 @@ bool Menu::canSwap(Model* model) {
 		else if (menuSide == MenuSide::CRAFTING && selected.x < 2 && craftingIndex < 2) {
 			return true;
 		}
+		else if (menuSide == MenuSide::CRAFTING && selected.x == 2 && craftingIndex == 2) {
+			return true;
+		}
 		else if (menuSide == MenuSide::INVENTORY && selected == inventoryIndex) {
 			return true;
 		}
@@ -162,23 +188,23 @@ bool Menu::canSwap(Model* model) {
 		if (menuSide == MenuSide::EQUIPMENT) {
 			return false;
 		}
-		else if (menuSide == MenuSide::CRAFTING && craftingIndex < 2 && typesMatch(model)) {
-			return true;
+		else if (menuSide == MenuSide::CRAFTING) {
+			return craftingIndex < 2 && typesMatch(model);
 		}
-		else if (menuSide == MenuSide::INVENTORY && typesMatch(model)) {
-			return true;
+		else if (menuSide == MenuSide::INVENTORY) {
+			return typesMatch(model);
 		}
 	}
 	//source is crafting input
 	else if (selectedSide == MenuSide::CRAFTING && selected.x < 2) {
-		if (menuSide == MenuSide::EQUIPMENT && selected.x < 2 && typesMatch(model)) {
-
+		if (menuSide == MenuSide::EQUIPMENT) {
+			return typesMatch(model);
 		}
-		else if (menuSide == MenuSide::CRAFTING && selected.x < 2 && ) {
-
+		else if (menuSide == MenuSide::CRAFTING) {
+			return craftingIndex < 2;
 		}
 		else if (menuSide == MenuSide::INVENTORY) {
-			return selected.x < 2 || currentItem(model) == ItemType::NONE;
+			return true;
 		}
 	}
 	//source is crafting output
@@ -186,11 +212,11 @@ bool Menu::canSwap(Model* model) {
 		if (menuSide == MenuSide::EQUIPMENT) {
 			return false;
 		}
-		else if (menuSide == MenuSide::CRAFTING && currentItem(model) == ItemType::NONE) {
-			return 
+		else if (menuSide == MenuSide::CRAFTING) {
+			return currentItem(model) == ItemType::NONE;
 		}
-		else if (menuSide == MenuSide::INVENTORY && currentItem(model) == ItemType::NONE) {
-			
+		else if (menuSide == MenuSide::INVENTORY) {
+			return currentItem(model) == ItemType::NONE;
 		}
 	}
 	//source is inventory
