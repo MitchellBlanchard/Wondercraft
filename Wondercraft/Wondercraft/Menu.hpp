@@ -37,6 +37,9 @@ public:
 	void select(Model*);
 
 	ItemType::ItemType craftedItem();
+
+	bool craftingContains(ItemType::ItemType);
+
 private:
 	bool canSwap(Model*);
 	ItemType::ItemType currentItem(Model*);
