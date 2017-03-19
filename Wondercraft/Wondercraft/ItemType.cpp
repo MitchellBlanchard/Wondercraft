@@ -71,3 +71,15 @@ ItemType::ItemType ItemType::stringToEnum(std::string& s) {
 
 	else return ItemType::NONE;
 }
+
+bool ItemType::isHat(ItemType i) {
+	return i == BASIC_HAT || i == FIRE_HAT || i == EARTH_HAT || i == AIR_HAT || i == WATER_HAT;
+}
+
+bool ItemType::isRobe(ItemType i) {
+	return i == BASIC_ROBE || i == FIRE_ROBE || i == EARTH_ROBE || i == AIR_ROBE || i == WATER_ROBE;
+}
+
+bool ItemType::isStaff(ItemType i) {
+	return i == BASIC_STAFF || i == FIRE_STAFF || i == EARTH_STAFF || i == AIR_STAFF || i == WATER_STAFF;
+}

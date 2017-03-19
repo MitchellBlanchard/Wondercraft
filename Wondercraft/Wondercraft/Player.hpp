@@ -20,7 +20,7 @@ public:
 
 	bool facingRight;
 
-	ItemType::ItemType hat, robe, staff;
+	ItemType::ItemType equipment[3]; // hat, robe, staff
 
 	void resetHealth();
 
