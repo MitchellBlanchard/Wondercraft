@@ -1,30 +1,15 @@
 #include "Model.hpp"
 
 #include <string>
-#include <iostream>
 #include <fstream>
 #include <cmath>
+#include <sstream>
 
 #include "BasicTile.hpp"
 
 Model::Model() {
-	readMapTiles("assets/map_tiles/test_level_1.png");
-	readMapData("assets/map_data/test_level_1.txt");
-	
-	player = new Player(playerSpawn);
-
-	//initialize empty inventory
-	for (int x = 0; x < inventorySize.x; x++) {
-		for (int y = 0; y < inventorySize.y; y++) {
-			inventory[x][y] = ItemType::NONE;
-		}
-	}
-
+	player = new Player();
 	gameState = GameState::TITLE;
-
-	currLevel = 1; 
-
-	transitionTime = 0;
 }
 
 Model::~Model() {
@@ -33,6 +18,22 @@ Model::~Model() {
 	player = NULL;
 	
 	this->cleanLevel();
+}
+
+void Model::startGame() {
+	//initialize empty inventory
+	for (int x = 0; x < inventorySize.x; x++) {
+		for (int y = 0; y < inventorySize.y; y++) {
+			inventory[x][y] = ItemType::NONE;
+		}
+	}
+
+	currLevel = 0;
+	nextLevel();
+
+	gameState = GameState::TRANSITION;
+
+	transitionTime = 0;
 }
 
 void Model::readMapTiles(std::string filepath) {
@@ -65,7 +66,7 @@ Entity* Model::parseColor(const sf::Color& c) {
 	else return NULL;
 }
 
-void Model::readMapData(std::string filepath) {
+void Model::readMapData(std::string filepath, bool includeItems) {
 	std::ifstream in(filepath);
 	std::string line;
 	while (std::getline(in, line)) {
@@ -75,6 +76,8 @@ void Model::readMapData(std::string filepath) {
 
 		//split line on the colon into a key and a value
 		std::string key = trim(line.substr(0, colonPos));
+		if (key == "item" && !includeItems) continue; //don't add items to the map if includeItems is false
+
 		std::string value = trim(line.substr(colonPos+1));
 
 		//count the number of comma-separated arguments after the colon
@@ -164,37 +167,35 @@ bool Model::entityInitFunctions(std::string key, std::string* args, int numArgs)
 	else return false;
 }
 
-void Model::resetLevel(int level) {
+void Model::resetLevel() {
+	gameState = GameState::TRANSITION;
+
+	cleanLevel(false);
+
+	std::stringstream ss;
+	ss << currLevel;
+	readMapTiles("assets/map_tiles/level_" + ss.str() + ".png");
+	readMapData("assets/map_data/level_" + ss.str() + ".txt", false);
+
+	player->setPosition(playerSpawn);
+	player->resetHealth();
+}
+
+void Model::nextLevel() {
+	currLevel++;
+
 	gameState = GameState::TRANSITION;
 
 	cleanLevel();
 
-	switch (level) {
-	case(1):
-		readMapTiles("assets/map_tiles/test_level_1.png");
-		readMapData("assets/map_data/test_level_1.txt");
-		break;
-	case(2):
-		readMapTiles("assets/map_tiles/level_2.png");
-		readMapData("assets/map_data/level_2.txt");
-		break;
-	case(3):
-		readMapTiles("assets/map_tiles/level_3.png");
-		readMapData("assets/map_data/level_3.txt");
-		break;
-	case(4):
-		readMapTiles("assets/map_tiles/level_4.png");
-		readMapData("assets/map_data/level_4.txt");
-		break;
-	}
+	std::stringstream ss;
+	ss << currLevel;
+	readMapTiles("assets/map_tiles/level_" + ss.str() + ".png");
+	readMapData("assets/map_data/level_" + ss.str() + ".txt");
+
 	player->setPosition(playerSpawn);
 	player->resetHealth();
-
 }
-
-//game restart
-	// set to transition
-	// reset based off currLevel
 
 void Model::update(float deltaTime) {
 	if (gameState == GameState::PLAYING) {
@@ -203,7 +204,7 @@ void Model::update(float deltaTime) {
 		player->update(deltaTime, this);
 
 		if (player->getHealth() < 0 || player->getPosition().y >= 16) {
-			resetLevel(currLevel);
+			resetLevel();
 		}
 
 		for (int i = 0; i < playerProjectiles.size(); i++) {
@@ -214,44 +215,13 @@ void Model::update(float deltaTime) {
 			Enemy* currentEnemy = dynamic_cast <Enemy*>(enemies[i]);
 			currentEnemy->updatePosition(deltaTime, player, this);
 		}
-		/*
-		for (int i = 0; i < playerProjectiles.size(); i++) {
-		if (!playerProjectiles[i]->update(deltaTime, this) {
-		playerProjectiles.erase(playerProjectiles.begin() + i);
-		}
-		}*/
 
 		camera = player->getPosition();
-		//std::cout << player->getPosition().x << std::endl;
 		if (player->getPosition().x >= levelWidth - 1) {
-			
-			if (currLevel == 1) { //if in level 1
-				gameState = GameState::TRANSITION;
-				currLevel = 2;    // go to level 2
-				cleanLevel();
-				readMapTiles("assets/map_tiles/level_2.png");
-				readMapData("assets/map_data/level_2.txt");
-				player->setPosition(playerSpawn);
-			}
-			else if (currLevel == 2) {//if in level 2
-				gameState = GameState::TRANSITION;
-				currLevel = 3;    // go to level 3
-				cleanLevel();
-				readMapTiles("assets/map_tiles/level_3.png");
-				readMapData("assets/map_data/level_3.txt");
-				player->setPosition(playerSpawn);
-			}
-			else if (currLevel == 3) { //if in level 3
-				gameState = GameState::TRANSITION;
-				currLevel = 4;    // go to level 4
-				cleanLevel();
-				readMapTiles("assets/map_tiles/level_4.png");
-				readMapData("assets/map_data/level_4.txt");
-				player->setPosition(playerSpawn);
-			}
-			else if (currLevel == 4) {
+			if (currLevel == 4) {
 				gameState = GameState::END;
 			}
+			else nextLevel();
 		}
 	}
 	else if (gameState == GameState::TRANSITION) {
@@ -283,7 +253,7 @@ bool Model::playerIsGrounded() {
 	return false;
 }
 
-void Model::cleanLevel() {
+void Model::cleanLevel(bool cleanItems) {
 	//delete enemies
 	for (int i = 0; i < enemies.size(); i++)
 		delete enemies[i];
@@ -299,10 +269,12 @@ void Model::cleanLevel() {
 		delete enemyProjectiles[i];
 	enemyProjectiles.clear();
 
-	//delete items
-	for (int i = 0; i < items.size(); i++)
-		delete items[i];
-	items.clear();
+	//delete items (only if leanItems is true)
+	if (cleanItems) {
+		for (int i = 0; i < items.size(); i++)
+			delete items[i];
+		items.clear();
+	}
 
 	//delete tiles
 	for (int x = 0; x < levelWidth; x++) {
@@ -316,24 +288,19 @@ void Model::cleanLevel() {
 }
 
 void Model::pickUp() {
-	std::cout << "Picking up an object" << std::endl;
 	//loop through the items in the level
 	for (int i = 0; i < items.size(); i++) {
 		LevelItem* item = items[i];
-		std::cout << item->type << std::endl;
 
-		std::cout << "Item position: " << item->position.x << " : " << item->position.y << std::endl;
 		//check if the current item is close enough to pick up
 		sf::Vector2f diff = player->getPosition() - item->position;
 
 		float distSq = diff.x * diff.x + diff.y * diff.y;
 
-		std::cout << "Distance: " << distSq << std::endl;
-
 		if (distSq < pickupDistSq) {
 			//look for an empty place in the inventory
-			for (int x = 0; x < inventorySize.x; x++) {
-				for (int y = 0; y < inventorySize.y; y++) {
+			for (int y = 0; y < inventorySize.y; y++) {
+				for (int x = 0; x < inventorySize.x; x++) {
 					if (inventory[x][y] == ItemType::NONE) {
 						//add to inventory
 						//std::cout << item->type << std::endl;

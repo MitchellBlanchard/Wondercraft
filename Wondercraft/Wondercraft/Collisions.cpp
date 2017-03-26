@@ -1,8 +1,6 @@
 #include "collisions.hpp"
 
 #include <cmath>
-#include <iostream>
-using namespace std;
 
 bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntity, std::vector<Entity*>& stillEntities, std::vector<Entity*>& collidedEntities) {
 	float threshold = 0.0001;
@@ -13,19 +11,8 @@ bool Collisions::collisionCalc(float& step, float deltaTime, Entity& movingEntit
 	float nearestStep = 1;
 	for (int i = 0; i < stillEntities.size(); i++) {
 		Entity* e = stillEntities[i];
-		//cout << "Still entity left and right: " << stillEntities[i]->getLeft() << " : " << stillEntities[i]->getRight() << endl;
-		//cout << "Still entity top and bottom: " << stillEntities[i]->getTop() << " : " << stillEntities[i]->getBottom() << endl;
 
 		float currentStep = 1;
-		/*
-		cout << "Player position: " << movingEntity.getPosition().x << ", " << movingEntity.getPosition().y << endl;
-		cout << "Player bounds: " << movingEntity.getLeft() << ", " << movingEntity.getTop() << ", " << movingEntity.getRight() << ", " << movingEntity.getBottom() << endl;
-		cout << "Velocity * dt: " << movingEntity.getVelocity().x*deltaTime << ", " << movingEntity.getVelocity().y*deltaTime << endl;
-		//cout << "Moving bounds: " << leftBound << ", " << topBound << ", " << rightBound << ", " << bottomBound << endl;
-		cout << "Tile position: " << e->getPosition().x << ", " << e->getPosition().y << endl;
-		cout << "Tile bounds: " << e->getLeft() << ", " << e->getTop() << ", " << e->getRight() << ", " << e->getBottom() << endl;
-		cout << "Step: " << currentStep << endl;
-		cout << endl;*/
 
 		if (!movingEntity.collisionCalc(currentStep, deltaTime, *e))
 			continue;

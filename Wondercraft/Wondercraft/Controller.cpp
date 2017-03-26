@@ -21,7 +21,10 @@ void Controller::inputs() {
 
 		else if (event.type == sf::Event::KeyReleased) {
 			if (model->gameState == GameState::PLAYING) {
-				if (event.key.code == sf::Keyboard::I) {
+				if (event.key.code == sf::Keyboard::Escape) {
+					model->gameState = GameState::TITLE;
+				}
+				else if (event.key.code == sf::Keyboard::I) {
 					model->gameState = GameState::INVENTORY;
 				}
 				else if (event.key.code == sf::Keyboard::Down) {
@@ -29,7 +32,7 @@ void Controller::inputs() {
 				}
 			}
 			else if (model->gameState == GameState::INVENTORY) {
-				if (event.key.code == sf::Keyboard::I) {
+				if (event.key.code == sf::Keyboard::I || event.key.code == sf::Keyboard::Escape) {
 					model->gameState = GameState::PLAYING;
 				}
 				else if (event.key.code == sf::Keyboard::Left) {
@@ -48,9 +51,18 @@ void Controller::inputs() {
 					model->menu.select(model);
 				}
 			}
-			else if (model->gameState == GameState::TITLE) { //if they're on the title screen
-				if (event.key.code == sf::Keyboard::Return) { //and they hit enter
-					model->gameState = GameState::TRANSITION;    //they start playin
+			else if (model->gameState == GameState::TITLE) {
+				if (event.key.code == sf::Keyboard::Escape) {
+					exit(0);
+				}
+				else if (event.key.code == sf::Keyboard::Return) {
+					model->startGame();
+					view->initGame();
+				}
+			}
+			else if (model->gameState == GameState::END) {
+				if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Escape) {
+					model->gameState = GameState::TITLE;
 				}
 			}
 		}
@@ -82,15 +94,6 @@ void Controller::inputs() {
 
 			if (model->player->projectileTimer == 0) {
 				int projectileType = 1;
-
-				/*
-				if (projectileType == 1) {
-				model->player->projectileTimer = 0.5;
-				}
-				else if (projectileType == 2) {
-				model->player->projectileTimer = 1;
-				}
-				*/
 
 				model->player->projectileTimer = 0.5;
 				model->playerProjectiles.push_back(new Projectile(model->player->getPosition(), view->getStartingPos(), playerVec, mouseVec, view->TILE_SIZE, projectileType, model->player->facingRight));

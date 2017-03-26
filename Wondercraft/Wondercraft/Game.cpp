@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <iostream>
 
 Game::Game() : view(&model), controller(&model, &view), updateFPS(100), renderFPS(60) {}
 

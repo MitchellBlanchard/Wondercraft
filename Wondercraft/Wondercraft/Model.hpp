@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 #include "UpdateableGroup.hpp"
 #include "DrawableGroup.hpp"
 #include "TileType.hpp"
@@ -39,8 +40,9 @@ public:
 
 	/*
 		Initializes the level's entities and other properties from a given text file.
+		Optionally, items can be omitted. This option is used when resetting the same level.
 	*/
-	void readMapData(std::string filepath);
+	void readMapData(std::string filepath, bool includeItems = true);
 
 	//Map tile data read in from the map_tiles file
 	Entity*** mapTiles;
@@ -64,13 +66,16 @@ public:
 	Menu menu;
 
 	int currLevel;
-	void cleanLevel ();
+	void cleanLevel(bool cleanItems = true);
 
-	void resetLevel(int);
+	void startGame();
+	void resetLevel();
+	void nextLevel();
 
 	float transitionTime;
 
 	std::string tile_set;
+
 private:
 	static std::string trim(std::string&);
 

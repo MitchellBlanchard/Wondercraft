@@ -1,7 +1,6 @@
 #include "View.hpp"
 
-#include <iostream>
-#include <string.h>
+#include <string>
 #include <cmath>
 
 #include "Tile.hpp"
@@ -18,14 +17,17 @@ View::View(Model* model) {
 	spriteTextures = new TextureLoader("assets/sprites/");
 	menuTextures = new TextureLoader("assets/menus/");
 	itemTextures = new TextureLoader("assets/items/");
-	 
-	initSpriteArray();
+	EMPTY_ITEM_TEXTURE.create(SQUARE_SIZE_X, SQUARE_SIZE_Y);
 
-	initMenuArray();
-
-	background.setTexture(*(levelTextures->get(model->tile_set+"/bg.png")));
 	title.setTexture(*(menuTextures->get("titleScreen.png")));
 	end.setTexture(*(menuTextures->get("endScreen.png")));
+}
+
+void View::initGame() {
+	initTileSprites();
+	initMenuArray();
+
+	background.setTexture(*(levelTextures->get(model->tile_set + "/bg.png")));
 
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
@@ -44,62 +46,41 @@ View::View(Model* model) {
 	//transition stuff
 	map.setTexture(*(menuTextures->get("transition/transition.png")));
 	icon.setTexture(*(menuTextures->get("transition/icon.png")));
-
 }
 
-void View::initSpriteArray() {
+void View::initTileSprites() {
 	//initialize the sprites
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
 
-	displaySprites.resize(numCols);
-	for (int i = 0; i < displaySprites.size(); i++) {
-		displaySprites[i].resize(numRows);
+	tileSprites.resize(numCols);
+	for (int i = 0; i < tileSprites.size(); i++) {
+		tileSprites[i].resize(numRows);
 	}
 
-	for (int x = 0; x < displaySprites.size(); x++) {
-		for (int y = 0; y < displaySprites[x].size(); y++) {
-			displaySprites[x][y].setPosition(TILE_SIZE * x, TILE_SIZE * y);
-			displaySprites[x][y].setTexture(*(getTexture(x, y)));
+	for (int x = 0; x < tileSprites.size(); x++) {
+		for (int y = 0; y < tileSprites[x].size(); y++) {
+			tileSprites[x][y].setPosition(TILE_SIZE * x, TILE_SIZE * y);
+			tileSprites[x][y].setTexture(*(getTexture(x, y)));
 		}
 	}
 }
 
 void View::initMenuArray() {
-	menuSquares1.resize(3);
-	for (int row = 0; row < menuSquares1.size(); row++) {
-		menuSquares1[row].resize(1);
+	for (int row = 0; row < 3; row++) {
+		equipmentSquares[row].setPosition(317, 3 + (SQUARE_SIZE_Y + 2) * row);
+		equipmentSquares[row].setTexture(*(menuTextures->get("tile.png")));
 	}
 
-	for (int row = 0; row < menuSquares1.size(); row++) {
-		for (int col = 0; col < menuSquares1[row].size(); col++) {
-			menuSquares1[row][col].setPosition(SQUARE_SIZE_X * col + 317 + col * 5, SQUARE_SIZE_Y * row + 3 + row * 2);
-			menuSquares1[row][col].setTexture(*(menuTextures->get("tile.png")));
-		}
+	for (int col = 0; col < 3; col++) {
+		craftingSquares[col].setPosition(528 + (SQUARE_SIZE_X + 57) * col, 136);
+		craftingSquares[col].setTexture(*(menuTextures->get("tile.png")));
 	}
 
-	menuSquares2.resize(1);
-	for (int row = 0; row < menuSquares2.size(); row++) {
-		menuSquares2[row].resize(3);
-	}
-
-	for (int row = 0; row < menuSquares2.size(); row++) {
-		for (int col = 0; col < menuSquares2[row].size(); col++) {
-			menuSquares2[row][col].setPosition(SQUARE_SIZE_X * col + 528 + col * 57, SQUARE_SIZE_Y * row + 136);// +row * 2);
-			menuSquares2[row][col].setTexture(*(menuTextures->get("tile.png")));
-		}
-	}
-
-
-	menuSquares3.resize(3);
-	for (int row = 0; row < menuSquares3.size(); row++) {
-		menuSquares3[row].resize(10);
-	}
-
-	for (int row = 0; row < menuSquares3.size(); row++) {
-		for (int col = 0; col < menuSquares3[row].size(); col++) {
-			menuSquares3[row][col].setPosition(SQUARE_SIZE_X * col + 84 + col * 5, SQUARE_SIZE_Y * row + 280 +row * 2);
-			menuSquares3[row][col].setTexture(*(menuTextures->get("tile.png")));
+	for (int col = 0; col < 10; col++) {
+		for (int row = 0; row < 3; row++) {
+			inventorySquares[col][row].setPosition(84 + (SQUARE_SIZE_X + 5) * col, 280 + (SQUARE_SIZE_Y + 2) * row);
+			inventorySquares[col][row].setTexture(*(menuTextures->get("tile.png")));
 		}
 	}
 
@@ -127,7 +108,7 @@ sf::RenderWindow& View::getWindow() {
 	return window;
 }
 
-void View::updateTiles() {
+void View::updateTileSprites() {
 	sf::Vector2f startingCoord = getStartingPos();
 
 	int currentTileX = int(floor(startingCoord.x));
@@ -145,10 +126,10 @@ void View::updateTiles() {
 		yOffset--;
 	}
 
-	for (int x = 0; x < displaySprites.size(); x++) {
-		for (int y = 0; y < displaySprites[x].size(); y++) {
-			displaySprites[x][y].setPosition((x + xOffset) * TILE_SIZE, (y + yOffset) * TILE_SIZE);
-			displaySprites[x][y].setTexture(*getTexture(x + currentTileX, y + currentTileY));
+	for (int x = 0; x < tileSprites.size(); x++) {
+		for (int y = 0; y < tileSprites[x].size(); y++) {
+			tileSprites[x][y].setPosition((x + xOffset) * TILE_SIZE, (y + yOffset) * TILE_SIZE);
+			tileSprites[x][y].setTexture(*getTexture(x + currentTileX, y + currentTileY));
 		}
 	}
 }
@@ -170,9 +151,6 @@ void View::playTransition() {
 
 void View::render() {
 	window.clear();
-
-	float healthWidth = health.getTexture()->getSize().x / (float)40;
-	health.setPosition(0 - ((40 - model->player->getHealth()) * healthWidth), 0);
 	
 	if (model->gameState == GameState::TITLE) {
 		window.draw(title);
@@ -184,7 +162,10 @@ void View::render() {
 		playTransition();
 	}
 	else {
-		updateTiles();
+		float healthWidth = health.getTexture()->getSize().x / (float)40;
+		health.setPosition(0 - ((40 - model->player->getHealth()) * healthWidth), 0);
+
+		updateTileSprites();
 
 		//create a new render state for the camera displacement
 		sf::RenderStates cameraState;
@@ -195,9 +176,9 @@ void View::render() {
 		window.draw(background);
 
 		//draw tiles
-		for (int x = 0; x < displaySprites.size(); x++) {
-			for (int y = 0; y < displaySprites[x].size(); y++) {
-				window.draw(displaySprites[x][y]);
+		for (int x = 0; x < tileSprites.size(); x++) {
+			for (int y = 0; y < tileSprites[x].size(); y++) {
+				window.draw(tileSprites[x][y]);
 			}
 		}
 
@@ -207,14 +188,17 @@ void View::render() {
 
 
 		//draw player
+		playerHat.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[0]) + ".png")));
 		playerHat.setPosition(model->player->getPosition() * TILE_SIZE);
 		playerHat.setScale(model->player->facingRight ? 1 : -1, 1);
 		window.draw(playerHat, cameraState);
 
+		playerRobe.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[1]) + ".png")));
 		playerRobe.setPosition(model->player->getPosition() * TILE_SIZE);
 		playerRobe.setScale(model->player->facingRight ? 1 : -1, 1);
 		window.draw(playerRobe, cameraState);
 
+		playerStaff.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[2]) + ".png")));
 		playerStaff.setPosition(model->player->getPosition() * TILE_SIZE);
 		playerStaff.setScale(model->player->facingRight ? 1 : -1, 1);
 		window.draw(playerStaff, cameraState);
@@ -223,7 +207,7 @@ void View::render() {
 		for (int i = 0; i < model->playerProjectiles.size(); i++) {
 			sf::Sprite projectile;
 			if (model->player->equipment[2] == ItemType::FIRE_STAFF) {
-				projectile.setTexture(*spriteTextures->get("fireball.png"));
+				projectile.setTexture(*spriteTextures->get("fire spell.png"));
 			}
 			else if (model->player->equipment[2] == ItemType::AIR_STAFF) {
 				projectile.setTexture(*spriteTextures->get("air spell.png"));
@@ -235,7 +219,7 @@ void View::render() {
 				projectile.setTexture(*spriteTextures->get("water spell.png"));
 			}
 			else {
-				projectile.setTexture(*spriteTextures->get("fireball.png"));
+				projectile.setTexture(*spriteTextures->get("basic spell.png"));
 			}
 			projectile.setOrigin(projectile.getTexture()->getSize().x / 2, projectile.getTexture()->getSize().y / 2);
 			projectile.setPosition(model->playerProjectiles[i]->getPosition() * TILE_SIZE);
@@ -293,21 +277,17 @@ void View::render() {
 		if (model->gameState == GameState::INVENTORY) { //drawing the pause menu
 			window.draw(menu);
 
-			for (int i = 0; i < menuSquares1.size(); i++) {
-				for (int j = 0; j < menuSquares1[i].size(); j++) {
-					window.draw(menuSquares1[i][j]);
-				}
+			for (int i = 0; i < 3; i++) {
+				window.draw(equipmentSquares[i]);
 			}
 
-			for (int i = 0; i < menuSquares2.size(); i++) {
-				for (int j = 0; j < menuSquares2[i].size(); j++) {
-					window.draw(menuSquares2[i][j]);
-				}
+			for (int i = 0; i < 3; i++) {
+				window.draw(craftingSquares[i]);
 			}
 
-			for (int i = 0; i < menuSquares3.size(); i++) {
-				for (int j = 0; j < menuSquares3[i].size(); j++) {
-					window.draw(menuSquares3[i][j]);
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 3; j++) {
+					window.draw(inventorySquares[i][j]);
 				}
 			}
 
@@ -347,9 +327,36 @@ void View::render() {
 			if(model->menu.selected != sf::Vector2i(-1, -1))
 				window.draw(selected);
 
+			//draw equipment items
+			for (int i = 0; i < 3; i++) {
+				sf::Sprite itemSprite;
 
-			for (int i = 0; i < menuSquares3.size(); i++) {
-				for (int j = 0; j < menuSquares3[i].size(); j++) {
+				std::string itemString = ItemType::enumToString(model->player->equipment[i]);
+
+				itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
+				itemSprite.setPosition(equipmentSquares[i].getPosition());
+				window.draw(itemSprite);
+			}
+
+			//draw crafting items
+			for (int i = 0; i < 3; i++) {
+				sf::Sprite itemSprite;
+
+				std::string itemString;
+				if(i == 2) itemString = ItemType::enumToString(model->menu.craftedItem());
+				else itemString = ItemType::enumToString(model->menu.craftingSlots[i]);
+
+				if (itemString != "")
+					itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
+				else itemSprite.setTexture(EMPTY_ITEM_TEXTURE);
+				
+				itemSprite.setPosition(craftingSquares[i].getPosition());
+				window.draw(itemSprite);
+			}
+
+			//draw inventory items
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 3; j++) {
 					if (model->inventory[i][j] != NULL) {
 						//draw the inventory item on top
 						sf::Sprite itemSprite;
@@ -357,22 +364,9 @@ void View::render() {
 						std::string itemString = ItemType::enumToString(model->inventory[i][j]);
 
 						itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
-						itemSprite.setPosition(menuSquares3[i][j].getPosition());
+						itemSprite.setPosition(inventorySquares[i][j].getPosition());
 						window.draw(itemSprite);
 					}
-				}
-			}
-
-
-			for (int i = 0; i < menuSquares1.size(); i++) {
-				for (int j = 0; j < menuSquares1[i].size(); j++) {
-					sf::Sprite itemSprite;
-
-					std::string itemString = ItemType::enumToString(model->player->equipment[i]);
-
-					itemSprite.setTexture(*itemTextures->get(itemString + ".png"));
-					itemSprite.setPosition(menuSquares1[i][j].getPosition());
-					window.draw(itemSprite);
 				}
 			}
 		}

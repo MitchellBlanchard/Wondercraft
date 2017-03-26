@@ -228,12 +228,12 @@ void Menu::select(Model* model) {
 			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is crafting input
-		else if (menuSide == MenuSide::CRAFTING && selected.x < 2) {
+		else if (menuSide == MenuSide::CRAFTING && craftingIndex < 2) {
 			craftingSlots[craftingIndex] = temp;
 			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is crafting output
-		else if (menuSide == MenuSide::CRAFTING && selected.x == 2) {
+		else if (menuSide == MenuSide::CRAFTING && craftingIndex == 2) {
 			selected = sf::Vector2i(-1, -1);
 		}
 		//destination is inventory

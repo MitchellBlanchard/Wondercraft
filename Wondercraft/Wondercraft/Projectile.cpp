@@ -2,12 +2,10 @@
 
 #include <vector>
 #include <cmath>
-#include <iostream>
 
 #include "TileType.hpp"
 #include "Enemy.hpp"
 #include "Model.hpp"
-//#include "Collisions.hpp"
 
 Projectile::Projectile(sf::Vector2f spawn, sf::Vector2f startingPos, sf::Vector2f playerVec, sf::Vector2f mouseLoc, float TILE_SIZE, int projectileType, bool facingRight) : RectangleEntity(spawn, sf::Vector2f(1.125,0.375)), projectileType(projectileType), TILE_SIZE(TILE_SIZE), startingPos(startingPos){
 	originSize = sf::Vector2f(1.125, 0.375);

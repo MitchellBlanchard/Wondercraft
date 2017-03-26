@@ -9,7 +9,7 @@ class Model;
 
 class Player : public RectangleEntity {
 public:
-	Player(sf::Vector2f position);
+	Player(sf::Vector2f position = sf::Vector2f());
 
 	void update(float deltaTime, Model*);
 

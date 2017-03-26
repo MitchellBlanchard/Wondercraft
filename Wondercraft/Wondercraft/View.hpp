@@ -42,27 +42,29 @@ public:
 	TextureLoader* spriteTextures;
 	TextureLoader* menuTextures;
 	TextureLoader* itemTextures;
+	sf::Texture EMPTY_ITEM_TEXTURE;
 
 	void render();
-	void updateTiles();
+	void initGame();
+	void updateTileSprites();
 
 	sf::Vector2f getStartingPos();
 
-	std::vector<std::vector<sf::Sprite>> displaySprites;
+	std::vector<std::vector<sf::Sprite>> tileSprites;
 
 	//these three hold the squares in the menu
-	std::vector<std::vector<sf::Sprite>> menuSquares1;
-	std::vector<std::vector<sf::Sprite>> menuSquares2;
-	std::vector<std::vector<sf::Sprite>> menuSquares3;
+	sf::Sprite equipmentSquares [3];
+	sf::Sprite craftingSquares  [3];
+	sf::Sprite inventorySquares [10][3];
 
 	//transition garbo
 	sf::Sprite map;
 	sf::Sprite icon;
 
 	sf::Vector2f windowSize;
-private:
 
-	void initSpriteArray();
+private:
+	void initTileSprites();
 	void initMenuArray();
 
 	void playTransition();
