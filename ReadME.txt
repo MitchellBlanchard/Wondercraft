@@ -13,3 +13,5 @@ Controls:
 Your goal in Wondercraft is to adventure through the worlds without being eliminated by the monsters you will find along the way.  Progress through a level by travelling right.  If you shoot monsters, they will take damage, and if a monster takes enough damage, it will die.  However, if you come into contact with a monster it will hurt you. If you lose enough health, you will die.
 
 Items that will help you can be found throughout your journey.  Potions will restore life, and other items to be found are stones and equipment. Stones can be combined to create gems, and gems can be slotted into equipment to grant you new spells, and alter your stats. 
+
+Note: Interactions with the inventory is still a bit buggy, and will be improved for the final submission.  
