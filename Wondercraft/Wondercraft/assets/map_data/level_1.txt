@@ -6,7 +6,12 @@ player_spawn : 2.5, 13
 
 entity : goober, 10.5, 12
 entity : goober, 13, 12
+entity : goblin, 35.25, 15
+entity : goblin, 99.25, 14
+entity : goblin, 90.25, 15
 
+item : warm stone, 1, 0
 item : wet stone, 15, 14
-item : basic hat, 48, 7
+item : dry stone, 75, 10
+item : basic staff, 48, 7
 item : health potion, 49, 7

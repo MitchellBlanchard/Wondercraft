@@ -10,4 +10,4 @@ entity : ghostie, 55.25, 11.25
 entity : gremlin, 63.5, 12
 
 item : dry stone, 50, 14
-item : basic staff, 12, 14
+item : basic hat, 12, 14
