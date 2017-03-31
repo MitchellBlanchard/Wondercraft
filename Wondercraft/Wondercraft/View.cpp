@@ -9,7 +9,7 @@
 View::View(Model* model) {
 	windowSize = sf::Vector2f(960, 540);
 
-	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Wondercraft", sf::Style::None);
+	window.create(sf::VideoMode(windowSize.x, windowSize.y), "Wondercraft");
 	
 	this->model = model;
 
@@ -49,10 +49,33 @@ void View::initGame() {
 }
 
 void View::initTileSprites() {
-	//initialize the sprites
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
 
+	//initialize the vertex array
+	tileVertices = sf::VertexArray(sf::Quads, numCols * numRows * 4);
+	 
+	for (int row = 0; row < numRows; row++)
+	{
+		for (int col = 0; col < numCols; col++)
+		{
+			sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
+
+			currTile[0].position = sf::Vector2f(col * TILE_SIZE, row * TILE_SIZE);
+			currTile[0].texCoords = sf::Vector2f(0, 0);
+
+			currTile[1].position = sf::Vector2f((col + 1) * TILE_SIZE, row * TILE_SIZE);
+			currTile[1].texCoords = sf::Vector2f(TILE_SIZE, 0);
+
+			currTile[2].position = sf::Vector2f((col + 1) * TILE_SIZE, (row + 1) * TILE_SIZE);
+			currTile[2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE);
+
+			currTile[3].position = sf::Vector2f(col * TILE_SIZE, (row + 1) * TILE_SIZE);
+			currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE);
+		}
+	}
+
+	//sprite array that we won't need anymore
 	tileSprites.resize(numCols);
 	for (int i = 0; i < tileSprites.size(); i++) {
 		tileSprites[i].resize(numRows);
@@ -181,6 +204,13 @@ void View::render() {
 				window.draw(tileSprites[x][y]);
 			}
 		}
+
+		/*
+		sf::Texture vertText;
+		vertText.loadFromFile("assets/tilesets/meadowTiles/stone.png");
+
+		window.draw(tileVertices, &vertText);
+		*/
 
 		//draw health
 		window.draw(health);

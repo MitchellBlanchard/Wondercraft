@@ -51,6 +51,7 @@ public:
 	sf::Vector2f getStartingPos();
 
 	std::vector<std::vector<sf::Sprite>> tileSprites;
+	sf::VertexArray tileVertices;
 
 	//these three hold the squares in the menu
 	sf::Sprite equipmentSquares [3];
