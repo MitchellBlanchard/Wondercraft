@@ -12,6 +12,6 @@ entity : goblin, 90.25, 15
 
 item : warm stone, 1, 0
 item : wet stone, 15, 14
-item : dry stone, 75, 10
+item : cool stone, 75, 10
 item : basic staff, 48, 7
 item : health potion, 49, 7

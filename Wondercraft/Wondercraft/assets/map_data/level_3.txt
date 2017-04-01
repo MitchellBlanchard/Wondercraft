@@ -6,10 +6,14 @@ player_spawn : 2.5, 13
 entity : goober, 14, 13
 entity : gremlin, 25.75, 7.5
 entity : ghostie, 36.25, 12.25
-entity : goober, 53.25, 9
+entity : ghostie, 54.25, 9 
 entity : gremlin, 68.25, 15
 entity : ghostie, 74.75, 14.25
+entity : gremlin, 11.25, 4
+entity : gremlin, 36.25, 13
 
-item : cool stone, 22, 8
+item : wet stone, 22, 8
 item : basic robe, 35, 12
-item : health potion, 36, 12
+item : cool stone, 7, 8
+item : air gem, 36.5, 7
+item : basic staff, 51, 8

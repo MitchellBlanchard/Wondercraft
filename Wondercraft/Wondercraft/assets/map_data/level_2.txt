@@ -7,7 +7,17 @@ entity : ghostie, 15.25, 14.25
 entity : ghostie, 23.25, 12.25
 entity : goblin, 43.25, 12
 entity : ghostie, 55.25, 11.25
-entity : gremlin, 63.5, 12
+entity : goblin, 63.5, 12
+entity : goober, 88.5, 13
+entity : ghostie, 88.25, 8.25
+entity : goblin, 89.25, 10
+entity : ghostie, 96.25, 7.25
+entity : goblin, 101.25, 14
+entity : goblin, 112.25, 10
 
 item : dry stone, 50, 14
 item : basic hat, 12, 14
+item : warm stone, 67.5, 1
+item : basic staff, 86.5, 7
+item : dry stone, 88, 2
+item : health potion, 110, 9
