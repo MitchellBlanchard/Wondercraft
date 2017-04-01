@@ -54,27 +54,8 @@ void View::initTileSprites() {
 
 	//initialize the vertex array
 	tileVertices = sf::VertexArray(sf::Quads, numCols * numRows * 4);
-	 
-	for (int row = 0; row < numRows; row++)
-	{
-		for (int col = 0; col < numCols; col++)
-		{
-			sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
 
-			currTile[0].position = sf::Vector2f(col * TILE_SIZE, row * TILE_SIZE);
-			currTile[0].texCoords = sf::Vector2f(0, 0);
-
-			currTile[1].position = sf::Vector2f((col + 1) * TILE_SIZE, row * TILE_SIZE);
-			currTile[1].texCoords = sf::Vector2f(TILE_SIZE, 0);
-
-			currTile[2].position = sf::Vector2f((col + 1) * TILE_SIZE, (row + 1) * TILE_SIZE);
-			currTile[2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE);
-
-			currTile[3].position = sf::Vector2f(col * TILE_SIZE, (row + 1) * TILE_SIZE);
-			currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE);
-		}
-	}
-
+	/*
 	//sprite array that we won't need anymore
 	tileSprites.resize(numCols);
 	for (int i = 0; i < tileSprites.size(); i++) {
@@ -87,6 +68,7 @@ void View::initTileSprites() {
 			tileSprites[x][y].setTexture(*(getTexture(x, y)));
 		}
 	}
+	*/
 }
 
 void View::initMenuArray() {
@@ -99,6 +81,7 @@ void View::initMenuArray() {
 		craftingSquares[col].setPosition(528 + (SQUARE_SIZE_X + 57) * col, 136);
 		craftingSquares[col].setTexture(*(menuTextures->get("tile.png")));
 	}
+
 
 	for (int col = 0; col < 10; col++) {
 		for (int row = 0; row < 3; row++) {
@@ -151,31 +134,48 @@ void View::updateTileSprites() {
 
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
-
-	//initialize the vertex array
-	tileVertices = sf::VertexArray(sf::Quads, numCols * numRows * 4);
-
+ 
 	for (int row = 0; row < numRows; row++)
 	{
 		for (int col = 0; col < numCols; col++)
 		{
-			sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
+			int x = col + currentTileX;
+			int y = row + currentTileY;
 
-			currTile[0].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
-			currTile[0].texCoords = sf::Vector2f(0, 0);
+			Tile* e = NULL;
+			if (!(x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight)) {
+				e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
+			}
 
-			currTile[1].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
-			currTile[1].texCoords = sf::Vector2f(TILE_SIZE, 0);
+			if (e != NULL) {
+				if (e->type == TileType::STONE) {
+					sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
 
-			currTile[2].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
-			currTile[2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE);
+					currTile[0].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
+					currTile[0].texCoords = sf::Vector2f(0, 0);
 
-			currTile[3].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
-			currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE);
+					currTile[1].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
+					currTile[1].texCoords = sf::Vector2f(TILE_SIZE-1, 0);
 
+					currTile[2].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
+					currTile[2].texCoords = sf::Vector2f(TILE_SIZE-1, TILE_SIZE-1);
+
+					currTile[3].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
+					currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE-1);
+				}
+			}
+
+			else {
+				sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
+				currTile[0].position = sf::Vector2f(0, 0);
+				currTile[1].position = sf::Vector2f(0, 0);
+				currTile[2].position = sf::Vector2f(0, 0);
+				currTile[3].position = sf::Vector2f(0, 0);
+			}
 		}
 	}
 
+	/*
 	//shouldnt need this anymore
 	for (int x = 0; x < tileSprites.size(); x++) {
 		for (int y = 0; y < tileSprites[x].size(); y++) {
@@ -183,6 +183,7 @@ void View::updateTileSprites() {
 			tileSprites[x][y].setTexture(*getTexture(x + currentTileX, y + currentTileY));
 		}
 	}
+	*/
 }
 
 sf::Vector2f View::getStartingPos() {
@@ -226,16 +227,16 @@ void View::render() {
 		//draw background	
 		window.draw(background);
 
+		/*
 		//draw tiles
 		for (int x = 0; x < tileSprites.size(); x++) {
 			for (int y = 0; y < tileSprites[x].size(); y++) {
 				//window.draw(tileSprites[x][y]);
 			}
 		}
+		*/
 
-		
-		sf::Texture vertText;
-		vertText.loadFromFile("assets/tilesets/meadowTiles/stone.png");
+		vertText = (*(levelTextures->get(model->tile_set + "/spritesheet.png")));
 
 		window.draw(tileVertices, &vertText);
 		
