@@ -16,8 +16,8 @@ namespace EnemyType {
 
 class Enemy : public RectangleEntity {
 public:
-	Enemy(sf::Vector2f spawn, int, sf::Vector2f);
-	void updatePosition(float dt, Player* p, Model* m);
+	Enemy(sf::Vector2f spawn, EnemyType::EnemyType, sf::Vector2f);
+	void update(float dt, Player* p, Model* m);
 
 	float health, damage;
 	EnemyType::EnemyType type;

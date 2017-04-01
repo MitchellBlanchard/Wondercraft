@@ -2,6 +2,7 @@
 
 #include <string>
 
+//The types of items in the game
 namespace ItemType {
 	enum ItemType {
 		NONE,
@@ -37,7 +38,10 @@ namespace ItemType {
 		HEALTH_POTION
 	};
 
+	//converts the enum to it's acossiated string
 	std::string enumToString(ItemType);
+
+	//converts the string to it's acossiated enum
 	ItemType stringToEnum(std::string&);
 
 	bool isHat(ItemType);

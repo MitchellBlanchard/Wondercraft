@@ -23,7 +23,6 @@
     <ClCompile Include="BottomEdgeEntity.cpp" />
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="DrawableGroup.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FontLoader.cpp" />
@@ -49,7 +48,6 @@
     <ClInclude Include="BottomEdgeEntity.hpp" />
     <ClInclude Include="Collisions.hpp" />
     <ClInclude Include="Controller.hpp" />
-    <ClInclude Include="DrawableGroup.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="FontLoader.hpp" />

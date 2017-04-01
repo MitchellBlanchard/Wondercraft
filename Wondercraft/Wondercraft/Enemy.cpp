@@ -2,33 +2,31 @@
 
 #include "Model.hpp"
 
-Enemy::Enemy(sf::Vector2f spawn, int type, sf::Vector2f size) : RectangleEntity(spawn - sf::Vector2f(size.x/2, size.y/2), size), TILE_SIZE(TILE_SIZE) {
-	if (type == 1) {
+Enemy::Enemy(sf::Vector2f spawn, EnemyType::EnemyType type, sf::Vector2f size) : RectangleEntity(spawn - sf::Vector2f(size.x/2, size.y/2), size), TILE_SIZE(TILE_SIZE) {
+	this->type = type;
+	
+	if (type == EnemyType::GOOBER) {
 		//we need to spawn a goober
-		this->type = EnemyType::GOOBER;
 		health = 15;
 		damage = 10;
 	}
-	else if (type == 2) {
+	else if (type == EnemyType::GHOST) {
 		//we need to spawn a ghost
-		this->type = EnemyType::GHOST;
 		health = 10;
 		damage = 7;
 	}
-	else if (type == 3) {
+	else if (type == EnemyType::GOBLIN) {
 		//we need to spawn a goblin
-		this->type = EnemyType::GOBLIN;
 		health = 10;
 		damage = 7;
 		velocity = sf::Vector2f(2, 0);
 	}
 }
 
-void Enemy::updatePosition(float dt, Player* player, Model* model) {
+void Enemy::update(float dt, Player* player, Model* model) {
 	//std::cout << type << std::endl;
 	if (type == EnemyType::GOOBER) {
 		//move like a goober
-		//setPosition(getPosition() + velocity * dt);
 	}
 	else if (type == EnemyType::GHOST) {
 		//move like a ghost
@@ -50,6 +48,7 @@ void Enemy::updatePosition(float dt, Player* player, Model* model) {
 	}
 	else if (type == EnemyType::GOBLIN) {
 		//move like a goblin
+
 		//check if we should switch directions
 
 		//check collisions with the tiles
@@ -95,10 +94,5 @@ void Enemy::updatePosition(float dt, Player* player, Model* model) {
 		setPosition(position + velocity*dt);
 	}
 
-	if (velocity.x > 0) {
-		right = true;
-	}
-	else {
-		right = false;
-	}
+	right = (velocity.x > 0);
 }

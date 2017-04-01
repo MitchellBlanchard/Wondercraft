@@ -4,11 +4,12 @@
 
 #include "Entity.hpp"
 
+// Contains functions for determining the nearest collision between a moving entity and a collection of still entities.
+// A 'still' entity may have a velocity, but for the purpose of the calculation, it will not be used.
 namespace Collisions {
-
-	//outputs into 'step' the fraction of the frame step until the moving entity collides with any of the given still entities,
-	//or 1 if there is no collision
-	//returns whether or not there is a collision
+	//Outputs into 'step' the fraction of the frame step until the moving entity collides with any of the given still entities,
+	//or outputs 1.0f if there is no collision.
+	//Returns whether or not there is a collision.
 	//fills an empty vector, collidedEntities, with any of the stillEntities that have a collision value equal to the value returned
 	bool collisionCalc(float& step, float deltaTime, Entity& movingEntity, std::vector<Entity*>& stillEntities, std::vector<Entity*>& collidedEntities);
 

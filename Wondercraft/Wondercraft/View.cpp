@@ -27,7 +27,7 @@ void View::initGame() {
 	initTileSprites();
 	initMenuArray();
 
-	background.setTexture(*(levelTextures->get(model->tile_set + "/bg.png")));
+	background.setTexture(*(levelTextures->get(model->tileSet + "/bg.png")));
 
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
@@ -112,18 +112,18 @@ void View::initMenuArray() {
 
 sf::Texture* View::getTexture(int x, int y) {
 	if(x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight)
-		return levelTextures->get(model->tile_set + "/nullTile.png");
+		return levelTextures->get(model->tileSet + "/nullTile.png");
 
 	Tile* e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
 	
 	if (e == NULL) {
-		return levelTextures->get(model->tile_set + "/nullTile.png");
+		return levelTextures->get(model->tileSet + "/nullTile.png");
 	}
 	else if(e->type == TileType::STONE){
-		return levelTextures->get(model->tile_set + "/stone.png");
+		return levelTextures->get(model->tileSet + "/stone.png");
 	}
 	else {
-		return levelTextures->get(model->tile_set + "/nullTile.png");
+		return levelTextures->get(model->tileSet + "/nullTile.png");
 	}
 }
 
@@ -197,7 +197,7 @@ void View::playTransition() {
 	window.draw(map);
 	icon.setPosition(118 + (model->currLevel - 1) * 230, 270);
 	window.draw(icon);
-	background.setTexture(*(levelTextures->get(model->tile_set + "/bg.png")));
+	background.setTexture(*(levelTextures->get(model->tileSet + "/bg.png")));
 }
 
 void View::render() {

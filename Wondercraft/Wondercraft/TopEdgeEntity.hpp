@@ -8,6 +8,7 @@ class TopEdgeEntity : public Entity {
 public:
 	TopEdgeEntity(sf::Vector2f& position, float width);
 
+	//ignores collisions with LeftEdgeEntity, RightEdgeEntity, and TopEdgeEntity
 	virtual bool collisionCalc(float& step, float deltaTime, Entity&);
 
 	virtual float getLeft();

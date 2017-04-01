@@ -5,9 +5,6 @@
 #include "Collisions.hpp"
 #include "Model.hpp"
 
-#include <iostream>
-using namespace std;
-
 Player::Player(sf::Vector2f position): RectangleEntity(position, sf::Vector2f(1.5, 2.5)), health(40) {
 	projectileTimer = 0;
 	facingRight = true;
@@ -26,7 +23,6 @@ void Player::resetHealth() {
 }
 
 void Player::update(float deltaTime, Model* model) {
-	//std::cout << "Player health: " << health << std::endl;
 	if (projectileTimer != 0) {
 		projectileTimer -= deltaTime;
 	}

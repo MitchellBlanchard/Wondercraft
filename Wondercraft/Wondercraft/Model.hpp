@@ -2,8 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "UpdateableGroup.hpp"
-#include "DrawableGroup.hpp"
 #include "TileType.hpp"
 #include "Player.hpp"
 #include "Projectile.hpp"
@@ -12,8 +10,7 @@
 #include "ItemType.hpp"
 #include "LevelItem.hpp"
 
-//class Projectile;
-
+// States used to determine the behaviour of the update() function
 namespace GameState {
 	enum GameState {
 		PLAYING,
@@ -24,57 +21,69 @@ namespace GameState {
 	};
 }
 
-class Model : public Updateable {
+// Part of the Model-View-Controller architecture.
+// Is acted on by the controller and is monitored by the view.
+class Model {
 public:
 	Model();
 	~Model();
 
-	virtual void update(float);
+	// Handles updates during all game states.
+	void update(float deltaTime);
 
-	sf::Vector2f camera;
-
-	/*
-		Initializes the level's 2D tile array (mapTiles) from a given image file.
-	*/
+	// Initializes the level's 2D tile array (mapTiles) from a given image file.
 	void readMapTiles(std::string filepath);
 
-	/*
-		Initializes the level's entities and other properties from a given text file.
-		Optionally, items can be omitted. This option is used when resetting the same level.
-	*/
+	// Initializes the level's entities and other properties from a given text file.
+	// Optionally, items can be omitted. This option is used when resetting the same level.
 	void readMapData(std::string filepath, bool includeItems = true);
 
-	//Map tile data read in from the map_tiles file
+	// Returns true if the player is standing on a tile
+	bool playerIsGrounded();
+
+	// If any items are near the player, one of them is
+	// removed from the map and added to the player inventory.
+	void pickUp();
+
+
+
+	// Used to determine the control flow of the game
+	GameState::GameState gameState;
+
+	// Center of viewport
+	sf::Vector2f camera;
+
+	// Tile grid (static platforms)
 	Entity*** mapTiles;
 	int levelHeight, levelWidth;
 
+	// Moving entities
 	Player* player;
 	std::vector<Entity*> enemies;
 	std::vector<Projectile*> playerProjectiles;
 	std::vector<Projectile*> enemyProjectiles;
+
+	// Items on the map
 	std::vector<LevelItem*> items;
 
-	bool playerIsGrounded();
-
+	// The max distance at which the player can pick up an item, squared
 	const float pickupDistSq = 1.5*1.5;
-	void pickUp();
 
-	GameState::GameState gameState;
-
-	const sf::Vector2i inventorySize = sf::Vector2i(10, 3);
-	ItemType::ItemType inventory [10][3];
+	static const int invWidth = 10, invHeight = 3;
+	ItemType::ItemType inventory [invWidth][invHeight];
 	Menu menu;
 
 	int currLevel;
-	void cleanLevel(bool cleanItems = true);
+	
 
 	void startGame();
-	void resetLevel();
+	void cleanLevel(bool cleanItems = true);
+	void resetLevel(bool resetItems);
 	void nextLevel();
 
 	float transitionTime;
 
-	std::string tile_set;
+	std::string tileSet;
 
 private:
 	static std::string trim(std::string&);
@@ -100,7 +109,7 @@ private:
 	/*
 		Values used for initalizing and mainting the level data
 	*/
-	std::string level_name;
+	std::string levelName;
 
 	sf::Vector2f playerSpawn;
 };
