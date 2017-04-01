@@ -136,9 +136,9 @@ void View::updateTileSprites() {
 
 	int currentTileX = int(floor(startingCoord.x));
 	int currentTileY = int(floor(startingCoord.y));
-	
+
 	float xOffset, yOffset;
-	
+
 	xOffset = -fmod(startingCoord.x, 1);
 	if (xOffset > 0) {
 		xOffset--;
@@ -149,6 +149,34 @@ void View::updateTileSprites() {
 		yOffset--;
 	}
 
+	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
+	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
+
+	//initialize the vertex array
+	tileVertices = sf::VertexArray(sf::Quads, numCols * numRows * 4);
+
+	for (int row = 0; row < numRows; row++)
+	{
+		for (int col = 0; col < numCols; col++)
+		{
+			sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
+
+			currTile[0].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
+			currTile[0].texCoords = sf::Vector2f(0, 0);
+
+			currTile[1].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
+			currTile[1].texCoords = sf::Vector2f(TILE_SIZE, 0);
+
+			currTile[2].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
+			currTile[2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE);
+
+			currTile[3].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
+			currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE);
+
+		}
+	}
+
+	//shouldnt need this anymore
 	for (int x = 0; x < tileSprites.size(); x++) {
 		for (int y = 0; y < tileSprites[x].size(); y++) {
 			tileSprites[x][y].setPosition((x + xOffset) * TILE_SIZE, (y + yOffset) * TILE_SIZE);
@@ -201,16 +229,16 @@ void View::render() {
 		//draw tiles
 		for (int x = 0; x < tileSprites.size(); x++) {
 			for (int y = 0; y < tileSprites[x].size(); y++) {
-				window.draw(tileSprites[x][y]);
+				//window.draw(tileSprites[x][y]);
 			}
 		}
 
-		/*
+		
 		sf::Texture vertText;
 		vertText.loadFromFile("assets/tilesets/meadowTiles/stone.png");
 
 		window.draw(tileVertices, &vertText);
-		*/
+		
 
 		//draw health
 		window.draw(health);
