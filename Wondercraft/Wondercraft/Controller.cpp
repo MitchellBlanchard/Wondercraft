@@ -90,13 +90,13 @@ void Controller::inputs() {
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 			sf::Vector2f mouseVec = sf::Vector2f(((float)sf::Mouse::getPosition(window).x / (float)64), ((float)sf::Mouse::getPosition(window).y / (float)64));
-			sf::Vector2f playerVec = sf::Vector2f(((-view->getStartingPos().x)*view->TILE_SIZE) + (model->player->getPosition().x * view->TILE_SIZE), ((model->player->getPosition().y * view->TILE_SIZE) - (view->getStartingPos().y*view->TILE_SIZE)));
+			sf::Vector2f playerVec = sf::Vector2f(((-view->getTopLeftCorner().x)*view->TILE_SIZE) + (model->player->getPosition().x * view->TILE_SIZE), ((model->player->getPosition().y * view->TILE_SIZE) - (view->getTopLeftCorner().y*view->TILE_SIZE)));
 
 			if (model->player->projectileTimer == 0) {
 				int projectileType = 1;
 
 				model->player->projectileTimer = 0.5;
-				model->playerProjectiles.push_back(new Projectile(model->player->getPosition(), view->getStartingPos(), playerVec, mouseVec, view->TILE_SIZE, projectileType, model->player->facingRight));
+				model->playerProjectiles.push_back(new Projectile(model->player->getPosition(), view->getTopLeftCorner(), playerVec, mouseVec, view->TILE_SIZE, projectileType, model->player->facingRight));
 			}
 		}
 	}

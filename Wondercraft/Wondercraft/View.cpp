@@ -24,7 +24,7 @@ View::View(Model* model) {
 }
 
 void View::initGame() {
-	initTileSprites();
+	initVertexArray();
 	initMenuArray();
 
 	background.setTexture(*(levelTextures->get(model->tileSet + "/bg.png")));
@@ -32,6 +32,7 @@ void View::initGame() {
 	healthBar.setTexture(*(menuTextures->get("healthBar.png")));
 	health.setTexture(*(menuTextures->get("health.png")));
 
+	//player sprites
 	playerHat.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[0]) + ".png")));
 	playerHat.setOrigin(playerHat.getLocalBounds().width / 2, playerHat.getLocalBounds().height / 2);
 	playerRobe.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[1]) + ".png")));
@@ -39,36 +40,34 @@ void View::initGame() {
 	playerStaff.setTexture(*(spriteTextures->get("player/" + ItemType::enumToString(model->player->equipment[2]) + ".png")));
 	playerStaff.setOrigin(playerStaff.getLocalBounds().width / 2, playerStaff.getLocalBounds().height / 2);
 
+	//menu sprites
 	menu.setTexture(*(menuTextures->get("1.png")));
 	index.setTexture(*(menuTextures->get("3.png")));
 	selected.setTexture(*(menuTextures->get("4.png")));
 
-	//transition stuff
+	//transition sprites
 	map.setTexture(*(menuTextures->get("transition/transition.png")));
 	icon.setTexture(*(menuTextures->get("transition/icon.png")));
 }
 
-void View::initTileSprites() {
+void View::initVertexArray() {
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
 
 	//initialize the vertex array
 	tileVertices = sf::VertexArray(sf::Quads, numCols * numRows * 4);
 
-	/*
-	//sprite array that we won't need anymore
-	tileSprites.resize(numCols);
-	for (int i = 0; i < tileSprites.size(); i++) {
-		tileSprites[i].resize(numRows);
-	}
+	//initialize positions
+	for (int row = 0; row < numRows; row++) {
+		for (int col = 0; col < numCols; col++) {
+			sf::Vertex* currTile = &tileVertices[(col + row * numCols) * 4];
 
-	for (int x = 0; x < tileSprites.size(); x++) {
-		for (int y = 0; y < tileSprites[x].size(); y++) {
-			tileSprites[x][y].setPosition(TILE_SIZE * x, TILE_SIZE * y);
-			tileSprites[x][y].setTexture(*(getTexture(x, y)));
+			currTile[0].position = sf::Vector2f(col + 0, row + 0) * TILE_SIZE;
+			currTile[1].position = sf::Vector2f(col + 1, row + 0) * TILE_SIZE;
+			currTile[2].position = sf::Vector2f(col + 1, row + 1) * TILE_SIZE;
+			currTile[3].position = sf::Vector2f(col + 0, row + 1) * TILE_SIZE;
 		}
 	}
-	*/
 }
 
 void View::initMenuArray() {
@@ -93,105 +92,70 @@ void View::initMenuArray() {
 	index.setPosition(84, 280);
 }
 
-sf::Texture* View::getTexture(int x, int y) {
-	if(x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight)
-		return levelTextures->get(model->tileSet + "/nullTile.png");
+sf::Vector2i View::getSpritesheetCoords(int x, int y) {
+	sf::Vector2i indices;
 
-	Tile* e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
-	
-	if (e == NULL) {
-		return levelTextures->get(model->tileSet + "/nullTile.png");
+	//out of bounds
+	if (x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight) {
+		indices = sf::Vector2i(3, 0); // empty tile
 	}
-	else if(e->type == TileType::STONE){
-		return levelTextures->get(model->tileSet + "/stone.png");
-	}
+	//in bounds
 	else {
-		return levelTextures->get(model->tileSet + "/nullTile.png");
+		Tile* e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
+
+		if (e == NULL)
+			indices = sf::Vector2i(3, 0); // empty tile
+
+		else if (e->type == TileType::STONE)
+			indices = sf::Vector2i(0, 0);
+
+		else indices = sf::Vector2i(3, 0); // empty tile
 	}
+	
+	return indices * (int(TILE_SIZE) + 2);
 }
 
 sf::RenderWindow& View::getWindow() {
 	return window;
 }
 
-void View::updateTileSprites() {
-	sf::Vector2f startingCoord = getStartingPos();
-
-	int currentTileX = int(floor(startingCoord.x));
-	int currentTileY = int(floor(startingCoord.y));
-
-	float xOffset, yOffset;
-
-	xOffset = -fmod(startingCoord.x, 1);
-	if (xOffset > 0) {
-		xOffset--;
-	}
-
-	yOffset = -fmod(startingCoord.y, 1);
-	if (yOffset > 0) {
-		yOffset--;
-	}
-
+void View::updateTileArray() {
 	int numCols = int(ceil(windowSize.x / TILE_SIZE) + 1);
 	int numRows = int(ceil(windowSize.y / TILE_SIZE) + 1);
- 
-	for (int row = 0; row < numRows; row++)
-	{
-		for (int col = 0; col < numCols; col++)
-		{
-			int x = col + currentTileX;
-			int y = row + currentTileY;
 
-			Tile* e = NULL;
-			if (!(x < 0 || x >= model->levelWidth || y < 0 || y >= model->levelHeight)) {
-				e = dynamic_cast<Tile*>(model->mapTiles[x][y]);
-			}
+	//get first tile position within the level
+	sf::Vector2f topLeft = getTopLeftCorner();
+	int topLeftTileX = int(floor(topLeft.x));
+	int topLeftTileY = int(floor(topLeft.y));
 
-			if (e != NULL) {
-				if (e->type == TileType::STONE) {
-					sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
+	//set texture coordinates
+	for (int row = 0; row < numRows; row++) {
+		for (int col = 0; col < numCols; col++) {
+			sf::Vertex* currTile = &tileVertices[(col + row * numCols) * 4];
 
-					currTile[0].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
-					currTile[0].texCoords = sf::Vector2f(0, 0);
-
-					currTile[1].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset) * TILE_SIZE);
-					currTile[1].texCoords = sf::Vector2f(TILE_SIZE-1, 0);
-
-					currTile[2].position = sf::Vector2f((col + xOffset + 1) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
-					currTile[2].texCoords = sf::Vector2f(TILE_SIZE-1, TILE_SIZE-1);
-
-					currTile[3].position = sf::Vector2f((col + xOffset) * TILE_SIZE, (row + yOffset + 1) * TILE_SIZE);
-					currTile[3].texCoords = sf::Vector2f(0, TILE_SIZE-1);
-				}
-			}
-
-			else {
-				sf::Vertex* currTile = &this->tileVertices[(col + row * numCols) * 4];
-				currTile[0].position = sf::Vector2f(0, 0);
-				currTile[1].position = sf::Vector2f(0, 0);
-				currTile[2].position = sf::Vector2f(0, 0);
-				currTile[3].position = sf::Vector2f(0, 0);
-			}
+			sf::Vector2i v = getSpritesheetCoords(col + topLeftTileX, row + topLeftTileY);
+			currTile[0].texCoords = sf::Vector2f(v.x + 0 * TILE_SIZE, v.y + 0 * TILE_SIZE);
+			currTile[1].texCoords = sf::Vector2f(v.x + 1 * TILE_SIZE, v.y + 0 * TILE_SIZE);
+			currTile[2].texCoords = sf::Vector2f(v.x + 1 * TILE_SIZE, v.y + 1 * TILE_SIZE);
+			currTile[3].texCoords = sf::Vector2f(v.x + 0 * TILE_SIZE, v.y + 1 * TILE_SIZE);
 		}
 	}
-
-	/*
-	//shouldnt need this anymore
-	for (int x = 0; x < tileSprites.size(); x++) {
-		for (int y = 0; y < tileSprites[x].size(); y++) {
-			tileSprites[x][y].setPosition((x + xOffset) * TILE_SIZE, (y + yOffset) * TILE_SIZE);
-			tileSprites[x][y].setTexture(*getTexture(x + currentTileX, y + currentTileY));
-		}
-	}
-	*/
 }
 
-sf::Vector2f View::getStartingPos() {
+sf::Vector2f View::getTopLeftCorner() {
 	sf::Vector2f startingCoord;
 	startingCoord.x = model->camera.x - ((windowSize.x / 2) / TILE_SIZE);
 	startingCoord.y = model->camera.y - ((windowSize.y / 2) / TILE_SIZE);
 
 	return startingCoord;
+}
+
+sf::Vector2f View::getVertexArrayOffset() {
+	sf::Vector2f topLeft = getTopLeftCorner();
+	int topLeftTileX = int(floor(topLeft.x));
+	int topLeftTileY = int(floor(topLeft.y));
+
+	return sf::Vector2f(topLeftTileX - topLeft.x, topLeftTileY - topLeft.y) * TILE_SIZE;
 }
 
 void View::playTransition() {
@@ -217,28 +181,22 @@ void View::render() {
 		float healthWidth = health.getTexture()->getSize().x / (float)40;
 		health.setPosition(0 - ((40 - model->player->getHealth()) * healthWidth), 0);
 
-		updateTileSprites();
+		updateTileArray();
 
 		//create a new render state for the camera displacement
 		sf::RenderStates cameraState;
-		cameraState.transform.translate(-getStartingPos() * TILE_SIZE);
-		//std::cout << -getStartingPos().x * TILE_SIZE + model->player->position.x * TILE_SIZE << " : " << getStartingPos().y * TILE_SIZE + model->player->position.y * TILE_SIZE << std::endl;
+		cameraState.transform.translate(-getTopLeftCorner() * TILE_SIZE);
 
+		//create a new render state for the vertex array
+		sf::RenderStates vertexArrayState;
+		vertexArrayState.transform.translate(getVertexArrayOffset());
+		vertexArrayState.texture = levelTextures->get(model->tileSet + "/spritesheet.png");
+		
 		//draw background	
 		window.draw(background);
 
-		/*
-		//draw tiles
-		for (int x = 0; x < tileSprites.size(); x++) {
-			for (int y = 0; y < tileSprites[x].size(); y++) {
-				//window.draw(tileSprites[x][y]);
-			}
-		}
-		*/
-
-		vertText = (*(levelTextures->get(model->tile_set + "/spritesheet.png")));
-
-		window.draw(tileVertices, &vertText);
+		//draw vertex array
+		window.draw(tileVertices, vertexArrayState);
 		
 
 		//draw health
